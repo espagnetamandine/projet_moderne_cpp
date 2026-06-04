@@ -4,21 +4,47 @@
 #include "CRegleDameDePique.h"
 #include <iostream>
 
-bool CJeu<CRegleDameDePique>::JEU_FinDePartie() {
-	return false;
+CJeu::CJeu() {
+	pJEU_paquet_de_cartes = new CPaquet();
+	vjJEU_joueurs = new vector<CJoueur>;
+	vjJEU_points = new map<CJoueur, int>;
+	mJEU_pli = map<CJoueur, CCarte>;
+	uiJEU_IdxJoueurCourrant = 0;
 }
 
 
-int CJeu<CRegleDameDePique>::JEU_ChagementDeJoueur() {
-	//vector<CJoueur> joueurs = JEU_GetJoueurs();
-	//if joueur courrant = joueurs.size() 
-	return 0;
-	//else return joueurs.get(idx_joueur_courrant++);
+bool CJeu<CRegleDameDePique>::JEU_FinDePartie() {
+	return REG_FinDePartie();
 }
 
 
 void CJeu<CRegleDameDePique>::JEU_LancementJeu(CRegleDameDePique type_jeu) {
-	return;
+	Carte carte = new Carte();
+	
+	REG_DistribuerCartes();
+	while (!JEU_FinDePartie()) // partie
+	{
+		while (!REG_FinDeManche()) // manche
+		{
+			while (uiJEU_IdxJoueurCourrant != vjJEU_joueurs.size()) // pli 
+			{
+				carte = JEU_ChoixCarte();
+
+				if (uiJEU_IdxJoueurCourrant == 0 && !REG_PremiereCarte()) { /* erreur*/ }
+
+				else if (!REG_CarteValide(carte)) { /*erreur*/ }
+
+				else
+				{
+					mJEU_pli[uiJEU_IdxJoueurCourrant] = carte;
+					REG_GagnePli(); //calcule les points 
+				}
+			}
+		}
+		JEU_AfficherPoints(); // points de la manche 
+	}
+	JEU_AfficherPoints(); // points de la partie
+	JEU_AfficherGagnant();
 }
 
 bool EstDansVecteur(vector<int> v, int numero) {
@@ -38,5 +64,31 @@ void CJeu<CRegleDameDePique>::JEU_AfficherPoints() {
 			cout << "Equipe " << numero_equipe_j << " : " << vjJEU_joueurs[i] << endl;
 		}
 	}
+}
+
+
+
+void CJeu<CRegleDameDePique>::JEU_AfficherGagnant() {
+	CJoueur jJoueurMax = vjJEU_joueurs[0];
+	int iPointsMax = 0;
+	for (auto it = vjJEU_points.begin(); it != vjJEU_points.end(); ++it)
+	{
+		if (it->second > iPointsMax)
+		{
+			iPointsMax = it->second;
+			jJoueurMax = it->first;
+		}
+	}
+	cout << "L'équipe gagnant est : " << jJoueuMax.JOU_GetEquipe() << " avec " << iPointsMax << " Points." << endl;
+	
+	cout << "Félicitation ";
+	for (CJoueur j : vjJEU_joueurs)
+	{
+		if (j.JOU_GetEquipe() == jJoueurMax.JOU_GetEquipe)
+		{
+			cout << j.JOU_GetName();
+		}
+	}
+	cout << endl;
 }
 

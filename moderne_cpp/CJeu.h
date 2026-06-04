@@ -16,10 +16,11 @@ private:
 	vector<CJoueur> vjJEU_joueurs;
 	map<CJoueur, int> vjJEU_points;
 	map<CJoueur, CCarte> mJEU_pli;
+	unsigned int uiJEU_IdxJoueurCourrant;
 
 public:
-	CJeu() {};
-	~CJeu() {};
+	CJeu();
+	~CJeu();
 
 	CPaquet JEU_GetPaquet() { return pJEU_paquet_de_cartes; }
 	vector<CJoueur> JEU_GetJoueurs() { return vjJEU_joueurs; }
@@ -27,9 +28,9 @@ public:
 	map<CJoueur, CCarte> JEU_GetPli() { return mJEU_pli; }
 
 	bool JEU_FinDePartie();
-	int JEU_ChagementDeJoueur();
 	void JEU_LancementJeu(T type_jeu);
 	void JEU_AfficherPoints();
+	void JEU_AfficherGagnant();
 };
 
 
