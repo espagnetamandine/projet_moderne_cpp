@@ -90,6 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CPaquetBase.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +137,11 @@
     <ClInclude Include="CJeu.h" />
     <ClInclude Include="CJoueur.h" />
     <ClInclude Include="CPaquet.h" />
+    <ClInclude Include="CPaquetBase.h" />
+    <ClInclude Include="CPaquetDecorateur.h" />
+    <ClInclude Include="CPaquetDecorateurJeu52.h" />
+    <ClInclude Include="CPaquetDecorateurJeu32.h" />
+    <ClInclude Include="CPaquetDecorateurAjouterJoker.h" />
     <ClInclude Include="CRegle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

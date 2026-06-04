@@ -13,17 +13,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\CPaquet">
+      <UniqueIdentifier>{95282a87-a383-4b4a-9e9a-c0ec93f833b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\CPaquet\PaquetDecorateur">
+      <UniqueIdentifier>{4dd34053-02aa-4baa-9920-fcb180933e51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="CPaquetBase.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CPaquet.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="CJeu.h">
@@ -46,6 +52,24 @@
     </ClInclude>
     <ClInclude Include="CRegle.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquet.h">
+      <Filter>Fichiers d%27en-tête\CPaquet</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetBase.h">
+      <Filter>Fichiers d%27en-tête\CPaquet</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetDecorateur.h">
+      <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetDecorateurJeu32.h">
+      <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetDecorateurAjouterJoker.h">
+      <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetDecorateurJeu52.h">
+      <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
