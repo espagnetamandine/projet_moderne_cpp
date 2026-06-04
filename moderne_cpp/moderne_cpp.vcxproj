@@ -125,6 +125,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CJeu.cpp" />
+    <ClCompile Include="CRegleDameDePique.cpp" />
     <ClCompile Include="CPaquetBase.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -143,6 +145,7 @@
     <ClInclude Include="CPaquetDecorateurJeu32.h" />
     <ClInclude Include="CPaquetDecorateurAjouterJoker.h" />
     <ClInclude Include="CRegle.h" />
+    <ClInclude Include="CRegleDameDePique.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

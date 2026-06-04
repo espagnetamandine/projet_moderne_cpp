@@ -24,6 +24,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="CJeu.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CRegleDameDePique.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
     <ClCompile Include="CPaquetBase.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -70,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="CPaquetDecorateurJeu52.h">
       <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
+    </ClInclude>
+    <ClInclude Include="CRegleDameDePique.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
