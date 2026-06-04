@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="CHumain.cpp" />
     <ClCompile Include="Cia.cpp" />
+    <ClCompile Include="CJoueur.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

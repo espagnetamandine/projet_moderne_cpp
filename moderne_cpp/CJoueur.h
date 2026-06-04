@@ -13,6 +13,13 @@ public:
 	CJoueur();
 	CJoueur(std::string sNomJoueur, int iEquipe);
 	virtual CCarte JOUEUR_Choix_Carte_A_Jouer() = 0;
+	CPaquet getpMain();
+	std::string getsNomJoueur();
+	int getiEquipe();
+	void setiEquipe(int iNouvelleEquipe);
+	void setpMain(CPaquet pNouvelleMain);
+	void setsNomJoueur(std::string sNouveauNom);
+	virtual ~CJoueur();
 };
 
 #endif 

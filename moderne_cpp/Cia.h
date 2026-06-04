@@ -3,13 +3,16 @@
 
 #include "CJoueur.h"
 #include "CCarte.h"
+#include "CPaquet.h"
 #include <string>
 
 class Cia : public CJoueur
 {
 public:
+	Cia();
 	Cia(std::string sNom, int iEquipe);
-	CCarte IA_Choix_Carte_A_Jouer();
+	CCarte JOUEUR_Choix_Carte_A_Jouer();
+	~Cia();
 };
 #endif 
 
