@@ -1,6 +1,7 @@
 #ifndef _CJEU_H
 #define _CJEU_H
 
+#include "CRegle.h"
 #include "CCarte.h"
 #include "CPaquet.h"
 #include "CJoueur.h"
@@ -9,28 +10,20 @@
 
 using namespace std;
 
-template <class T>
 class CJeu {
 private:
-	CPaquet pJEU_paquet_de_cartes;
-	vector<CJoueur> vjJEU_joueurs;
-	map<CJoueur, int> vjJEU_points;
-	map<CJoueur, CCarte> mJEU_pli;
-	unsigned int uiJEU_IdxJoueurCourrant;
+	unique_ptr<CRegle> strategieRegle; // unique pointeur a verifier : il faut modifier le set 
+	CJoueur strategieJoueur;
 
 public:
 	CJeu();
 	~CJeu();
 
-	CPaquet JEU_GetPaquet() { return pJEU_paquet_de_cartes; }
-	vector<CJoueur> JEU_GetJoueurs() { return vjJEU_joueurs; }
-	map<CJoueur, int> JEU_GetPoints() { return vjJEU_points; }
-	map<CJoueur, CCarte> JEU_GetPli() { return mJEU_pli; }
+	//void JEU_setStrategieRegle(CRegle regle) { strategieRegle = regle; }
+	void JEU_setStrategieJoueur(CJoueur joueur) { strategieJoueur = joueur; }
 
-	bool JEU_FinDePartie();
-	void JEU_LancementJeu(T type_jeu);
-	void JEU_AfficherPoints();
-	void JEU_AfficherGagnant();
+	void JEU_AjouterJoueur();
+	void JEU_LancerPartie(); 
 };
 
 
