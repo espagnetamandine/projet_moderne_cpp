@@ -2,23 +2,24 @@
 #define _CJOUEUR_H
 #include <string>
 #include "CPaquet.h"
+#include "CPaquetBase.h"
 #include "CCarte.h"
+
+using namespace std;
+
 class CJoueur
 {
 protected:
-	std::string sNomJoueur;
-	CPaquet pMain;
-	int iEquipe;
+	string sNomJoueur;
+	CPaquetBase pMain;
 public:
 	CJoueur();
-	CJoueur(std::string sNomJoueur, int iEquipe);
+	CJoueur(string sNomJoueur);
 	virtual CCarte JOUEUR_Choix_Carte_A_Jouer() = 0;
-	CPaquet getpMain();
-	std::string getsNomJoueur();
-	int getiEquipe();
-	void setiEquipe(int iNouvelleEquipe);
-	void setpMain(CPaquet pNouvelleMain);
-	void setsNomJoueur(std::string sNouveauNom);
+	CPaquetBase JOUEUR_GetpMain();
+	string JOUEUR_GetsNomJoueur();
+	void JOUEUR_SetpMain(CPaquetBase pNouvelleMain);
+	void JOUEUR_SetsNomJoueur(string sNouveauNom);
 	virtual ~CJoueur();
 };
 

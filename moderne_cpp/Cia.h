@@ -4,13 +4,16 @@
 #include "CJoueur.h"
 #include "CCarte.h"
 #include "CPaquet.h"
-#include <string>
+
+
+
+using namespace std;
 
 class Cia : public CJoueur
 {
 public:
 	Cia();
-	Cia(std::string sNom, int iEquipe);
+	Cia(string sNom);
 	CCarte JOUEUR_Choix_Carte_A_Jouer();
 	~Cia();
 };

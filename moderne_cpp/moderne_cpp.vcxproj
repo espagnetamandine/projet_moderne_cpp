@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CEquipe.cpp" />
     <ClCompile Include="CJeu.cpp" />
     <ClCompile Include="CRegleDameDePique.cpp" />
     <ClCompile Include="CPaquetBase.cpp" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="CCarte.h" />
     <ClInclude Include="CConsole.h" />
+    <ClInclude Include="CEquipe.h" />
     <ClInclude Include="CFichier.h" />
     <ClInclude Include="CHumain.h" />
     <ClInclude Include="Cia.h" />
