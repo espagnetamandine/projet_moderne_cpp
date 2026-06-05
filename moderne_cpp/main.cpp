@@ -1,26 +1,20 @@
 #include <iostream>
 #include <memory>
 
-#include "CPaquetBase.h"
-#include "CPaquetDecorateurJeu32.h"
-#include "CPaquetDecorateurJeu52.h"
-#include "CPaquetDecorateurAjouterJoker.h"
+#include "CPaquetManager.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-	unique_ptr<CPaquet> monPaquet = make_unique<CPaquetBase>();
+	unique_ptr<CPaquet> paquetTarot = CPaquetManager::creerPaquet("Tarot");
 
-	monPaquet = make_unique<CPaquetDecorateurJeu32>(move(monPaquet));
-	monPaquet = make_unique<CPaquetDecorateurAjouterJoker>(move(monPaquet));
-
-	monPaquet->PAQ_afficher();
-
+	paquetTarot->PAQ_afficher();
 	cout << "\n\n\n";
+	paquetTarot->PAQ_melanger();
+	paquetTarot->PAQ_afficher();
 
-	monPaquet->PAQ_melanger();
-	monPaquet->PAQ_afficher();
+	// pour les mains MainJoueur.PAQ_ajouterCarte(move(monPaquet->PAQ_retirerCarte()))
 
 
 	return EXIT_SUCCESS;
