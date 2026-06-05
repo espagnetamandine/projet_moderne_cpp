@@ -15,11 +15,14 @@ public:
 private:
 	void PAQ_AjouterJoker()
 	{
-		vector<CCarte>& vcPaquet = getPAQ_cartes();
+		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_cartes();
 		vector<string>& vsCouleursGlobales = getPAQ_couleurs();
 
-		vcPaquet.push_back(CCarte("Joker", 0));
-		vcPaquet.push_back(CCarte("Joker", 0));
+		unique_ptr<CCarte> nouvelleCarte1 = make_unique<CCarte>("Joker", 1);
+		unique_ptr<CCarte> nouvelleCarte2 = make_unique<CCarte>("Joker", 1);
+
+		vcPaquet.push_back(move(nouvelleCarte1));
+		vcPaquet.push_back(move(nouvelleCarte2));
 
 		vsCouleursGlobales.push_back("Joker");
 	}

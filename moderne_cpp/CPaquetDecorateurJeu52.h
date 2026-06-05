@@ -17,7 +17,7 @@ private:
 	{
 		unsigned int uiCarteValeur;
 
-		vector<CCarte>& vcPaquet = getPAQ_cartes();
+		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_cartes();
 		vector<string>& vsCouleursGlobales = getPAQ_couleurs();
 
 		vector<string> vsCouleursAAjouter = { "Coeur", "Carreau", "Trefle", "Pique" };
@@ -27,7 +27,9 @@ private:
 
 			for (uiCarteValeur = 0; uiCarteValeur < 13; uiCarteValeur++)
 			{
-				vcPaquet.push_back(CCarte(sNouvelleCouleur, uiCarteValeur + 1));
+				unique_ptr<CCarte> nouvelleCarte = make_unique<CCarte>(sNouvelleCouleur, uiCarteValeur + 1);
+
+				vcPaquet.push_back(move(nouvelleCarte));
 			}
 		}	
 	}
