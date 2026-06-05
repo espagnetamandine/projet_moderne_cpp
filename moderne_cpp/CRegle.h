@@ -4,16 +4,17 @@
 #include "CCarte.h"
 #include "CPaquet.h"
 #include "CJoueur.h"
+// #include "CEquipe.h"
 #include "CJeu.h"
 #include <vector>
 #include <map>
 
 class CRegle {
 protected:
-	CPaquet pREG_paquet_de_cartes;
+	CPaquet pREG_paquet_de_cartes; // CPaquet virtuelle pure 
 	vector<CJoueur> vjREG_joueurs;
 	unsigned int uiREG_IdxJoueurCourrant;
-	map<CJoueur, CEquipe> vjREG_equipes;
+	map<CJoueur, CEquipe> vjREG_equipes; //CEquipe pas encore definie
 	map<CJoueur, int> vjREG_points;
 	map<CJoueur, CCarte> mREG_pli;
 	
@@ -30,9 +31,9 @@ public:
 	
 	virtual void REG_JouerPartie()=0;
 	//virtual void REG_NombreDePoints()=0;
-	virtual void REG_DistribuerCartes(CJeu& jeu)=0;
+	virtual void REG_DistribuerCartes()=0;
 	virtual bool REG_PremiereCarte(CCarte carte)=0;
-	virtual bool REG_CarteValide()=0;
+	virtual bool REG_CarteValide(CCarte carte)=0;
 	virtual int REG_GagnePli()=0;
 	virtual void REG_CalculPoints()=0;
 	virtual CJoueur REG_CalculGagnant()=0;

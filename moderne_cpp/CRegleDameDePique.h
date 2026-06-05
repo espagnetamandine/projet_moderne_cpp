@@ -12,9 +12,9 @@ public:
 	
 	virtual void REG_JouerPartie();
 	//virtual void REG_NombreDePoints();
-	virtual void REG_DistribuerCartes(CJeu& jeu);
+	virtual void REG_DistribuerCartes();
 	virtual bool REG_PremiereCarte(CCarte carte);
-	virtual bool REG_CarteValide();
+	virtual bool REG_CarteValide(CCarte carte);
 	virtual int REG_GagnePli();
 	virtual void REG_CalculPoints();
 	virtual CJoueur REG_CalculGagnant();

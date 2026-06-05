@@ -3,7 +3,7 @@
 
 
 void CRegleDameDePique::REG_JouerPartie() {
-	CCarte carte;
+	CCarte carte("Trefle",2); //pas de constructeur par defaut 
 
 	REG_DistribuerCartes();
 	while (!REG_FinDePartie()) // partie
@@ -12,15 +12,15 @@ void CRegleDameDePique::REG_JouerPartie() {
 		{
 			while (uiREG_IdxJoueurCourrant != vjREG_joueurs.size()) // pli 
 			{
-				carte = vjREG_joueurs[uiREG_IdxJoueurCourrant].JOU_ChoixCarte();
+				carte = vjREG_joueurs[uiREG_IdxJoueurCourrant].JOUEUR_Choix_Carte_A_Jouer();
 
-				if (uiREG_IdxJoueurCourrant == 0 && !REG_PremiereCarte()) { /* erreur*/ }
+				if (uiREG_IdxJoueurCourrant == 0 && !REG_PremiereCarte(carte)) { /* erreur*/ }
 
 				else if (!REG_CarteValide(carte)) { /*erreur*/ }
 
 				else
 				{
-					mREG_pli[uiREG_IdxJoueurCourrant] = carte;
+					mREG_pli[vjREG_joueurs[uiREG_IdxJoueurCourrant]] = carte;
 					REG_GagnePli(); //calcule les points 
 				}
 			}
@@ -32,23 +32,23 @@ void CRegleDameDePique::REG_JouerPartie() {
 }
 
 
-void CRegleDameDePique::REG_DistribuerCartes(CJeu& jeu) {
-	for (unsigned int i = 0; i < (pREG_paquet_de_cartes.PAQ_GetTaille() / vjREG_joueurs.size()); i++)
+void CRegleDameDePique::REG_DistribuerCartes() {
+	for (unsigned int i = 0; i < (pREG_paquet_de_cartes.PAQ_GetTaille() / vjREG_joueurs.size()); i++) //pas la methode dans CPaquet 
 	{
-		for (CJoueur joueur : vjREG_joueurs)
+		for (CJoueur joueur : vjREG_joueurs) //CJoueur virtuelle pure
 		{
-			joueur.JOU_AjouterCarteMain(pREG_paquet_de_cartes[i]);
+			//joueur.JOUEUR_Choix_Carte_A_Jouer(pREG_paquet_de_cartes[i]);
 		}
 	}
 }
 
 
 bool CRegleDameDePique::REG_PremiereCarte(CCarte carte) {
-	return (carte.CAR_GetCouleur() == "Trefle" && carte.CAR_GetValeur() == 2);
+	return (carte.getCAR_couleur() == "Trefle" && carte.getCAR_valeur() == 2);
 }
 
 
-bool CRegleDameDePique::REG_CarteValide() {
+bool CRegleDameDePique::REG_CarteValide(CCarte carte) {
 	return true;
 }
 
@@ -75,7 +75,7 @@ void CRegleDameDePique::REG_AfficherPoints() {
 
 
 void CRegleDameDePique::REG_AfficherGagnant() {
-	CJoueur jJoueurMax = vjREG_joueurs[0];
+	CJoueur jJoueurMax = vjREG_joueurs[0]; // CJoueur classe abstraite
 	int iPointsMax = 0;
 	for (auto it = vjREG_points.begin(); it != vjREG_points.end(); ++it)
 	{
@@ -91,12 +91,13 @@ void CRegleDameDePique::REG_AfficherGagnant() {
 	cout << "L'équipe gagnant est : " << itEquipe->second << " avec " << iPointsMax << " Points." << endl;
 
 	cout << "Félicitation ";
-	for (CJoueur j : vjREG_joueurs)
+	// pas encore repri la boucle for
+	/*for (CJoueur j : vjREG_joueurs)
 	{
 		if (j.JOU_GetEquipe() == jJoueurMax.JOU_GetEquipe)
 		{
 			cout << j.JOU_GetName();
 		}
-	}
+	}*/
 	cout << endl;
 }

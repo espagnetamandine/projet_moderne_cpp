@@ -12,18 +12,18 @@ using namespace std;
 
 class CJeu {
 private:
-	unique_ptr<CRegle> strategieRegle; // unique pointeur a verifier : il faut modifier le set 
-	CJoueur strategieJoueur;
+	// unique ptr car CRegle et cJoueur sont virtuelles pures, à vérifier si c bien ça + adapter les methodes
+	unique_ptr<CRegle> strategieRegle; 
+	unique_ptr<CJoueur> strategieJoueur;
 
 public:
 	CJeu();
-	~CJeu();
 
 	//void JEU_setStrategieRegle(CRegle regle) { strategieRegle = regle; }
-	void JEU_setStrategieJoueur(CJoueur joueur) { strategieJoueur = joueur; }
+	// void JEU_setStrategieJoueur(CJoueur joueur) { strategieJoueur = joueur; }
 
-	void JEU_AjouterJoueur();
-	void JEU_LancerPartie(); 
+	// void JEU_AjouterJoueur() { strategieJoueur.CJoueur(); }
+	// void JEU_LancerPartie() { strategieRegle.REG_JouerPartie(); }
 };
 
 
