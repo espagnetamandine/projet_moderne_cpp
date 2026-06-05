@@ -6,9 +6,10 @@
 #include <stdexcept>
 
 #include "CPaquetBase.h"
+#include "CPaquetDecorateurAjouterJoker.h"
 #include "CPaquetDecorateurJeu32.h"
 #include "CPaquetDecorateurJeu52.h"
-#include "CPaquetDecorateurAjouterJoker.h"
+#include "CPaquetDecorateurMainJoueur.h"
 #include "CPaquetDecorateurTarot.h"
 
 using namespace std;
@@ -42,6 +43,10 @@ public:
 		{
 			pPaquet = make_unique<CPaquetDecorateurJeu52>(move(pPaquet));
 			pPaquet = make_unique<CPaquetDecorateurTarot>(move(pPaquet));
+		}
+		else if (sTypeJeu == "Main du joueur" or sTypeJeu == "Joueur")
+		{
+			pPaquet = make_unique<CPaquetDecorateurMainJoueur>(move(pPaquet));
 		}
 		else
 		{

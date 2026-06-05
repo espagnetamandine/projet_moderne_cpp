@@ -126,6 +126,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CJeu.cpp" />
+    <ClCompile Include="CPaquetDecorateurMainJoueur.h" />
     <ClCompile Include="CRegleDameDePique.cpp" />
     <ClCompile Include="CPaquetBase.cpp" />
     <ClCompile Include="CHumain.cpp" />
