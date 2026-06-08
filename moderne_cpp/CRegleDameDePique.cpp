@@ -1,43 +1,11 @@
 #include "CRegleDameDePique.h"
 
-
-
-void CRegleDameDePique::REG_JouerPartie() {
-	CCarte carte("Trefle",2); //pas de constructeur par defaut 
-
-	REG_DistribuerCartes();
-	while (!REG_FinDePartie()) // partie
-	{
-		while (!REG_FinDeManche()) // manche
-		{
-			while (uiREG_IdxJoueurCourrant != vjREG_joueurs.size()) // pli 
-			{
-				carte = vjREG_joueurs[uiREG_IdxJoueurCourrant].JOUEUR_Choix_Carte_A_Jouer();
-
-				if (uiREG_IdxJoueurCourrant == 0 && !REG_PremiereCarte(carte)) { /* erreur*/ }
-
-				else if (!REG_CarteValide(carte)) { /*erreur*/ }
-
-				else
-				{
-					mREG_pli[vjREG_joueurs[uiREG_IdxJoueurCourrant]] = carte;
-					REG_GagnePli(); //calcule les points 
-				}
-			}
-		}
-		REG_AfficherPoints(); // points de la manche 
-	}
-	REG_AfficherPoints(); // points de la partie
-	REG_AfficherGagnant();
-}
-
-
-void CRegleDameDePique::REG_DistribuerCartes() {
-	for (unsigned int i = 0; i < (pREG_paquet_de_cartes.PAQ_GetTaille() / vjREG_joueurs.size()); i++) //pas la methode dans CPaquet 
+void CRegleDameDePique::REG_DistribuerCartes(vector<CJoueur> joueurs, CPaquet paquet) {
+	for (unsigned int i = 0; i < (paquet.getPAQ_cartes().size() / vjREG_joueurs.size()); i++) //pas la methode dans CPaquet 
 	{
 		for (CJoueur joueur : vjREG_joueurs) //CJoueur virtuelle pure
 		{
-			//joueur.JOUEUR_Choix_Carte_A_Jouer(pREG_paquet_de_cartes[i]);
+			joueur.JOUEUR_Choix_Carte_A_Jouer(pREG_paquet_de_cartes[i]);
 		}
 	}
 }

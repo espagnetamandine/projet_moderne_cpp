@@ -10,9 +10,8 @@ public:
 	CRegleDameDePique();
 	~CRegleDameDePique();
 	
-	virtual void REG_JouerPartie();
 	//virtual void REG_NombreDePoints();
-	virtual void REG_DistribuerCartes();
+	virtual void REG_DistribuerCartes(vector<CJoueur> joueurs, CPaquet paquet);
 	virtual bool REG_PremiereCarte(CCarte carte);
 	virtual bool REG_CarteValide(CCarte carte);
 	virtual int REG_GagnePli();

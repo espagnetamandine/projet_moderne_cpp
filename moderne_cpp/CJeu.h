@@ -5,6 +5,8 @@
 #include "CCarte.h"
 #include "CPaquet.h"
 #include "CJoueur.h"
+#include "CEquipe.h"
+
 #include <map>
 #include <vector>
 
@@ -16,16 +18,19 @@ private:
 	unique_ptr<CRegle> strategieRegle; 
 	unique_ptr<CJoueur> strategieJoueur;
 
+	unique_ptr<CPaquet> pJEU_paquet_de_cartes; // CPaquet classe interface donc unique_ptr
+	vector<CJoueur> vjJEU_joueurs;
+	unsigned int uiJEU_IdxJoueurCourrant;
+	map<CEquipe, int> vjJEU_points;
+	map<CJoueur, CCarte> mJEU_pli;
+
 public:
 	CJeu();
 
-	//void JEU_setStrategieRegle(CRegle regle) { strategieRegle = regle; }
-	// void JEU_setStrategieJoueur(CJoueur joueur) { strategieJoueur = joueur; }
+	void JEU_setStrategieRegle(unique_ptr<CRegle> regle) { strategieRegle = move(regle); }
+	void JEU_setStrategieJoueur(unique_ptr<CJoueur> joueur) { strategieJoueur = move(joueur); }
 
-	// void JEU_AjouterJoueur() { strategieJoueur.CJoueur(); }
-	// void JEU_LancerPartie() { strategieRegle.REG_JouerPartie(); }
+	//void JEU_AjouterJoueur() { strategieJoueur.CJoueur(); }
+	void JEU_JouerPartie(); 
 };
-
-
-
 #endif 
