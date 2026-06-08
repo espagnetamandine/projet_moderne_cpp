@@ -13,10 +13,10 @@ public:
 	~CRegle();
 	
 	//virtual void REG_NombreDePoints()=0;
-	virtual void REG_DistribuerCartes(vector<CJoueur> joueurs, CPaquet paquet)=0;
-	virtual bool REG_PremiereCarte(CCarte carte)=0;
+	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, CPaquet paquet)=0;
+	virtual bool REG_PremiereCarte(unique_ptr<CCarte>& carte)=0;
 	virtual bool REG_CarteValide(CCarte carte)=0;
-	virtual int REG_GagnePli()=0;
+	virtual int REG_GagnePli(map<unique_ptr<CJoueur>, unique_ptr<CCarte>>& mJEU_pli)=0;
 	virtual void REG_CalculPoints()=0;
 	virtual CJoueur REG_CalculGagnant()=0;
 	virtual bool REG_FinDeManche()=0;

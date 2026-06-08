@@ -10,7 +10,7 @@ CJeu::CJeu() {
 void CJeu::JEU_JouerPartie() {
 	CCarte carte("Trefle", 2); //pas de constructeur par defaut 
 
-	strategieRegle->REG_DistribuerCartes(vjJEU_joueurs, move(pJEU_paquet_de_cartes));
+	strategieRegle->REG_DistribuerCartes(vjJEU_joueurs, pJEU_paquet_de_cartes);
 	while (!strategieRegle->REG_FinDePartie()) // partie
 	{
 		while (!strategieRegle->REG_FinDeManche()) // manche
