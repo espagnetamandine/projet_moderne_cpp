@@ -20,10 +20,11 @@ private:
 	unique_ptr<CJoueur> strategieJoueur;
 
 	unique_ptr<CPaquet> pJEU_paquet_de_cartes; // CPaquet classe interface donc unique_ptr
-	vector<CJoueur> vjJEU_joueurs;
+	vector<unique_ptr<CJoueur>> vjJEU_joueurs;
 	unsigned int uiJEU_IdxJoueurCourrant;
 	map<CEquipe, int> vjJEU_points;
-	map<CJoueur, CCarte> mJEU_pli;
+	map<unique_ptr<CJoueur>, unique_ptr<CCarte>> mJEU_pli;
+
 
 public:
 	CJeu();
