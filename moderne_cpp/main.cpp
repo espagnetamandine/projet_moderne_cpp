@@ -1,10 +1,7 @@
 #include <iostream>
 #include <memory>
 
-#include "CPaquetBase.h"
-#include "CPaquetDecorateurJeu32.h"
-#include "CPaquetDecorateurJeu52.h"
-#include "CPaquetDecorateurAjouterJoker.h"
+#include "CPaquetManager.h"
 #include "CJoueur.h"
 #include "CHumain.h"
 #include "CEquipe.h"

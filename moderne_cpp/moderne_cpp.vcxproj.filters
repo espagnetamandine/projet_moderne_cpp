@@ -19,24 +19,24 @@
     <Filter Include="Fichiers d%27en-tête\CPaquet\PaquetDecorateur">
       <UniqueIdentifier>{4dd34053-02aa-4baa-9920-fcb180933e51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Regles">
+      <UniqueIdentifier>{4e1de1f7-050a-4234-8c28-89b87c1b9bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Joueurs">
+      <UniqueIdentifier>{14fa5913-7984-40e9-8148-a0569c7d4306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Regles">
+      <UniqueIdentifier>{c60d6c2f-03cf-4adc-8256-cef1eedd213d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Joueurs">
+      <UniqueIdentifier>{c9a9abe9-d356-4042-a48a-0aeefd0c39a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CHumain.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Cia.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CJoueur.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="CJeu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CRegleDameDePique.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="CPaquetBase.cpp">
@@ -45,30 +45,33 @@
     <ClCompile Include="CPaquetDecorateurMainJoueur.h">
       <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CRegleDameDePique.cpp">
+      <Filter>Fichiers sources\Regles</Filter>
+    </ClCompile>
+    <ClCompile Include="CJoueur.cpp">
+      <Filter>Fichiers sources\Joueurs</Filter>
+    </ClCompile>
+    <ClCompile Include="CEquipe.cpp">
+      <Filter>Fichiers sources\Joueurs</Filter>
+    </ClCompile>
+    <ClCompile Include="CHumain.cpp">
+      <Filter>Fichiers sources\Joueurs</Filter>
+    </ClCompile>
+    <ClCompile Include="Cia.cpp">
+      <Filter>Fichiers sources\Joueurs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CJeu.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="CConsole.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="CFichier.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CJoueur.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CHumain.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Cia.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CRegle.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="CPaquet.h">
@@ -89,17 +92,32 @@
     <ClInclude Include="CPaquetDecorateurJeu52.h">
       <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
     </ClInclude>
-    <ClInclude Include="CRegleDameDePique.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CException.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="CPaquetDecorateurTarot.h">
       <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
     </ClInclude>
     <ClInclude Include="CPaquetManager.h">
       <Filter>Fichiers d%27en-tête\CPaquet</Filter>
+    </ClInclude>
+    <ClInclude Include="CRegleDameDePique.h">
+      <Filter>Fichiers d%27en-tête\Regles</Filter>
+    </ClInclude>
+    <ClInclude Include="CRegle.h">
+      <Filter>Fichiers d%27en-tête\Regles</Filter>
+    </ClInclude>
+    <ClInclude Include="Cia.h">
+      <Filter>Fichiers d%27en-tête\Joueurs</Filter>
+    </ClInclude>
+    <ClInclude Include="CJeu.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CHumain.h">
+      <Filter>Fichiers d%27en-tête\Joueurs</Filter>
+    </ClInclude>
+    <ClInclude Include="CJoueur.h">
+      <Filter>Fichiers d%27en-tête\Joueurs</Filter>
+    </ClInclude>
+    <ClInclude Include="CEquipe.h">
+      <Filter>Fichiers d%27en-tête\Joueurs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
