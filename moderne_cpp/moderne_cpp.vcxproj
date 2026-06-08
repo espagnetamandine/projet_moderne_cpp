@@ -134,7 +134,6 @@
     <ClCompile Include="Cia.cpp" />
     <ClCompile Include="CJoueur.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h" />
