@@ -7,7 +7,7 @@ using namespace std;
 
 class CPaquetDecorateurAjouterJoker : public CPaquetDecorateur {
 public:
-	CPaquetDecorateurAjouterJoker(unique_ptr<CPaquet> paquet) : CPaquetDecorateur(move(paquet))
+	CPaquetDecorateurAjouterJoker(unique_ptr<CPaquet> pPaquet) : CPaquetDecorateur(move(pPaquet))
 	{
 		PAQ_AjouterJoker();
 	}
@@ -18,11 +18,11 @@ private:
 		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_cartes();
 		vector<string>& vsCouleursGlobales = getPAQ_couleurs();
 
-		unique_ptr<CCarte> nouvelleCarte1 = make_unique<CCarte>("Joker", 1);
-		unique_ptr<CCarte> nouvelleCarte2 = make_unique<CCarte>("Joker", 1);
+		unique_ptr<CCarte> pcNouvelleCarte1 = make_unique<CCarte>("Joker", 1);
+		unique_ptr<CCarte> pcNouvelleCarte2 = make_unique<CCarte>("Joker", 1);
 
-		vcPaquet.push_back(move(nouvelleCarte1));
-		vcPaquet.push_back(move(nouvelleCarte2));
+		vcPaquet.push_back(move(pcNouvelleCarte1));
+		vcPaquet.push_back(move(pcNouvelleCarte2));
 
 		vsCouleursGlobales.push_back("Joker");
 	}

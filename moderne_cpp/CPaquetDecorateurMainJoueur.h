@@ -7,7 +7,7 @@ using namespace std;
 
 class CPaquetDecorateurMainJoueur : public CPaquetDecorateur {
 public:
-	CPaquetDecorateurMainJoueur(unique_ptr<CPaquet> paquet) : CPaquetDecorateur(move(paquet)) {};
+	CPaquetDecorateurMainJoueur(unique_ptr<CPaquet> pPaquet) : CPaquetDecorateur(move(pPaquet)) {};
 };
 
 #endif 

@@ -42,6 +42,9 @@
     <ClCompile Include="CPaquetBase.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="CPaquetDecorateurMainJoueur.h">
+      <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h">
@@ -88,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="CRegleDameDePique.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CException.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetDecorateurTarot.h">
+      <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
+    </ClInclude>
+    <ClInclude Include="CPaquetManager.h">
+      <Filter>Fichiers d%27en-tête\CPaquet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

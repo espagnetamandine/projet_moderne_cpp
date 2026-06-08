@@ -16,7 +16,7 @@ using namespace std;
 
 class CPaquetManager {
 public:
-	static unique_ptr<CPaquet> creerPaquet(const string& sTypeJeu)
+	static unique_ptr<CPaquet> PAQ_creerPaquer(const string& sTypeJeu)
 	{
 		unique_ptr<CPaquet> pPaquet = make_unique<CPaquetBase>();
 

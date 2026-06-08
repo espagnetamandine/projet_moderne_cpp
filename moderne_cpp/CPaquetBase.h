@@ -14,12 +14,11 @@ using namespace std;
 
 class CPaquetBase : public CPaquet {
 private :
-	string sPAQ_nomPaquet;
 	vector<unique_ptr<CCarte>> vcPAQ_paquet;
 	vector<string> vsPAQ_couleurs;
 
 public:
-	CPaquetBase() { sPAQ_nomPaquet = "Paquet Vide"; };
+	CPaquetBase() {};
 
 	virtual vector<unique_ptr<CCarte>>& getPAQ_cartes() { return vcPAQ_paquet; }
 	virtual vector<string>& getPAQ_couleurs() { return vsPAQ_couleurs; }

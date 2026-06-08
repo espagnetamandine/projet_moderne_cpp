@@ -7,7 +7,7 @@ using namespace std;
 
 class CPaquetDecorateurJeu52 : public CPaquetDecorateur {
 public:
-	CPaquetDecorateurJeu52(unique_ptr<CPaquet> paquet) : CPaquetDecorateur(move(paquet))
+	CPaquetDecorateurJeu52(unique_ptr<CPaquet> pPaquet) : CPaquetDecorateur(move(pPaquet))
 	{
 		PAQ_Ajouter52Cartes();
 	}
@@ -27,9 +27,9 @@ private:
 
 			for (uiCarteValeur = 0; uiCarteValeur < 13; uiCarteValeur++)
 			{
-				unique_ptr<CCarte> nouvelleCarte = make_unique<CCarte>(sNouvelleCouleur, uiCarteValeur + 1);
+				unique_ptr<CCarte> pcNouvelleCarte = make_unique<CCarte>(sNouvelleCouleur, uiCarteValeur + 1);
 
-				vcPaquet.push_back(move(nouvelleCarte));
+				vcPaquet.push_back(move(pcNouvelleCarte));
 			}
 		}	
 	}

@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	unique_ptr<CPaquet> paquetTarot = CPaquetManager::creerPaquet("Tarot");
+	unique_ptr<CPaquet> paquetTarot = CPaquetManager::PAQ_creerPaquer("Tarot");
 
 	paquetTarot->PAQ_afficher();
 	cout << "\n\n\n";
@@ -16,9 +16,9 @@ int main(int argc, char* argv[])
 
 	cout << "\n\n\n";
 
-	cout << "Distribution pour Joueur 1 :\n" << endl;
+	cout << "\033[031mDistribution pour Joueur 1 :\n" << endl;
 
-	unique_ptr<CPaquet> mainJoueur1 = CPaquetManager::creerPaquet("Joueur"); // ou "Main du joueur"
+	unique_ptr<CPaquet> mainJoueur1 = CPaquetManager::PAQ_creerPaquer("Joueur"); // ou "Main du joueur"
 	mainJoueur1->PAQ_ajouterCarte(paquetTarot->PAQ_retirerCarte()); // -1 ou rien pour la dernière carte de la pioche
 																	// sinon vous pouvez préciser l'indice de la carte
 	mainJoueur1->PAQ_afficher();
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 
 	cout << "\n\n\nAffichage des deux mains :";
 
-	unique_ptr<CPaquet> mainJoueur2 = CPaquetManager::creerPaquet("Main du joueur");
+	unique_ptr<CPaquet> mainJoueur2 = CPaquetManager::PAQ_creerPaquer("Main du joueur");
 	mainJoueur1->PAQ_ajouterCarte(paquetTarot->PAQ_retirerCarte());
 	mainJoueur1->PAQ_ajouterCarte(paquetTarot->PAQ_retirerCarte());
 	mainJoueur2->PAQ_ajouterCarte(paquetTarot->PAQ_retirerCarte());
@@ -45,6 +45,7 @@ int main(int argc, char* argv[])
 
 	cout << "\n\n\nAffichage des deux mains :";
 
+	// pour la main du joueur
 	mainJoueur1->PAQ_ajouterCarte(mainJoueur2->PAQ_retirerCarte(2));
 
 	mainJoueur1->PAQ_afficher();
