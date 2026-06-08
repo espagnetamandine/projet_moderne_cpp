@@ -3,35 +3,25 @@
 using namespace std;
 
 
-CJoueur::CJoueur(): sNomJoueur(""),
-                    iEquipe(0)
+CJoueur::CJoueur(): sNomJoueur("")
 {
 }
-CJoueur::CJoueur(string sNomJoueur, int iEquipe) : sNomJoueur(sNomJoueur), 
-                                                   iEquipe(iEquipe)
+CJoueur::CJoueur(string sNomJoueur) : sNomJoueur(sNomJoueur)                                        
 {
 }
-CPaquet CJoueur::getpMain()
+CPaquetBase CJoueur::JOUEUR_GetpMain()
 {
 	return pMain;
 }
-string CJoueur::getsNomJoueur()
+string CJoueur::JOUEUR_GetsNomJoueur()
 {
 	return sNomJoueur;
 }
-int CJoueur::getiEquipe()
-{
-	return iEquipe;
-}
-void CJoueur::setsNomJoueur(string sNouveauNom)
+void CJoueur::JOUEUR_SetsNomJoueur(string sNouveauNom)
 {
 	sNomJoueur = sNouveauNom;
 }
-void CJoueur::setiEquipe(int iNouvelleEquipe)
-{
-	iEquipe = iNouvelleEquipe;
-}
-void CJoueur::setpMain(CPaquet pNouvelleMain)
+void CJoueur::JOUEUR_SetpMain(CPaquetBase pNouvelleMain)
 {
 	pMain = pNouvelleMain;
 }

@@ -8,13 +8,13 @@ CHumain::CHumain(): CJoueur()
 {
 }
 
-CHumain::CHumain(string sNomJoueur, int iEquipe): CJoueur(sNomJoueur,iEquipe)
+CHumain::CHumain(string sNomJoueur): CJoueur(sNomJoueur)
 {
 }
 
 CCarte CHumain::JOUEUR_Choix_Carte_A_Jouer()
 {
-	vector<CCarte> pMainHumain = pMain.getPaquet();
+	vector<CCarte> pMainHumain = pMain.getPAQ_cartes();
 	for (unsigned int uiBoucle = 0; uiBoucle < pMainHumain.size(); uiBoucle++)
 	{
 		cout << "carte " << uiBoucle << " : " << pMainHumain[uiBoucle] << endl;

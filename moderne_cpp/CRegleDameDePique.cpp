@@ -1,3 +1,4 @@
+
 #include "CRegleDameDePique.h"
 
 void CRegleDameDePique::REG_DistribuerCartes(vector<CJoueur> joueurs, CPaquet paquet) {

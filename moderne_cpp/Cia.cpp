@@ -11,14 +11,14 @@ Cia::Cia(): CJoueur()
 {
 }
 
-Cia::Cia(string sNomJoueur, int iEquipe) : CJoueur(sNomJoueur, iEquipe)
+Cia::Cia(string sNomJoueur) : CJoueur(sNomJoueur)
 {
 }
 
 CCarte Cia::JOUEUR_Choix_Carte_A_Jouer()
 {
 	// Récupération de la main de l'IA
-	vector <CCarte> pMainIA= pMain.getPaquet();
+	vector <CCarte> pMainIA= pMain.getPAQ_cartes();
 	
 	// Creation d'un générateur random initialisé avec une graine aléatoire 
 	default_random_engine generator(random_device{}());

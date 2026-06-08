@@ -6,7 +6,7 @@
 using namespace std;
 
 
-CEquipe::CEquipe() : uiNumeroEquipe(0)
+CEquipe::CEquipe(): uiNumeroEquipe(0)
 {
 }
 
