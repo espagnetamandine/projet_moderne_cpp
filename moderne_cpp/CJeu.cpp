@@ -1,3 +1,4 @@
+
 #include "CJeu.h"
 #include "CJoueur.h"
 #include "CRegle.h"
@@ -17,6 +18,7 @@ bool CJeu<CRegleDameDePique>::JEU_FinDePartie() {
 	return REG_FinDePartie();
 }
 
+*/
 
 void CJeu<CRegleDameDePique>::JEU_LancementJeu(CRegleDameDePique type_jeu) {
 	Carte carte = new Carte();
@@ -35,7 +37,7 @@ void CJeu<CRegleDameDePique>::JEU_LancementJeu(CRegleDameDePique type_jeu) {
 				else if (!REG_CarteValide(carte)) { /*erreur*/ }
 
 				else
-				{
+ {
 					mJEU_pli[uiJEU_IdxJoueurCourrant] = carte;
 					REG_GagnePli(); //calcule les points 
 				}
@@ -46,6 +48,7 @@ void CJeu<CRegleDameDePique>::JEU_LancementJeu(CRegleDameDePique type_jeu) {
 	JEU_AfficherPoints(); // points de la partie
 	JEU_AfficherGagnant();
 }
+
 
 bool EstDansVecteur(vector<int> v, int numero) {
 	for (int i : v) {
