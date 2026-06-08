@@ -1,38 +1,36 @@
 #ifndef _CJEU_H
 #define _CJEU_H
 
+#include "CRegle.h"
 #include "CCarte.h"
 #include "CPaquet.h"
 #include "CJoueur.h"
+#include "CEquipe.h"
+
 #include <map>
 #include <vector>
 
 using namespace std;
 
-template <class T>
 class CJeu {
 private:
-	CPaquet pJEU_paquet_de_cartes;
+	// unique ptr car CRegle et cJoueur sont virtuelles pures, à vérifier si c bien ça + adapter les methodes
+	unique_ptr<CRegle> strategieRegle; 
+	unique_ptr<CJoueur> strategieJoueur;
+
+	unique_ptr<CPaquet> pJEU_paquet_de_cartes; // CPaquet classe interface donc unique_ptr
 	vector<CJoueur> vjJEU_joueurs;
-	map<CJoueur, int> vjJEU_points;
-	map<CJoueur, CCarte> mJEU_pli;
 	unsigned int uiJEU_IdxJoueurCourrant;
+	map<CEquipe, int> vjJEU_points;
+	map<CJoueur, CCarte> mJEU_pli;
 
 public:
 	CJeu();
-	~CJeu();
 
-	CPaquet JEU_GetPaquet() { return pJEU_paquet_de_cartes; }
-	vector<CJoueur> JEU_GetJoueurs() { return vjJEU_joueurs; }
-	map<CJoueur, int> JEU_GetPoints() { return vjJEU_points; }
-	map<CJoueur, CCarte> JEU_GetPli() { return mJEU_pli; }
+	void JEU_setStrategieRegle(unique_ptr<CRegle> regle) { strategieRegle = move(regle); }
+	void JEU_setStrategieJoueur(unique_ptr<CJoueur> joueur) { strategieJoueur = move(joueur); }
 
-	bool JEU_FinDePartie();
-	void JEU_LancementJeu(T type_jeu);
-	void JEU_AfficherPoints();
-	void JEU_AfficherGagnant();
+	//void JEU_AjouterJoueur() { strategieJoueur.CJoueur(); }
+	void JEU_JouerPartie(); 
 };
-
-
-
 #endif 
