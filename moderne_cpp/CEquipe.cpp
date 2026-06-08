@@ -11,7 +11,7 @@ CEquipe::CEquipe(): uiNumeroEquipe(0)
 }
 
 CEquipe::CEquipe(vector<CJoueur*> vjEquipe, unsigned int uiNumeroEquipe) : vjEquipe(vjEquipe),
-                                                                          uiNumeroEquipe(uiNumeroEquipe)
+uiNumeroEquipe(uiNumeroEquipe)
 {
 }
 vector<CJoueur*> CEquipe::EQU_GetvjEquipe()
@@ -47,7 +47,7 @@ void CEquipe::EQU_SupprimerJoueur(CJoueur* pSupprimerJoueur)
         throw std::invalid_argument("Le Joueur n'est déjà pas dans l'équipe");
     }
     vjEquipe.erase(itJoueurASupprimer);
-   
+
 }
 
 CEquipe:: ~CEquipe()

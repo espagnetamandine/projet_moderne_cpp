@@ -8,23 +8,66 @@ using namespace std;
 
 class CCarte {
 private :
-	string sCAR_color;
-	unsigned int uiCAR_value;
+	string sCAR_couleur;
+	string sCAR_nom;
+	unsigned int uiCAR_valeur;
 
 public :
-	CCarte(string sColor, unsigned int uiValue)
+	CCarte(string sCouleur, unsigned int uiValeur, string sNom = "empty")
 	{
-		sCAR_color = sColor;
-		uiCAR_value = uiValue;
+		sCAR_couleur = sCouleur;
+		uiCAR_valeur = uiValeur;
+		if (sNom == "empty")
+		{
+			CAR_mettreNom();
+		}
+		else
+		{
+			sCAR_nom = sNom;
+		}
 	};
 
-	string getCAR_color() { return sCAR_color; };
-	unsigned int getCAR_value() { return uiCAR_value; };
+	string getCAR_couleur() { return sCAR_couleur; };
+	string getCAR_nom() { return sCAR_nom; }
+	unsigned int getCAR_valeur() { return uiCAR_valeur; };
+	
+	void CAR_mettreNom()
+	{
+		if (sCAR_couleur == "Joker")
+		{
+			sCAR_nom = "Joker";
+			return;
+		}
+
+		switch (uiCAR_valeur)
+		{
+		case 1: 
+			sCAR_nom = "As";
+			break;
+		case 11:
+			sCAR_nom = "Valet";
+			break;
+		case 12:
+			sCAR_nom = "Dame";
+			break;
+		case 13:
+			sCAR_nom = "Roi";
+			break;
+		default:
+			sCAR_nom = to_string(uiCAR_valeur);
+			break;
+		}
+	}
 
 	friend std::ostream& operator<<(std::ostream& os, const CCarte& CarteAAfficher)
 	{
-
-		os << CarteAAfficher.uiCAR_value << " de " << CarteAAfficher.sCAR_color;
+		if (CarteAAfficher.sCAR_couleur == "Joker")
+		{
+			os << CarteAAfficher.sCAR_couleur;
+		}
+		else {
+			os << CarteAAfficher.sCAR_nom << " de " << CarteAAfficher.sCAR_couleur;
+		}
 
 		return os;
 	}

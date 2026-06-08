@@ -127,6 +127,7 @@
   <ItemGroup>
     <ClCompile Include="CEquipe.cpp" />
     <ClCompile Include="CJeu.cpp" />
+    <ClCompile Include="CPaquetDecorateurMainJoueur.h" />
     <ClCompile Include="CRegleDameDePique.cpp" />
     <ClCompile Include="CPaquetBase.cpp" />
     <ClCompile Include="CHumain.cpp" />
@@ -149,6 +150,8 @@
     <ClInclude Include="CPaquetDecorateurJeu52.h" />
     <ClInclude Include="CPaquetDecorateurJeu32.h" />
     <ClInclude Include="CPaquetDecorateurAjouterJoker.h" />
+    <ClInclude Include="CPaquetDecorateurTarot.h" />
+    <ClInclude Include="CPaquetManager.h" />
     <ClInclude Include="CRegle.h" />
     <ClInclude Include="CRegleDameDePique.h" />
   </ItemGroup>
