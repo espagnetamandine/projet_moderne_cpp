@@ -1,7 +1,7 @@
 
 #include "CRegleDameDePique.h"
 
-void CRegleDameDePique::REG_DistribuerCartes(vector<CJoueur> joueurs, CPaquet paquet) {
+void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet> paquet) {
 	for (unsigned int i = 0; i < (paquet.getPAQ_cartes().size() / vjREG_joueurs.size()); i++) //pas la methode dans CPaquet 
 	{
 		for (CJoueur joueur : vjREG_joueurs) //CJoueur virtuelle pure
@@ -12,12 +12,12 @@ void CRegleDameDePique::REG_DistribuerCartes(vector<CJoueur> joueurs, CPaquet pa
 }
 
 
-bool CRegleDameDePique::REG_PremiereCarte(CCarte carte) {
+bool CRegleDameDePique::REG_PremiereCarte(unique_ptr<CCarte>& carte) {
 	return (carte.getCAR_couleur() == "Trefle" && carte.getCAR_valeur() == 2);
 }
 
 
-bool CRegleDameDePique::REG_CarteValide(CCarte carte) {
+bool CRegleDameDePique::REG_CarteValide(unique_ptr<CCarte>& carte) {
 	return true;
 }
 

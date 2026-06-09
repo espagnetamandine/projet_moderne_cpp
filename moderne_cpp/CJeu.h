@@ -8,31 +8,26 @@
 #include "CJoueur.h"
 #include "CEquipe.h"
 
-#include <map>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 class CJeu {
 private:
-	// unique ptr car CRegle et cJoueur sont virtuelles pures, à vérifier si c bien ça + adapter les methodes
 	unique_ptr<CRegle> strategieRegle; 
-	unique_ptr<CJoueur> strategieJoueur;
 
-	unique_ptr<CPaquet> pJEU_paquet_de_cartes; // CPaquet classe interface donc unique_ptr
+	unique_ptr<CPaquet> pJEU_paquet_de_cartes;
 	vector<unique_ptr<CJoueur>> vjJEU_joueurs;
 	unsigned int uiJEU_IdxJoueurCourrant;
 	map<CEquipe, int> vjJEU_points;
-	map<unique_ptr<CJoueur>, unique_ptr<CCarte>> mJEU_pli;
-
+	map<CJoueur*, unique_ptr<CCarte>> mJEU_pli;
 
 public:
-	CJeu();
+	CJeu(const string& sTypeJeu);
 
 	void JEU_setStrategieRegle(unique_ptr<CRegle> regle) { strategieRegle = move(regle); }
-	void JEU_setStrategieJoueur(unique_ptr<CJoueur> joueur) { strategieJoueur = move(joueur); }
-
-	//void JEU_AjouterJoueur() { strategieJoueur.CJoueur(); }
+	void JEU_AjouterJoueur(unique_ptr<CJoueur> joueur) { vjJEU_joueurs.push_back(move(joueur)); }
 	void JEU_JouerPartie(); 
 };
 #endif 
