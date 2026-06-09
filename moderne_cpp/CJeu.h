@@ -15,7 +15,7 @@ using namespace std;
 
 class CJeu {
 private:
-	unique_ptr<CRegle> strategieRegle; 
+	unique_ptr<CRegle> strategieRegle;
 
 	unique_ptr<CPaquet> pJEU_paquet_de_cartes;
 	vector<unique_ptr<CJoueur>> vjJEU_joueurs;

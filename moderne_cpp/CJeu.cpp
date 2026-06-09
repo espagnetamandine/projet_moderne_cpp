@@ -4,7 +4,7 @@
 #include <iostream>
 
 CJeu::CJeu(const string& sTypeJeu) {
-	if(sTypeJeu == "Dame de pique")
+	
 }
 
 
@@ -25,9 +25,8 @@ void CJeu::JEU_JouerPartie() {
 
 				else
 				{
-					unique_ptr<CCarte> pCarte = move(carte);
 					mJEU_pli[vjJEU_joueurs[uiJEU_IdxJoueurCourrant].get()] = move(carte);
-					strategieRegle->REG_GagnePli(); //calcule les points 
+					strategieRegle->REG_GagnePli(mJEU_pli); //calcule les points 
 				}
 			}
 		}

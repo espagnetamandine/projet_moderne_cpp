@@ -154,6 +154,7 @@
     <ClInclude Include="CPaquetManager.h" />
     <ClInclude Include="CRegle.h" />
     <ClInclude Include="CRegleDameDePique.h" />
+    <ClInclude Include="CRegleManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
