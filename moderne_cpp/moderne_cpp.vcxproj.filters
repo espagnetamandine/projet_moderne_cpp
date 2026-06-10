@@ -60,6 +60,9 @@
     <ClCompile Include="Cia.cpp">
       <Filter>Fichiers sources\Joueurs</Filter>
     </ClCompile>
+    <ClCompile Include="CConsole.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h">
