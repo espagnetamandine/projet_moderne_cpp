@@ -35,4 +35,5 @@ public:
 	virtual void REG_AfficherPoints();
 
 };
-#endif 
+#endif
+

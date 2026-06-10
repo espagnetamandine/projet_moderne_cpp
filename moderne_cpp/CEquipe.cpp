@@ -6,47 +6,47 @@
 using namespace std;
 
 
-CEquipe::CEquipe(): uiNumeroEquipe(0)
+CEquipe::CEquipe(): uiEQU_numeroEquipe(0)
 {
 }
 
-CEquipe::CEquipe(vector<CJoueur*> vjEquipe, unsigned int uiNumeroEquipe) : vjEquipe(vjEquipe),
-uiNumeroEquipe(uiNumeroEquipe)
+CEquipe::CEquipe(vector<unsigned int> vuiEQU_equipe, unsigned int uiEQU_numeroEquipe) : vuiEQU_equipe(vuiEQU_equipe),
+uiEQU_numeroEquipe(uiEQU_numeroEquipe)
 {
 }
-vector<CJoueur*> CEquipe::EQU_GetvjEquipe()
+vector<unsigned int> CEquipe::getEQU_equipe()
 {
-    return vjEquipe;
+    return vuiEQU_equipe;
 }
-unsigned int CEquipe::EQU_GetuiNumeroEquipe()
+unsigned int CEquipe::getEQU_numeroEquipe()
 {
-    return uiNumeroEquipe;
+    return uiEQU_numeroEquipe;
 }
-void CEquipe::EQU_SetuiNumeroEquipe(unsigned int uiNouveauNumero)
+void CEquipe :: setEQU_numeroEquipe(unsigned int uiEQU_nouveauNumero)
 {
-    uiNumeroEquipe = uiNouveauNumero;
+    uiEQU_numeroEquipe = uiEQU_nouveauNumero;
 }
 
-void CEquipe::EQU_AjouterJoueur(CJoueur* pAjouterJoueur)
+void CEquipe::EQU_ajouterJoueur(unsigned int uiEQU_nouveauJoueur)
 {
-    for (CJoueur* pJoueur : vjEquipe)
+    for (unsigned int  uiEQU_numeroJoueur : vuiEQU_equipe)
     {
-        if (pJoueur->JOUEUR_GetsNomJoueur() == pAjouterJoueur->JOUEUR_GetsNomJoueur())
+        if (uiEQU_numeroJoueur == uiEQU_nouveauJoueur)
         {
             throw std::invalid_argument("Le Joueur est déjà dans l'équipe");
         }
 
     }
-    vjEquipe.push_back(pAjouterJoueur);
+    vuiEQU_equipe.push_back(uiEQU_nouveauJoueur);
 }
 
-void CEquipe::EQU_SupprimerJoueur(CJoueur* pSupprimerJoueur)
+void CEquipe::EQU_supprimerJoueur(unsigned int uiEQU_joueurASupprimer)
 {
-    vector<CJoueur*>::iterator itJoueurASupprimer = find(vjEquipe.begin(), vjEquipe.end(), pSupprimerJoueur);
-    if (itJoueurASupprimer == vjEquipe.end()) {
+    vector<unsigned int >::iterator itJoueurASupprimer = find(vuiEQU_equipe.begin(), vuiEQU_equipe.end(), uiEQU_joueurASupprimer);
+    if (itJoueurASupprimer == vuiEQU_equipe.end()) {
         throw std::invalid_argument("Le Joueur n'est déjà pas dans l'équipe");
     }
-    vjEquipe.erase(itJoueurASupprimer);
+    vuiEQU_equipe.erase(itJoueurASupprimer);
 
 }
 

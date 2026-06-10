@@ -3,27 +3,27 @@
 using namespace std;
 
 
-CJoueur::CJoueur(): sNomJoueur("")
+CJoueur::CJoueur(): sJOU_nomJoueur("")
 {
 }
-CJoueur::CJoueur(string sNomJoueur) : sNomJoueur(sNomJoueur)                                        
+CJoueur::CJoueur(string sJOU_nomJoueur) :sJOU_nomJoueur(sJOU_nomJoueur)
 {
 }
-CPaquetBase CJoueur::JOUEUR_GetpMain()
+unique_ptr<CPaquet>& CJoueur::getJOU_main()
 {
-	return pMain;
+	return upJOU_main;
 }
-string CJoueur::JOUEUR_GetsNomJoueur()
+string CJoueur::getJOU_nomJoueur()
 {
-	return sNomJoueur;
+	return sJOU_nomJoueur;
 }
-void CJoueur::JOUEUR_SetsNomJoueur(string sNouveauNom)
+void CJoueur::setJOU_nomJoueur(string sJOU_nouveauNom)
 {
-	sNomJoueur = sNouveauNom;
+	sJOU_nomJoueur = sJOU_nouveauNom;
 }
-void CJoueur::JOUEUR_SetpMain(CPaquetBase pNouvelleMain)
+void CJoueur::setJOU_main(unique_ptr<CPaquet> upJOU_nouvelleMain)
 {
-	pMain = pNouvelleMain;
+	upJOU_main = move(upJOU_nouvelleMain);
 }
 CJoueur::~CJoueur()
 {

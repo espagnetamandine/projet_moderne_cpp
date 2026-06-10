@@ -13,8 +13,8 @@ class Cia : public CJoueur
 {
 public:
 	Cia();
-	Cia(string sNom);
-	CCarte JOUEUR_Choix_Carte_A_Jouer();
+	Cia(string sJOU_nomJoueur);
+	unique_ptr<CCarte> JOU_choixCarteAJouer();
 	~Cia();
 };
 #endif 

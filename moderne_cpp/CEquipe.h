@@ -10,16 +10,16 @@ using namespace std;
 class CEquipe
 {
 private:
-	vector<CJoueur*> vjEquipe;
-	unsigned int uiNumeroEquipe;
+	vector< unsigned int> vuiEQU_equipe;
+	unsigned int uiEQU_numeroEquipe;
 public:
 	CEquipe();
-	CEquipe(vector<CJoueur*> vjEquipe, unsigned int uiNumeroEquipe);
-	void EQU_AjouterJoueur(CJoueur* AjouterJoueur);
-	void EQU_SupprimerJoueur(CJoueur* SupprimerJoueur);
-	vector<CJoueur*> EQU_GetvjEquipe();
-	unsigned int EQU_GetuiNumeroEquipe();
-	void EQU_SetuiNumeroEquipe(unsigned int uiNouveauNumero);
+	CEquipe(vector<unsigned int> vuiEQU_equipe, unsigned int uiEQU_numeroEquipe);
+	void EQU_ajouterJoueur(unsigned int uiEQU_nouveauJoueur);
+	void EQU_supprimerJoueur(unsigned int uiEQU_joueurASupprimer);
+	vector<unsigned int> getEQU_equipe();
+	unsigned int getEQU_numeroEquipe();
+	void setEQU_numeroEquipe(unsigned int uiEQU_nouveauNumero);
 	~CEquipe();
 };
 
