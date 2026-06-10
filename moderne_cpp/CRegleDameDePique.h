@@ -22,4 +22,5 @@ public:
 	virtual void REG_AfficherPoints();
 	virtual void REG_AfficherGagnant();
 };
-#endif 
+#endif
+

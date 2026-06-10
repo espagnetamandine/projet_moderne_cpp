@@ -9,8 +9,8 @@ class CHumain : public CJoueur
 {
 public:
 	CHumain();
-	CHumain(string sNom);
-	CCarte JOUEUR_Choix_Carte_A_Jouer();
+	CHumain(string sJOU_nomJoueur);
+	unique_ptr<CCarte> JOU_choixCarteAJouer();
 	~CHumain();
 };
 #endif 

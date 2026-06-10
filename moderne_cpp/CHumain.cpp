@@ -8,26 +8,26 @@ CHumain::CHumain(): CJoueur()
 {
 }
 
-CHumain::CHumain(string sNomJoueur): CJoueur(sNomJoueur)
+CHumain::CHumain(string sJOU_nomJoueur): CJoueur(sJOU_nomJoueur)
 {
 }
 
-CCarte CHumain::JOUEUR_Choix_Carte_A_Jouer()
+unique_ptr<CCarte> CHumain::JOU_choixCarteAJouer()
 {
-	vector<CCarte> pMainHumain = pMain.getPAQ_cartes();
-	for (unsigned int uiBoucle = 0; uiBoucle < pMainHumain.size(); uiBoucle++)
+	vector<unique_ptr<CCarte>>& upJOU_mainHumain = upJOU_main->getPAQ_cartes();
+	for (unsigned int uiBoucle = 0; uiBoucle < upJOU_mainHumain.size(); uiBoucle++)
 	{
-		cout << "carte " << uiBoucle << " : " << pMainHumain[uiBoucle] << endl;
+		cout << "carte " << uiBoucle << " : " << upJOU_mainHumain[uiBoucle] << endl;
 	}
 	cout << " CHoissisez une carte " << endl;
 	unsigned int uiNumeroCarteChoisie = 0;
 	cin >> uiNumeroCarteChoisie;
-	while (uiNumeroCarteChoisie>pMainHumain.size() - 1)
+	while (uiNumeroCarteChoisie> upJOU_mainHumain.size() - 1)
 	{
 		cout << " Numéro de carte invalide, recommencez " << endl;
 		cin >> uiNumeroCarteChoisie;
 	}
-	return pMainHumain[uiNumeroCarteChoisie];
+	return move(upJOU_mainHumain[uiNumeroCarteChoisie]);
 }
 CHumain::~CHumain()
 {
