@@ -12,7 +12,7 @@ using namespace std;
 
 class CRegleManager {
 public:
-	static unique_ptr<CRegle> REG_creerRegle(const string& sTypeJeu)
+	static unique_ptr<CRegle> REG_CreerRegle(const string& sTypeJeu)
 	{
 		unique_ptr<CRegle> pRegle = make_unique<CRegle>();
 
