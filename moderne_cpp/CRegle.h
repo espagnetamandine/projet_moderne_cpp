@@ -8,21 +8,31 @@
 #include <vector>
 #include <map>
 
-class CRegle {	
+class CRegle {
 public:
 	CRegle();
 	~CRegle();
+
 	
-	//virtual void REG_NombreDePoints()=0;
-	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet> paquet)=0;
-	virtual bool REG_PremiereCarte(const CCarte& carte)=0;
-	virtual bool REG_CarteValide(const CCarte& carte)=0;
-	virtual int REG_GagnePli(map<CJoueur*, unique_ptr<CCarte>>& mJEU_pli)=0;
-	virtual void REG_CalculPoints()=0;
-	virtual CJoueur REG_CalculGagnant()=0;
-	virtual bool REG_FinDeManche()=0;
-	virtual bool REG_FinDePartie()=0;
-	virtual void REG_AfficherPoints()=0;
-	virtual void REG_AfficherGagnant()=0;
+	virtual void REG_DebutPartie() = 0;
+	virtual bool REG_ConditionFINPartie() = 0;
+	virtual void REG_DebutManche() = 0;
+	virtual bool REG_ConditionFinManche() = 0;
+	virtual void REG_JoueurSuivant(unsigned int uiIndiceJueur) = 0;
+	virtual void REG_ConstituerEquipes() = 0;
+	virtual void REG_MettreEnPlacePioche() = 0;
+	virtual void REG_Distribuer() = 0;
+	virtual unsigned int REG_DeterminerIndiceGagnantPli() = 0;
+	virtual bool REG_CarteValide() = 0;
+	virtual void REG_CalculerPointsPli() = 0;
+	virtual void REG_CalculerPointsManche() = 0;
+	virtual void REG_AfficherGagnantPli() = 0;
+	virtual void REG_AfficherGagnantPartie() = 0;
+	virtual void REG_AfficherMainJoueur() = 0; 
+	virtual void REG_AfficherPoints() = 0;
 };
+
+
+
+
 #endif 

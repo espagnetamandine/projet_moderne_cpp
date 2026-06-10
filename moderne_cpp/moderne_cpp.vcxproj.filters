@@ -45,9 +45,6 @@
     <ClCompile Include="CPaquetDecorateurMainJoueur.h">
       <Filter>Fichiers d%27en-tête\CPaquet\PaquetDecorateur</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="CRegleDameDePique.cpp">
       <Filter>Fichiers sources\Regles</Filter>
     </ClCompile>
@@ -62,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="Cia.cpp">
       <Filter>Fichiers sources\Joueurs</Filter>
+    </ClCompile>
+    <ClCompile Include="CRegleTarot.cpp">
+      <Filter>Fichiers sources\Regles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="CEquipe.h">
       <Filter>Fichiers d%27en-tête\Joueurs</Filter>
+    </ClInclude>
+    <ClInclude Include="CRegleTarot.h">
+      <Filter>Fichiers d%27en-tête\Regles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
