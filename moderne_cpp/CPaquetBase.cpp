@@ -1,6 +1,6 @@
 #include "CPaquetBase.h"
 
-void CPaquetBase::PAQ_afficher() const
+void CPaquetBase::PAQ_Afficher() const
 {
 	unsigned int uiBoucleVector;
 
@@ -18,7 +18,7 @@ void CPaquetBase::PAQ_afficher() const
 	}
 };
 
-void CPaquetBase::PAQ_melanger()
+void CPaquetBase::PAQ_Melanger()
 {
 	random_device graineMelange;
 	mt19937 algoMelange(graineMelange());
@@ -26,7 +26,7 @@ void CPaquetBase::PAQ_melanger()
 	shuffle(vcPAQ_paquet.begin(), vcPAQ_paquet.end(), algoMelange);
 }
 
-unique_ptr<CCarte> CPaquetBase::PAQ_retirerCarte(int iIndiceCarte)
+unique_ptr<CCarte> CPaquetBase::PAQ_RetirerCarte(int iIndiceCarte)
 {
 	if (iIndiceCarte == -1)
 	{
@@ -49,7 +49,7 @@ unique_ptr<CCarte> CPaquetBase::PAQ_retirerCarte(int iIndiceCarte)
 	return pCarteARetirer;
 }
 
-void CPaquetBase::PAQ_ajouterCarte(unique_ptr<CCarte> pCarteAAjouter)
+void CPaquetBase::PAQ_AjouterCarte(unique_ptr<CCarte> pCarteAAjouter)
 {
 	if (pCarteAAjouter != nullptr)
 	{

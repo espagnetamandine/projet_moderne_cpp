@@ -19,7 +19,7 @@ public :
 		uiCAR_valeur = uiValeur;
 		if (sNom == "empty")
 		{
-			CAR_mettreNom();
+			CAR_MettreNom();
 		}
 		else
 		{
@@ -27,11 +27,11 @@ public :
 		}
 	};
 
-	string getCAR_couleur() { return sCAR_couleur; };
-	string getCAR_nom() { return sCAR_nom; }
-	unsigned int getCAR_valeur() { return uiCAR_valeur; };
+	string CAR_GetCouleur() { return sCAR_couleur; };
+	string CAR_GetNom() { return sCAR_nom; }
+	unsigned int CAR_GetValeur() { return uiCAR_valeur; };
 	
-	void CAR_mettreNom()
+	void CAR_MettreNom()
 	{
 		if (sCAR_couleur == "Joker")
 		{

@@ -15,8 +15,8 @@ public:
 private:
 	void PAQ_AjouterJoker()
 	{
-		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_cartes();
-		vector<string>& vsCouleursGlobales = getPAQ_couleurs();
+		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_Cartes();
+		vector<string>& vsCouleursGlobales = getPAQ_Couleurs();
 
 		unique_ptr<CCarte> pcNouvelleCarte1 = make_unique<CCarte>("Joker", 1);
 		unique_ptr<CCarte> pcNouvelleCarte2 = make_unique<CCarte>("Joker", 1);

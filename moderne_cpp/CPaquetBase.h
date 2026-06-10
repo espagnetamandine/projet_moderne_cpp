@@ -20,12 +20,12 @@ private :
 public:
 	CPaquetBase() {};
 
-	virtual vector<unique_ptr<CCarte>>& getPAQ_cartes() { return vcPAQ_paquet; }
-	virtual vector<string>& getPAQ_couleurs() { return vsPAQ_couleurs; }
-	virtual void PAQ_afficher() const;
-	virtual void PAQ_melanger();
-	virtual unique_ptr<CCarte> PAQ_retirerCarte(int iIndiceCarte);
-	virtual void PAQ_ajouterCarte(unique_ptr<CCarte> pCarteAAjouter);
+	virtual vector<unique_ptr<CCarte>>& getPAQ_Cartes() { return vcPAQ_paquet; }
+	virtual vector<string>& getPAQ_Couleurs() { return vsPAQ_couleurs; }
+	virtual void PAQ_Afficher() const;
+	virtual void PAQ_Melanger();
+	virtual unique_ptr<CCarte> PAQ_RetirerCarte(int iIndiceCarte);
+	virtual void PAQ_AjouterCarte(unique_ptr<CCarte> pCarteAAjouter);
 };
 
 #endif 

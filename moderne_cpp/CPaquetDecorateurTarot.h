@@ -17,8 +17,8 @@ private:
 	{
 		unsigned int uiCarteValeur;
 
-		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_cartes();
-		vector<string>& vsCouleursGlobales = getPAQ_couleurs();
+		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_Cartes();
+		vector<string>& vsCouleursGlobales = getPAQ_Couleurs();
 
 		vsCouleursGlobales.push_back("Atout");
 
