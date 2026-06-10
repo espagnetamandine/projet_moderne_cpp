@@ -119,6 +119,9 @@
     <ClInclude Include="CEquipe.h">
       <Filter>Fichiers d%27en-tête\Joueurs</Filter>
     </ClInclude>
+    <ClInclude Include="CRegleManager.h">
+      <Filter>Fichiers d%27en-tête\Regles</Filter>
+    </ClInclude>
     <ClInclude Include="CRegleTarot.h">
       <Filter>Fichiers d%27en-tête\Regles</Filter>
     </ClInclude>

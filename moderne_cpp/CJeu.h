@@ -15,19 +15,44 @@ using namespace std;
 
 class CJeu {
 private:
-	unique_ptr<CRegle> strategieRegle; 
+	string sJEU_nom;
 
-	unique_ptr<CPaquet> pJEU_paquet_de_cartes;
+	unique_ptr<CRegle> prJEU_strategieRegle;
+
+	unique_ptr<CPaquet> pJEU_paquetDeCartes;
+	unique_ptr<CPaquet> pJEU_defausse;
+	unique_ptr<CPaquet> pJEU_pli;
+	vector<unsigned int> vuJEU_idJoueurPli;
+
 	vector<unique_ptr<CJoueur>> vjJEU_joueurs;
-	unsigned int uiJEU_IdxJoueurCourrant;
-	map<CEquipe, int> vjJEU_points;
-	map<CJoueur*, unique_ptr<CCarte>> mJEU_pli;
+	map<unique_ptr<CEquipe>, int> mJEU_points;
+	unsigned int uiJEU_IdJoueurCourrant;
+
+	unsigned int uiJEU_compteurManche;
+	unsigned int uiJEU_compteurPli;
+
+
+
 
 public:
-	CJeu(const string& sTypeJeu);
+	CJeu(string sNom);
 
-	void JEU_setStrategieRegle(unique_ptr<CRegle> regle) { strategieRegle = move(regle); }
-	void JEU_AjouterJoueur(unique_ptr<CJoueur> joueur) { vjJEU_joueurs.push_back(move(joueur)); }
+	string JEU_GetNom() { return sJEU_nom; }
+
+	void JEU_GetNomJoueur(unsigned int uiIdJoueur) { cout << vjJEU_joueurs[uiIdJoueur].get()->JOUEUR_GetsNomJoueur(); }
+	unsigned int JEU_GetIndiceJoueurCourant() { return uiJEU_IdJoueurCourrant; }
+	void JEU_SetIndiceJoueurCourant(unsigned int uiIndiceJoueur) { uiJEU_IdJoueurCourrant = uiIndiceJoueur; };
+	
+	void JEU_IncrementerCompteurManche() { uiJEU_compteurManche++; }
+	void JEU_IncrementerCompteurPli() { uiJEU_compteurPli++; }
+	
+	void JEU_SetStrategieRegle(unique_ptr<CRegle> regle) { prJEU_strategieRegle = move(regle); }
+	void JEU_AjouterJoueur(unique_ptr<CJoueur> ujJoueurAAjouter) { vjJEU_joueurs.push_back(move(ujJoueurAAjouter)); }
 	void JEU_JouerPartie(); 
+
+	void JEU_AfficherPoints(); // appelle à afficher points de règles
+	void JEU_AfficherEquipe(); // appelle à afficher équipe de règles
+	void JEU_AfficherPli();
+	void JEU_AfficherMainJoueur(); // appelle à afficher main joueur de règle car ça affiche la main, le nom du joueur, le pli et les équipes l’interface peut changer en fonction des jeux
 };
 #endif 
