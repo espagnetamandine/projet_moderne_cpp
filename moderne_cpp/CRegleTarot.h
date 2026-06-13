@@ -12,7 +12,7 @@ public:
 	~CRegleTarot();
 
 	 void REG_DebutPartie();
-	 bool REG_ConditionFINPartie();
+	 bool REG_ConditionFinPartie();
 	 void REG_DebutManche();
 	 bool REG_ConditionFinManche();
 	 void REG_JoueurSuivant(unsigned int uiIndiceJueur);
