@@ -8,7 +8,7 @@
 #include <vector>
 #include <map>
 
-class CRegle {	
+class CRegle {
 public:
 	CRegle();
 	~CRegle();
@@ -37,4 +37,8 @@ public:
 	virtual void REG_AfficherPoints() = 0;
 
 };
+
+
+
+
 #endif 
