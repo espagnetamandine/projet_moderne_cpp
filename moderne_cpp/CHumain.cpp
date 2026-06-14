@@ -4,17 +4,9 @@
 #include <iostream>
 using namespace std;
 
-CHumain::CHumain(): CJoueur()
+unique_ptr<CCarte> CHumain::JOU_ChoixCarteAJouer()
 {
-}
-
-CHumain::CHumain(string sJOU_nomJoueur): CJoueur(sJOU_nomJoueur)
-{
-}
-
-unique_ptr<CCarte> CHumain::JOU_choixCarteAJouer()
-{
-	vector<unique_ptr<CCarte>>& upJOU_mainHumain = upJOU_main->getPAQ_cartes();
+	vector<unique_ptr<CCarte>>& upJOU_mainHumain = upJOU_main->PAQ_GetCartes();
 	for (unsigned int uiBoucle = 0; uiBoucle < upJOU_mainHumain.size(); uiBoucle++)
 	{
 		cout << "carte " << uiBoucle << " : " << upJOU_mainHumain[uiBoucle] << endl;

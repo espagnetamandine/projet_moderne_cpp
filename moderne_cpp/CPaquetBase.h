@@ -20,8 +20,8 @@ private :
 public:
 	CPaquetBase() {};
 
-	virtual vector<unique_ptr<CCarte>>& getPAQ_Cartes() { return vcPAQ_paquet; }
-	virtual vector<string>& getPAQ_Couleurs() { return vsPAQ_couleurs; }
+	virtual vector<unique_ptr<CCarte>>& PAQ_GetCartes() { return vcPAQ_paquet; }
+	virtual vector<string>& PAQ_GetCouleurs() { return vsPAQ_couleurs; }
 	virtual void PAQ_Afficher() const;
 	virtual void PAQ_Melanger();
 	virtual unique_ptr<CCarte> PAQ_RetirerCarte(int iIndiceCarte);

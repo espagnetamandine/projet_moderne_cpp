@@ -63,6 +63,12 @@
     <ClCompile Include="CConsole.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="CRegleTarot.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CRegleBelote.cpp">
+      <Filter>Fichiers sources\Regles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h">
@@ -120,6 +126,12 @@
       <Filter>Fichiers d%27en-tête\Joueurs</Filter>
     </ClInclude>
     <ClInclude Include="CRegleManager.h">
+      <Filter>Fichiers d%27en-tête\Regles</Filter>
+    </ClInclude>
+    <ClInclude Include="CRegleTarot.h">
+      <Filter>Fichiers d%27en-tête\Regles</Filter>
+    </ClInclude>
+    <ClInclude Include="CRegleBelote.h">
       <Filter>Fichiers d%27en-tête\Regles</Filter>
     </ClInclude>
   </ItemGroup>

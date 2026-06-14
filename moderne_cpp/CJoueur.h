@@ -13,13 +13,12 @@ protected:
 	string sJOU_nomJoueur;
 	unique_ptr<CPaquet> upJOU_main;
 public:
-	CJoueur();
-	CJoueur(string sJOU_NomJoueur);
-	virtual unique_ptr<CCarte> JOU_choixCarteAJouer() = 0;
-	unique_ptr<CPaquet>& getJOU_main();
-	string getJOU_nomJoueur();
-	void setJOU_main(unique_ptr<CPaquet> upJOU_nouvelleMain);
-	void setJOU_nomJoueur(string sJOU_nouveauNom);
+	CJoueur(string sJOU_NomJoueur = "Joueur");
+	virtual unique_ptr<CCarte> JOU_ChoixCarteAJouer() = 0;
+	unique_ptr<CPaquet>& JOU_GetMain();
+	string JOU_GetNomJoueur();
+	void JOU_SetMain(unique_ptr<CPaquet> upJOU_nouvelleMain);
+	void JOU_SetNomJoueur(string sJOU_nouveauNom);
 	virtual ~CJoueur();
 };
 

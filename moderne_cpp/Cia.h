@@ -5,17 +5,16 @@
 #include "CCarte.h"
 #include "CPaquet.h"
 
-
-
 using namespace std;
 
 class Cia : public CJoueur
 {
 public:
 	Cia();
-	Cia(string sJOU_nomJoueur);
-	unique_ptr<CCarte> JOU_choixCarteAJouer();
+	Cia(string sJOU_nomJoueur = "Joueur IA") : CJoueur(sJOU_nomJoueur) {};
 	~Cia();
+
+	unique_ptr<CCarte> JOU_ChoixCarteAJouer();
 };
 #endif 
 
