@@ -136,7 +136,6 @@
     <ClCompile Include="Cia.cpp" />
     <ClCompile Include="CJoueur.cpp" />
     <ClCompile Include="CRegleTarot.cpp" />
-    <ClCompile Include="CRegleTarot2.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
