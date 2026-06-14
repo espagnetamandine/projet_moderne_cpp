@@ -23,7 +23,7 @@ public:
 
 	// CONSTRUCTEURS ET DESTRUCTEURS
 
-	CJoueur(string sJOU_NomJoueur = "Joueur");
+	CJoueur(string sJOU_nomJoueur = "Joueur");
 	virtual ~CJoueur();
 
 	// METHODES

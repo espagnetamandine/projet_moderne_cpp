@@ -4,7 +4,7 @@ using namespace std;
 
 // CONSTRUCTEURS ET DESTRUCTEURS
 
-CJoueur::CJoueur(string sJOU_NomJoueur) : sJOU_nomJoueur(sJOU_nomJoueur)
+CJoueur::CJoueur(string sJOU_nomJoueur) : sJOU_nomJoueur(sJOU_nomJoueur)
 {
 	upJOU_main = CPaquetManager::PAQ_CreerPaquet("Joueur"); // ou "Main du joueur"
 }

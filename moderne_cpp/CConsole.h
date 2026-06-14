@@ -2,6 +2,9 @@
 #define _CCONSOLE_H
 
 #include "CJeu.h"
+#include "CHumain.h"
+#include "Cia.h"
+#include "CEquipe.h"
 
 #include <string>
 #include <vector>
@@ -38,6 +41,7 @@ public:
 	};
 	void COS_ChoisirJeu();
 	// 
+	void COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer);
 	void COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer);
 
 	void COS_NettoyerEcran() { cout << "\033[2J\033[1;1H" << flush; }

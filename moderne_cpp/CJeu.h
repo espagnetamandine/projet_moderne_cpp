@@ -36,7 +36,7 @@ public:
 
 	string JEU_GetNom() { return sJEU_nom; }
 
-	void JEU_GetNomJoueur(unsigned int uiIdJoueur) { cout << vjJEU_joueurs[uiIdJoueur].get()->JOU_GetNomJoueur(); }
+	string JEU_GetNomJoueur(unsigned int uiIdJoueur) { return vjJEU_joueurs[uiIdJoueur].get()->JOU_GetNomJoueur(); }
 	unsigned int JEU_GetIndiceJoueurCourant() { return uiJEU_IdJoueurCourrant; }
 	void JEU_SetIndiceJoueurCourant(unsigned int uiIndiceJoueur) { uiJEU_IdJoueurCourrant = uiIndiceJoueur; };
 
