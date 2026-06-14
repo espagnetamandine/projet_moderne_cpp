@@ -63,10 +63,10 @@
     <ClCompile Include="CConsole.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CRegleTarot.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="CRegleBelote.cpp">
+      <Filter>Fichiers sources\Regles</Filter>
+    </ClCompile>
+    <ClCompile Include="CRegleTarot2.cpp">
       <Filter>Fichiers sources\Regles</Filter>
     </ClCompile>
     <ClCompile Include="CRegleTarot.cpp">
