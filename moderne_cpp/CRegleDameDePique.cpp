@@ -4,11 +4,11 @@
 
 
 void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
-	for (unsigned int i = 0; i < (paquet->getPAQ_Cartes().size() / joueurs.size()); i++)
+	for (unsigned int i = 0; i < (paquet->PAQ_GetCartes().size() / joueurs.size()); i++)
 	{
 		for (unsigned int j = 0; j < joueurs.size(); j++)
 		{
-			(joueurs[j]->getJOU_main())->PAQ_AjouterCarte(paquet->PAQ_RetirerCarte());
+			(joueurs[j]->JOU_GetMain())->PAQ_AjouterCarte(paquet->PAQ_RetirerCarte());
 		}
 	}
 }
@@ -25,17 +25,17 @@ bool CRegleDameDePique::REG_CarteValide(CCarte& carte) {
 
 
 void CRegleDameDePique::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli) {
-	cout << vJoueurs[uiIndiceJoueurGagnantPli]->getJOU_nomJoueur() << " remporte le pli." << endl;
+	cout << vJoueurs[uiIndiceJoueurGagnantPli]->JOU_GetNomJoueur() << " remporte le pli." << endl;
 }
 
 
 void CRegleDameDePique::REG_AfficherGagnantPartie(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPartie) {
-	cout << "Félicitations " << vJoueurs[uiIndiceJoueurGagnantPartie]->getJOU_nomJoueur() << " vous avez gagné !" << endl;
+	cout << "Félicitations " << vJoueurs[uiIndiceJoueurGagnantPartie]->JOU_GetNomJoueur() << " vous avez gagné !" << endl;
 }
 
 
 void CRegleDameDePique::REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
-	pJoueur->getJOU_main()->PAQ_Afficher();
+	pJoueur->JOU_GetMain()->PAQ_Afficher();
 }
 
 
