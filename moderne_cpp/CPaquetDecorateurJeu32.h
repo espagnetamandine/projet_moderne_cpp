@@ -17,8 +17,8 @@ private:
 	{
 		unsigned int uiCarteValeur;
 
-		vector<unique_ptr<CCarte>>& vcPaquet = getPAQ_Cartes();
-		vector<string>& vsCouleursGlobales = getPAQ_Couleurs();
+		vector<unique_ptr<CCarte>>& vcPaquet = PAQ_GetCartes();
+		vector<string>& vsCouleursGlobales = PAQ_GetCouleurs();
 
 		vector<string> vsCouleursAAjouter = { "Coeur", "Carreau", "Trefle", "Pique" };
 

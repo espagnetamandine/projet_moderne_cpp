@@ -32,7 +32,7 @@ void CJeu::JEU_JouerPartie() {
 			
 			while (uiJEU_IdJoueurCourrant != vjJEU_joueurs.size()) // pli 
 			{
-				carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_choixCarteAJouer();
+				carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
 
 				if (!prJEU_strategieRegle->REG_CarteValide(*carte)) { } //erreur 
 				else

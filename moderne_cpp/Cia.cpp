@@ -7,19 +7,10 @@
 #include "CJoueur.h"
 using namespace std;
 
-
-Cia::Cia(): CJoueur()
-{
-}
-
-Cia::Cia(string sJOU_nomJoueur) : CJoueur(sJOU_nomJoueur)
-{
-}
-
-unique_ptr<CCarte> Cia::JOU_choixCarteAJouer()
+unique_ptr<CCarte> Cia::JOU_ChoixCarteAJouer()
 {
 	// Récupération de la main de l'IA
-	vector<unique_ptr<CCarte>>& upJOU_mainIA= upJOU_main->getPAQ_cartes();
+	vector<unique_ptr<CCarte>>& upJOU_mainIA= upJOU_main->PAQ_GetCartes();
 	
 	// Creation d'un générateur random initialisé avec une graine aléatoire 
 	default_random_engine generator(random_device{}());

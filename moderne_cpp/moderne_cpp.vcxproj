@@ -129,6 +129,7 @@
     <ClCompile Include="CEquipe.cpp" />
     <ClCompile Include="CJeu.cpp" />
     <ClCompile Include="CPaquetDecorateurMainJoueur.h" />
+    <ClCompile Include="CRegleBelote.cpp" />
     <ClCompile Include="CRegleDameDePique.cpp" />
     <ClCompile Include="CPaquetBase.cpp" />
     <ClCompile Include="CHumain.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="CPaquetDecorateurTarot.h" />
     <ClInclude Include="CPaquetManager.h" />
     <ClInclude Include="CRegle.h" />
+    <ClInclude Include="CRegleBelote.h" />
     <ClInclude Include="CRegleDameDePique.h" />
     <ClInclude Include="CRegleTarot.h" />
     <ClInclude Include="CRegleManager.h" />

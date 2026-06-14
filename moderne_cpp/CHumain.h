@@ -8,9 +8,8 @@ using namespace std;
 class CHumain : public CJoueur
 {
 public:
-	CHumain();
-	CHumain(string sJOU_nomJoueur);
-	unique_ptr<CCarte> JOU_choixCarteAJouer();
+	CHumain(string sJOU_nomJoueur = "Joueur humain") : CJoueur(sJOU_nomJoueur) {};
+	unique_ptr<CCarte> JOU_ChoixCarteAJouer();
 	~CHumain();
 };
 #endif 

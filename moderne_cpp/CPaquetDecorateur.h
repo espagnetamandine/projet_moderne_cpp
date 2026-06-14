@@ -19,8 +19,8 @@ public:
 		upPAQ_paquet = move(pPaquet);
 	}
 
-	virtual vector<unique_ptr<CCarte>>& getPAQ_Cartes() { return upPAQ_paquet->getPAQ_Cartes(); }
-	virtual vector<string>& getPAQ_Couleurs() { return upPAQ_paquet->getPAQ_Couleurs(); }
+	virtual vector<unique_ptr<CCarte>>& PAQ_GetCartes() { return upPAQ_paquet->PAQ_GetCartes(); }
+	virtual vector<string>& PAQ_GetCouleurs() { return upPAQ_paquet->PAQ_GetCouleurs(); }
 	virtual void PAQ_Afficher() const { upPAQ_paquet->PAQ_Afficher(); }
 	virtual void PAQ_Melanger() { upPAQ_paquet->PAQ_Melanger(); }
 	virtual unique_ptr<CCarte> PAQ_RetirerCarte(int iIndiceCarte) { return upPAQ_paquet->PAQ_RetirerCarte(iIndiceCarte); }
