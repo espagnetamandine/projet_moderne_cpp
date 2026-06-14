@@ -12,8 +12,8 @@ using namespace std;
 
 class CRegle {
 public:
-	CRegle();
-	~CRegle();
+	CRegle() = default;
+	~CRegle() = default;
 	
 	virtual void REG_DebutPartie() = 0; // appelle constituer équipe
 	virtual bool REG_ConditionFinPartie() = 0;

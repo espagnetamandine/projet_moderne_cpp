@@ -8,8 +8,8 @@ class CRegleDameDePique : public CRegle {
 private:
 
 public:
-	CRegleDameDePique();
-	~CRegleDameDePique();
+	CRegleDameDePique() = default;
+	~CRegleDameDePique() = default;
 	
 	virtual void REG_DebutPartie(); // appelle constituer équipe
 	virtual bool REG_ConditionFinPartie();

@@ -16,12 +16,12 @@ int main(int argc, char* argv[])
 
 	maConsole.COS_ChoisirJeu();
 
-	//unique_ptr<CPaquet> paquetTarot = CPaquetManager::PAQ_creerPaquer("Tarot");
+	//unique_ptr<CPaquet> paquetTarot = CPaquetManager::PAQ_CreerPaquet("Tarot");
 
-	//paquetTarot->PAQ_afficher();
+	//paquetTarot->PAQ_Afficher();
 	//cout << "\n\n\n";
-	//paquetTarot->PAQ_melanger();
-	//paquetTarot->PAQ_afficher();
+	//paquetTarot->PAQ_Melanger();
+	//paquetTarot->PAQ_Afficher();
 
 	//cout << "\n\n\n";
 

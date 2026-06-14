@@ -2,6 +2,17 @@
 #include "CRegleDameDePique.h"
 #include "CEquipe.h"
 
+void CRegleDameDePique::REG_DebutPartie() {} // appelle constituer équipe
+bool CRegleDameDePique::REG_ConditionFinPartie() { return true; }
+void CRegleDameDePique::REG_DebutManche() {} // ajouter 1 à la manche
+bool CRegleDameDePique::REG_ConditionFinManche() { return true; }
+
+void CRegleDameDePique::REG_JoueurSuivant(unsigned int uiIndiceJoueur) {} // n’est jamais appelé directement, change indice joueur courant
+void CRegleDameDePique::REG_ConstituerEquipes() {}
+void CRegleDameDePique::REG_MettreEnPlacePioche() {}
+
+
+
 
 void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
 	for (unsigned int i = 0; i < (paquet->PAQ_GetCartes().size() / joueurs.size()); i++)
@@ -22,6 +33,13 @@ bool CRegleDameDePique::REG_PremiereCarte(CCarte& carte) {
 bool CRegleDameDePique::REG_CarteValide(CCarte& carte) {
 	return true;
 }
+
+
+
+
+unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { return 0; } // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
+void CRegleDameDePique::REG_CalculerPointsPli() {}
+void CRegleDameDePique::REG_CalculerPointsManche() {} // si nécessaire
 
 
 void CRegleDameDePique::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli) {
