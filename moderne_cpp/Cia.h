@@ -10,7 +10,6 @@ using namespace std;
 class Cia : public CJoueur
 {
 public:
-	Cia();
 	Cia(string sJOU_nomJoueur = "Joueur IA") : CJoueur(sJOU_nomJoueur) {};
 	~Cia();
 
