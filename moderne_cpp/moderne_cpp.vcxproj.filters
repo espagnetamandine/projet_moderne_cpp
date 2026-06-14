@@ -69,6 +69,9 @@
     <ClCompile Include="CRegleBelote.cpp">
       <Filter>Fichiers sources\Regles</Filter>
     </ClCompile>
+    <ClCompile Include="CRegleTarot.cpp">
+      <Filter>Fichiers sources\Regles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCarte.h">

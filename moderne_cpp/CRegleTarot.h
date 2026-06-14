@@ -11,16 +11,22 @@ public:
 	CRegleTarot();
 	~CRegleTarot();
 
-	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet> paquet);
-	virtual bool REG_PremiereCarte(unique_ptr<CCarte>& carte);
-	virtual bool REG_CarteValide(unique_ptr<CCarte>& carte);
-	virtual int REG_GagnePli(map<CJoueur*, unique_ptr<CCarte>>& mJEU_pli);
-	virtual void REG_CalculPoints();
-	virtual CJoueur REG_CalculGagnant();
-	virtual bool REG_FinDeManche();
-	virtual bool REG_FinDePartie();
-	virtual void REG_AfficherPoints();
-	virtual void REG_AfficherGagnant();
+	 void REG_DebutPartie();
+	 bool REG_ConditionFinPartie();
+	 void REG_DebutManche();
+	 bool REG_ConditionFinManche();
+	 void REG_JoueurSuivant(unsigned int uiIndiceJueur);
+	 void REG_ConstituerEquipes();
+	 void REG_MettreEnPlacePioche();
+	 void REG_Distribuer();
+	 unsigned int REG_DeterminerIndiceGagnantPli();
+	 bool REG_CarteValide();
+	 void REG_CalculerPointsPli();
+	 void REG_CalculerPointsManche();
+	 void REG_AfficherGagnantPli();
+	 void REG_AfficherGagnantPartie();
+	 void REG_AfficherMainJoueur();
+	 void REG_AfficherPoints();
 };
 #endif
 

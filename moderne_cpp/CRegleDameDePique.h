@@ -21,18 +21,18 @@ public:
 	virtual void REG_MettreEnPlacePioche();
 
 
-	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet> paquet);
-	virtual bool REG_PremiereCarte(const CCarte& carte);
-	virtual bool REG_CarteValide(const CCarte& carte);
+	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet);
+	virtual bool REG_PremiereCarte(CCarte& carte);
+	virtual bool REG_CarteValide(CCarte& carte);
 
-	virtual unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) = 0; // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
+	virtual unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli); // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
 	virtual void REG_CalculPointsPli();
 	virtual void REG_CalculerPointsManche(); // si nécessaire
 
-	virtual void REG_AfficherGagnantPli(unsigned int uiIndiceJoueurGagnantPli);
-	virtual void REG_AfficherGagnantPartie();
-	virtual void REG_AfficherMainJoueur(); // appelle afficherpli
-	virtual void REG_AfficherPoints();
+	virtual void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli);
+	virtual void REG_AfficherGagnantPartie(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPartie);
+	virtual void REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle afficherpli
+	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points);
 
 };
 #endif
