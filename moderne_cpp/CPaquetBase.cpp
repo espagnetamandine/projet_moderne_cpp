@@ -1,5 +1,7 @@
 #include "CPaquetBase.h"
 
+// METHODES
+
 void CPaquetBase::PAQ_Afficher() const
 {
 	unsigned int uiBoucleVector;

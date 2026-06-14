@@ -7,12 +7,18 @@ using namespace std;
 
 class CPaquetDecorateurTarot : public CPaquetDecorateur {
 public:
+
+	// CONSTRUCTEURS ET DESTRUCTEURS
+
 	CPaquetDecorateurTarot(unique_ptr<CPaquet> pPaquet) : CPaquetDecorateur(move(pPaquet))
 	{
 		PAQ_AjouterCartesDeTarot();
 	}
 
 private:
+
+	// METHODES
+
 	void PAQ_AjouterCartesDeTarot()
 	{
 		unsigned int uiCarteValeur;

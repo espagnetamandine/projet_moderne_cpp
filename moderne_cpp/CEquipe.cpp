@@ -1,19 +1,22 @@
 #include "CEquipe.h"
-#include "CJoueur.h"
-
-#include <algorithm>
 
 using namespace std;
 
+// CONSTRUCTEURS ET DESTRUCTEURS
 
 CEquipe::CEquipe(): uiEQU_numeroEquipe(0)
 {
 }
-
 CEquipe::CEquipe(vector<unsigned int> vuiEQU_equipe, unsigned int uiEQU_numeroEquipe) : vuiEQU_equipe(vuiEQU_equipe),
 uiEQU_numeroEquipe(uiEQU_numeroEquipe)
 {
 }
+CEquipe:: ~CEquipe()
+{
+}
+
+// METHODES
+
 vector<unsigned int> CEquipe::getEQU_equipe()
 {
     return vuiEQU_equipe;
@@ -48,8 +51,4 @@ void CEquipe::EQU_supprimerJoueur(unsigned int uiEQU_joueurASupprimer)
     }
     vuiEQU_equipe.erase(itJoueurASupprimer);
 
-}
-
-CEquipe:: ~CEquipe()
-{
 }

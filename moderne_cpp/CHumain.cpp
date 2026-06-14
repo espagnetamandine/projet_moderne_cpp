@@ -1,8 +1,8 @@
 #include "CHumain.h"
-#include "CCarte.h"
-#include <vector>
-#include <iostream>
+
 using namespace std;
+
+// METHODES
 
 unique_ptr<CCarte> CHumain::JOU_ChoixCarteAJouer()
 {
@@ -20,7 +20,4 @@ unique_ptr<CCarte> CHumain::JOU_ChoixCarteAJouer()
 		cin >> uiNumeroCarteChoisie;
 	}
 	return move(upJOU_mainHumain[uiNumeroCarteChoisie]);
-}
-CHumain::~CHumain()
-{
 }

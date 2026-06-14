@@ -14,11 +14,19 @@ using namespace std;
 
 class CPaquetBase : public CPaquet {
 private :
+
+	// ATTRIBUTS 
+
 	vector<unique_ptr<CCarte>> vcPAQ_paquet;
 	vector<string> vsPAQ_couleurs;
 
 public:
+
+	// CONSTRUCTEURS ET DESTRUCTEURS
+
 	CPaquetBase() {};
+
+	// METHODES
 
 	virtual vector<unique_ptr<CCarte>>& PAQ_GetCartes() { return vcPAQ_paquet; }
 	virtual vector<string>& PAQ_GetCouleurs() { return vsPAQ_couleurs; }

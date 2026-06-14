@@ -1,11 +1,8 @@
 #include "Cia.h"
-#include "CCarte.h"
-#include "CPaquet.h"
-#include <random>
-#include <algorithm>
-#include <vector>
-#include "CJoueur.h"
+
 using namespace std;
+
+// METHODES
 
 unique_ptr<CCarte> Cia::JOU_ChoixCarteAJouer()
 {
@@ -24,7 +21,4 @@ unique_ptr<CCarte> Cia::JOU_ChoixCarteAJouer()
 	// Retourne la carte avec l'indexe iNuméroAleatoire ( retourne une carte aléatoire)
 	return move(upJOU_mainIA[iNumeroAleatoire]);
 
-}
-Cia::~Cia()
-{
 }

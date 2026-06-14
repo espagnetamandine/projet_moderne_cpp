@@ -7,12 +7,18 @@ using namespace std;
 
 class CPaquetDecorateurAjouterJoker : public CPaquetDecorateur {
 public:
+
+	// CONSTRUCTEURS ET DESTRUCTEURS
+
 	CPaquetDecorateurAjouterJoker(unique_ptr<CPaquet> pPaquet) : CPaquetDecorateur(move(pPaquet))
 	{
 		PAQ_AjouterJoker();
 	}
 
 private:
+
+	// METHODES
+
 	void PAQ_AjouterJoker()
 	{
 		vector<unique_ptr<CCarte>>& vcPaquet = PAQ_GetCartes();
