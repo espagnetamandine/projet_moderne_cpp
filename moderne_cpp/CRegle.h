@@ -11,10 +11,15 @@
 using namespace std;
 
 class CRegle {
+private :
+	unsigned int uiNbJoueurPossible;
+
 public:
 	CRegle() = default;
 	~CRegle() = default;
 	
+	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs) = 0;
+
 	virtual void REG_DebutPartie() = 0; // appelle constituer équipe
 	virtual bool REG_ConditionFinPartie() = 0;
 	virtual void REG_DebutManche() = 0; // ajouter 1 à la manche

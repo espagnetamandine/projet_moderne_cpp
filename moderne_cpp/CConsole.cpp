@@ -25,22 +25,46 @@ void CConsole::COS_ChoisirJeu()
 	}
 	if (uiChoixJeu > 0)
 	{
-		/*unique_ptr<CJeu> pjJeuALancer;
-		pjJeuALancer = CJeu(vsCOS_listeJeu[uiChoixJeu - 1]);
-		COS_LancerJeu(move(pjJeuALancer));*/
-		COS_LancerJeu();
+		unique_ptr<CJeu> pjJeuALancer = make_unique<CJeu>(vsCOS_listeJeu[uiChoixJeu - 1]);
+		COS_LancerJeu(move(pjJeuALancer));
+		//COS_LancerJeu();
 	}
 }
 
-void CConsole::COS_LancerJeu()
+void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
 {
 	COS_NettoyerEcran();
+	unsigned int uiNbJoueur, uiNbHumain;
 
 	cout << "----------------------------------------------------------" << endl;
-	cout << "Debut du jeu : " << GRAS << "pjJeuALancer.JEU_GetNom()" << RESET << endl;
+	cout << "Debut du jeu : " << GRAS << pjJeuALancer->JEU_GetNom() << RESET << endl;
 	cout << "----------------------------------------------------------\n" << endl;
 
-	cout << "A combien de joueurs souhaitez vous jouer ? (Choix possible pour le jeu :";
+	cout << "A combien de joueurs souhaitez vous jouer ? : ";
+	cin >> uiNbJoueur;
+
+	while (!pjJeuALancer->JEU_SetNombreJoueur(uiNbJoueur))
+	{
+		cout << "ERREUR : Nombre de joueur impossible pour ce jeu. Veuillez resaisir : ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> uiNbJoueur;
+	}
+
+	cout << "\n\nVous etes " << uiNbJoueur << " a jouer !" << endl;
+
+	cout << "Combien d'humain joueront ? : ";
+	cin >> uiNbHumain;
+
+	while (uiNbHumain > uiNbJoueur || uiNbHumain == 0)
+	{
+		cout << "ERREUR : Nombre incoherent. Veuillez resaisir : ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> uiNbHumain;
+	}
+
+	cout << "\n\nIl y aura donc " << uiNbHumain << " humains et " << uiNbJoueur - uiNbHumain << " IA." << endl;
 }
 
 void CConsole::COS_AttendreJoueurSuivant()

@@ -6,7 +6,7 @@
 #include "CRegle.h"
 #include "CRegleDameDePique.h"
 #include "CRegleTarot.h"
-//#include "CRegleBelote.h"
+#include "CRegleBelote.h"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ public:
 		}
 		else if (sTypeJeu == "Belote")
 		{
-			//pRegle = make_unique<CRegleBelote>(move(pRegle));
+			pRegle = make_unique<CRegleBelote>();
 		}
 		else
 		{

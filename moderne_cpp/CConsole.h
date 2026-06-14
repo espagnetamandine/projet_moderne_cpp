@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -36,8 +37,8 @@ public:
 		});
 	};
 	void COS_ChoisirJeu();
-	// unique_ptr<CJeu> pjJeuALancer
-	void COS_LancerJeu();
+	// 
+	void COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer);
 
 	void COS_NettoyerEcran() { cout << "\033[2J\033[1;1H" << flush; }
 	void COS_AttendreJoueurSuivant();

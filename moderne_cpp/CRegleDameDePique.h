@@ -34,6 +34,15 @@ public:
 	virtual void REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle afficherpli
 	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points);
 
+	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs)
+	{
+		if (uiNbJoueurs != 4)
+		{
+			return false;
+		}
+		uiNbJoueurs = 4;
+		return true;
+	};
 };
 #endif
 

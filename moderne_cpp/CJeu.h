@@ -31,9 +31,6 @@ private:
 	unsigned int uiJEU_compteurManche;
 	unsigned int uiJEU_compteurPli;
 
-
-
-
 public:
 	CJeu(string sNom);
 
@@ -42,7 +39,7 @@ public:
 	void JEU_GetNomJoueur(unsigned int uiIdJoueur) { cout << vjJEU_joueurs[uiIdJoueur].get()->JOU_GetNomJoueur(); }
 	unsigned int JEU_GetIndiceJoueurCourant() { return uiJEU_IdJoueurCourrant; }
 	void JEU_SetIndiceJoueurCourant(unsigned int uiIndiceJoueur) { uiJEU_IdJoueurCourrant = uiIndiceJoueur; };
-	
+
 	void JEU_IncrementerCompteurManche() { uiJEU_compteurManche++; }
 	void JEU_IncrementerCompteurPli() { uiJEU_compteurPli++; }
 	
@@ -54,5 +51,13 @@ public:
 	void JEU_AfficherEquipe(); // appelle à afficher équipe de règles
 	void JEU_AfficherPli();
 	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle à afficher main joueur de règle car ça affiche la main, le nom du joueur, le pli et les équipes l’interface peut changer en fonction des jeux
+
+	// PLUS
+
+	bool JEU_SetNombreJoueur(unsigned int uiNbJoueurs) {
+		return prJEU_strategieRegle->REG_SetNbJoueur(uiNbJoueurs);
+	}
+
+
 };
 #endif 
