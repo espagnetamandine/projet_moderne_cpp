@@ -26,7 +26,7 @@ public:
 	virtual bool REG_CarteValide(CCarte& carte);
 
 	virtual unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli); // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
-	virtual void REG_CalculPointsPli();
+	virtual void REG_CalculerPointsPli();
 	virtual void REG_CalculerPointsManche(); // si nécessaire
 
 	virtual void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli);

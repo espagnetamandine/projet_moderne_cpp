@@ -39,7 +39,7 @@ public:
 
 	string JEU_GetNom() { return sJEU_nom; }
 
-	void JEU_GetNomJoueur(unsigned int uiIdJoueur) { cout << vjJEU_joueurs[uiIdJoueur].get()->getJOU_nomJoueur(); }
+	void JEU_GetNomJoueur(unsigned int uiIdJoueur) { cout << vjJEU_joueurs[uiIdJoueur].get()->JOU_GetNomJoueur(); }
 	unsigned int JEU_GetIndiceJoueurCourant() { return uiJEU_IdJoueurCourrant; }
 	void JEU_SetIndiceJoueurCourant(unsigned int uiIndiceJoueur) { uiJEU_IdJoueurCourrant = uiIndiceJoueur; };
 	
@@ -53,6 +53,6 @@ public:
 	void JEU_AfficherPoints(); // appelle à afficher points de règles
 	void JEU_AfficherEquipe(); // appelle à afficher équipe de règles
 	void JEU_AfficherPli();
-	void JEU_AfficherMainJoueur(); // appelle à afficher main joueur de règle car ça affiche la main, le nom du joueur, le pli et les équipes l’interface peut changer en fonction des jeux
+	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle à afficher main joueur de règle car ça affiche la main, le nom du joueur, le pli et les équipes l’interface peut changer en fonction des jeux
 };
 #endif 

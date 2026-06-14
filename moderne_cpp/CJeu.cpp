@@ -29,7 +29,11 @@ void CJeu::JEU_JouerPartie() {
 		prJEU_strategieRegle->REG_DebutManche();
 		while (!prJEU_strategieRegle->REG_ConditionFinManche()) // manche
 		{
-			
+			//
+			uiJEU_IdJoueurCourrant = 0;
+			vuJEU_idJoueurPli.clear();
+			pJEU_pli->PAQ_GetCartes().clear();
+			//
 			while (uiJEU_IdJoueurCourrant != vjJEU_joueurs.size()) // pli 
 			{
 				carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
@@ -43,11 +47,46 @@ void CJeu::JEU_JouerPartie() {
 				}
 			}
 			uiIndiceJoueurGagnant = prJEU_strategieRegle->REG_DeterminerIndiceGagnantPli(pJEU_pli, vuJEU_idJoueurPli);
-			prJEU_strategieRegle->REG_AfficherGagnantPli(uiIndiceJoueurGagnant);
+			prJEU_strategieRegle->REG_AfficherGagnantPli(vjJEU_joueurs, uiIndiceJoueurGagnant);
+			prJEU_strategieRegle->REG_CalculerPointsPli();
+		}
+		prJEU_strategieRegle->REG_CalculerPointsManche();
+	}
+	prJEU_strategieRegle->REG_AfficherGagnantPartie(vjJEU_joueurs, uiIndiceJoueurGagnant);
+}
+
+
+void CJeu::JEU_AfficherPoints() {
+	prJEU_strategieRegle->REG_AfficherPoints(mJEU_points);
+}
+
+void CJeu::JEU_AfficherEquipe() {
+	for (auto it = mJEU_points.begin(); it != mJEU_points.end(); ++it)
+	{
+		vector<unsigned int> numerosJoueurs = it->first->getEQU_equipe();
+		for (unsigned int numeroJoueur : numerosJoueurs) {
+			cout << vjJEU_joueurs[numeroJoueur]->JOU_GetNomJoueur() << endl;
 		}
 	}
-	prJEU_strategieRegle->REG_AfficherGagnantPartie();
 }
+
+
+//pas fini, ne fonctionne pas pour le moment 
+void CJeu::JEU_AfficherPli() {             
+	//auto& cartesDuPli = pJEU_pli->getPAQ_Cartes();
+	vector<unique_ptr<CCarte>>& cartesDuPli = pJEU_pli->PAQ_GetCartes();
+	for (unsigned int i = 0; i < vuJEU_idJoueurPli.size(); i++) {
+		//cout << vjJEU_joueurs[i].get()->getJOU_nomJoueur() << " : " << *(cartesDuPli[i]);
+	}
+	//pJEU_pli->PAQ_Afficher();
+}
+
+// appelle à afficher main joueur de regle car ça affiche la main, le nom du joueur, le pli et les equipes l'interface peut changer en fonction des jeux
+void CJeu::JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
+	prJEU_strategieRegle->REG_AfficherMainJoueur(pJoueur);
+}
+
+
 
 
 
