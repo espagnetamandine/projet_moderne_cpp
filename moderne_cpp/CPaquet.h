@@ -1,8 +1,13 @@
-
 #ifndef _CPAQUET_H
 #define _CPAQUET_H
 
 #include "CCarte.h"
+
+#include <vector>
+#include <memory>
+#include <string>
+
+using namespace std;
 
 class CPaquet {
 

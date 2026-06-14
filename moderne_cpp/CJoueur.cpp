@@ -1,9 +1,9 @@
 #include "CJoueur.h"
 #include "CPaquet.h"
+
 using namespace std;
 
-
-CJoueur::CJoueur(string sJOU_nomJoueur = "Joueur") :sJOU_nomJoueur(sJOU_nomJoueur)
+CJoueur::CJoueur(string sJOU_NomJoueur) : sJOU_nomJoueur(sJOU_nomJoueur)
 {
 	upJOU_main = CPaquetManager::PAQ_CreerPaquet("Joueur"); // ou "Main du joueur"
 }
