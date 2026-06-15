@@ -13,7 +13,7 @@ using namespace std;
 class CRegle {
 protected :
 	unsigned int uiNbJoueurPossible;
-	bool bPremiereCarte; // initialisé à true
+	//bool bPremiereCarte; // initialisé à true
 
 public:
 	CRegle() = default;
@@ -44,8 +44,5 @@ public:
 	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points) = 0;
 
 };
-
-
-
 
 #endif 
