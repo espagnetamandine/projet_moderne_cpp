@@ -2,22 +2,48 @@
 
 bool CRegleBelote::REG_SetNbJoueur(unsigned int uiNbJoueurs)
 {
-	if (uiNbJoueurs == 3 || uiNbJoueurs == 4)
+	if (uiNbJoueurs == 4)
 	{
-		uiNbJoueurPossible = uiNbJoueurs;
 		return true;
 	}
 
 	return false;
 }
 
-void CRegleBelote::REG_DebutPartie() {}; // appelle constituer équipe
+void CRegleBelote::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points){
+    if (paquet != nullptr) {
+        paquet->PAQ_Melanger();
+    }
+
+    REG_ConstituerEquipes(joueurs, points);
+};
+
+
 bool CRegleBelote::REG_ConditionFinPartie() { return true; };
-void CRegleBelote::REG_DebutManche() {}; // ajouter 1 à la manche
+void CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {}; // ajouter 1 à la manche
 bool CRegleBelote::REG_ConditionFinManche() { return true; };
 
 void CRegleBelote::REG_JoueurSuivant(unsigned int uiIndiceJoueur) {}; // n’est jamais appelé directement, change indice joueur courant
-void CRegleBelote::REG_ConstituerEquipes() {};
+void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points)
+{
+    if (joueurs.size() == 4)
+    {
+        unique_ptr<CEquipe> peEquipeUne = make_unique<CEquipe>("Equipe 1");
+        peEquipeUne->EQU_ajouterJoueur(0);
+        peEquipeUne->EQU_ajouterJoueur(2);
+
+        unique_ptr<CEquipe> peEquipeDeux = make_unique<CEquipe>("Equipe 2");
+        peEquipeDeux->EQU_ajouterJoueur(1);
+        peEquipeDeux->EQU_ajouterJoueur(3);
+
+        points[move(peEquipeUne)] = 0;
+        points[move(peEquipeDeux)] = 0;
+
+        cout << "Voici les équipes créées :" << endl;
+        cout << " -> Equipe 1 : " << joueurs[0]->JOU_GetNomJoueur() << " & " << joueurs[2]->JOU_GetNomJoueur() << endl;
+        cout << " -> Equipe 2 : " << joueurs[1]->JOU_GetNomJoueur() << " & " << joueurs[3]->JOU_GetNomJoueur() << endl;
+    }
+};
 void CRegleBelote::REG_MettreEnPlacePioche() {};
 
 void CRegleBelote::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {};

@@ -6,9 +6,6 @@
 
 class CRegleBelote : public CRegle {
 private:
-	// DEBUT PLUS
-
-	unsigned int uiNbJoueurPossible;
 
 public:
 
@@ -19,13 +16,18 @@ public:
 	CRegleBelote() = default;
 	~CRegleBelote() = default;
 
-	virtual void REG_DebutPartie(); // appelle constituer équipe
+	virtual void REG_DebutPartie(
+		unique_ptr<CPaquet>& paquet,
+		vector<unique_ptr<CJoueur>>& joueurs,
+		map<unique_ptr<CEquipe>, int>& points
+	);
+
 	virtual bool REG_ConditionFinPartie();
-	virtual void REG_DebutManche(); // ajouter 1 à la manche
+	virtual void REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& point); // ajouter 1 à la manche
 	virtual bool REG_ConditionFinManche();
 
 	virtual void REG_JoueurSuivant(unsigned int uiIndiceJoueur); // n’est jamais appelé directement, change indice joueur courant
-	virtual void REG_ConstituerEquipes();
+	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);
 	virtual void REG_MettreEnPlacePioche();
 
 	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet);
