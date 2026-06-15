@@ -4,6 +4,7 @@
 #include "CPaquetManager.h"
 #include "CRegleManager.h"
 #include <iostream>
+#include <cstdlib>
 
 CJeu::CJeu(string sNom) {
 	sJEU_nom = sNom;
@@ -14,31 +15,31 @@ CJeu::CJeu(string sNom) {
 	pJEU_pli = CPaquetManager::PAQ_CreerPaquet("Main du joueur");
 	
 	uiJEU_IdJoueurCourrant = 0;
-	uiJEU_compteurManche = 0;
-	uiJEU_compteurPli = 0;
 }
 
 
 void CJeu::JEU_JouerPartie() {
 	unique_ptr<CCarte> carte;
-	unsigned int uiIndiceJoueurGagnant = 100; // grande valeur car pas -1
+	unsigned int uiIndiceJoueurGagnant = 100; // grande valeur car pas -1 (unsigned int) mais doit être different des numeros de joueurs 
 
-	prJEU_strategieRegle->REG_DebutPartie();
+	prJEU_strategieRegle->REG_DebutPartie(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points);
 	while (!prJEU_strategieRegle->REG_ConditionFinPartie()) // partie
 	{
-		prJEU_strategieRegle->REG_DebutManche();
+		// debut manche
+		unsigned int uiIndicePremierJoueur = prJEU_strategieRegle->REG_DebutManche(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points, uiJEU_IdJoueurCourrant);
+		uiJEU_IdJoueurCourrant = uiIndicePremierJoueur;
+
 		while (!prJEU_strategieRegle->REG_ConditionFinManche()) // manche
 		{
-			//
-			uiJEU_IdJoueurCourrant = 0;
+			// réinitialiser le pli
 			vuJEU_idJoueurPli.clear();
 			pJEU_pli->PAQ_GetCartes().clear();
-			//
-			while (uiJEU_IdJoueurCourrant != vjJEU_joueurs.size()) // pli 
+
+			while (pJEU_pli->PAQ_GetCartes().size() != vjJEU_joueurs.size()) // pli 
 			{
 				carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
 
-				if (!prJEU_strategieRegle->REG_CarteValide(*carte)) { } //erreur 
+				if (!prJEU_strategieRegle->REG_CarteValide(*carte, vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain())) { } //erreur 
 				else
 				{
 					pJEU_pli->PAQ_AjouterCarte(move(carte));
@@ -85,35 +86,3 @@ void CJeu::JEU_AfficherPli() {
 void CJeu::JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
 	prJEU_strategieRegle->REG_AfficherMainJoueur(pJoueur);
 }
-
-
-
-
-
-//void CJeu::JEU_JouerPartie() {
-//	unique_ptr<CCarte> carte;
-//	prJEU_strategieRegle->REG_DistribuerCartes(vjJEU_joueurs, move(ppJEU_paquetDeCartes));
-//	while (!prJEU_strategieRegle->REG_FinDePartie()) // partie
-//	{
-//		while (!prJEU_strategieRegle->REG_FinDeManche()) // manche
-//		{
-//			while (uiJEU_IdxJoueurCourrant != vjJEU_joueurs.size()) // pli 
-//			{
-//				carte = vjJEU_joueurs[uiJEU_IdxJoueurCourrant]->JOUEUR_Choix_Carte_A_Jouer();
-//
-//				if (uiJEU_IdxJoueurCourrant == 0 && !prJEU_strategieRegle->REG_PremiereCarte(*carte)) { /* erreur*/ }
-//
-//				else if (!prJEU_strategieRegle->REG_CarteValide(*carte)) { /*erreur*/ }
-//
-//				else
-//				{
-//					mJEU_pli[vjJEU_joueurs[uiJEU_IdxJoueurCourrant].get()] = move(carte);
-//					prJEU_strategieRegle->REG_GagnePli(mJEU_pli); //calcule les points 
-//				}
-//			}
-//		}
-//		prJEU_strategieRegle->REG_AfficherPoints(); // points de la manche 
-//	}
-//	prJEU_strategieRegle->REG_AfficherPoints(); // points de la partie
-//	prJEU_strategieRegle->REG_AfficherGagnant();
-//}
