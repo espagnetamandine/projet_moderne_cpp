@@ -28,7 +28,7 @@ public:
 		}
 		else if (sTypeJeu == "Belote")
 		{
-			//pRegle = make_unique<CRegleBelote>();
+			pRegle = make_unique<CRegleBelote>();
 		}
 		else
 		{

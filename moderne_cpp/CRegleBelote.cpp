@@ -20,7 +20,7 @@ void CRegleBelote::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_pt
 
 
 bool CRegleBelote::REG_ConditionFinPartie() { return true; };
-void CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {}; // ajouter 1 à la manche
+unsigned int CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant) { return 0; }; // ajouter 1 à la manche
 bool CRegleBelote::REG_ConditionFinManche() { return true; };
 
 void CRegleBelote::REG_JoueurSuivant(unsigned int uiIndiceJoueur) {}; // n’est jamais appelé directement, change indice joueur courant
@@ -28,16 +28,15 @@ void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, m
 {
     if (joueurs.size() == 4)
     {
-        unique_ptr<CEquipe> peEquipeUne = make_unique<CEquipe>("Equipe 1");
-        peEquipeUne->EQU_ajouterJoueur(0);
-        peEquipeUne->EQU_ajouterJoueur(2);
 
-        unique_ptr<CEquipe> peEquipeDeux = make_unique<CEquipe>("Equipe 2");
-        peEquipeDeux->EQU_ajouterJoueur(1);
-        peEquipeDeux->EQU_ajouterJoueur(3);
+        vector<unsigned int> uiNumerosJoueursUne = { 0, 2 };
+        vector<unsigned int> uiNumerosJoueursDeux = { 1, 3 };
 
-        points[move(peEquipeUne)] = 0;
-        points[move(peEquipeDeux)] = 0;
+        unique_ptr<CEquipe> peEquipeUne = make_unique<CEquipe>(uiNumerosJoueursUne, 1);
+        unique_ptr<CEquipe> peEquipeDeux = make_unique<CEquipe>(uiNumerosJoueursDeux, 2);
+
+        points.emplace(move(peEquipeUne), 0);
+        points.emplace(move(peEquipeDeux), 0);
 
         cout << "Voici les équipes créées :" << endl;
         cout << " -> Equipe 1 : " << joueurs[0]->JOU_GetNomJoueur() << " & " << joueurs[2]->JOU_GetNomJoueur() << endl;
@@ -47,8 +46,7 @@ void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, m
 void CRegleBelote::REG_MettreEnPlacePioche() {};
 
 void CRegleBelote::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {};
-bool CRegleBelote::REG_PremiereCarte(CCarte& carte) { return true; };
-bool CRegleBelote::REG_CarteValide(CCarte& carte) { return true; };
+bool CRegleBelote::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur) { return true; };
 
 unsigned int CRegleBelote::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { return 1; }; // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
 void CRegleBelote::REG_CalculerPointsPli() {};

@@ -60,12 +60,14 @@ bool CRegleDameDePique::REG_ConditionFinManche() { return true; }
 
 
 void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {
-	//for (unsigned int i = 0; i < joueurs.size(); i++) {
-	//	vector<unsigned int> uiNumerosJoueurs;
-	//	uiNumerosJoueurs.push_back(i); 
-	//	unique_ptr<CEquipe> pEquipe = make_unique<CEquipe>(uiNumerosJoueurs, i);
-	//	points.insert({ move(pEquipe), i });
-	//}
+	for (unsigned int i = 0; i < joueurs.size(); i++) {
+		vector<unsigned int> uiNumerosJoueurs;
+		uiNumerosJoueurs.push_back(i);
+
+		unique_ptr<CEquipe> pEquipe = make_unique<CEquipe>(uiNumerosJoueurs, i + 1);
+
+		points.emplace(move(pEquipe), 0);
+	}
 }
 
 // A FAIRE OU A SUPPRIMER ????
