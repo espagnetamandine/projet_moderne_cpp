@@ -28,9 +28,6 @@ private:
 	map<unique_ptr<CEquipe>, int> mJEU_points;
 	unsigned int uiJEU_IdJoueurCourrant;
 
-	unsigned int uiJEU_compteurManche;
-	unsigned int uiJEU_compteurPli;
-
 public:
 	CJeu(string sNom);
 
@@ -40,9 +37,6 @@ public:
 	unsigned int JEU_GetIndiceJoueurCourant() { return uiJEU_IdJoueurCourrant; }
 	void JEU_SetIndiceJoueurCourant(unsigned int uiIndiceJoueur) { uiJEU_IdJoueurCourrant = uiIndiceJoueur; };
 
-	void JEU_IncrementerCompteurManche() { uiJEU_compteurManche++; }
-	void JEU_IncrementerCompteurPli() { uiJEU_compteurPli++; }
-	
 	void JEU_SetStrategieRegle(unique_ptr<CRegle> regle) { prJEU_strategieRegle = move(regle); }
 	void JEU_AjouterJoueur(unique_ptr<CJoueur> ujJoueurAAjouter) { vjJEU_joueurs.push_back(move(ujJoueurAAjouter)); }
 	void JEU_JouerPartie(); 
