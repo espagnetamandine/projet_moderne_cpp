@@ -12,9 +12,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	CConsole maConsole;
-
-	maConsole.COS_ChoisirJeu();
+	CConsole::COS_ChoisirJeu();
 
 	//unique_ptr<CPaquet> paquetTarot = CPaquetManager::PAQ_CreerPaquet("Tarot");
 

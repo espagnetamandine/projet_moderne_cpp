@@ -1,6 +1,9 @@
 #include "CRegleTarot.h"
+#include "CPaquet.h"
 #include "CJoueur.h"
 #include "CCarte.h"
+#include "CEquipe.h"
+#include "CConsole.h"
 
 //void CRegleTarot::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet> paquet) {
 //	for (unsigned int uiBoucle = 0; uiBoucle < (paquet.getPAQ_cartes().size() / vjREG_joueurs.size()); i++) //pas la methode dans CPaquet 

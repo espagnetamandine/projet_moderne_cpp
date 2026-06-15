@@ -2,7 +2,16 @@
 #define _CREGLETAROT_H
 
 #include "CRegle.h"
+
 #include <map>
+#include <string>
+#include <vector>
+#include <memory>
+
+class CPaquet;
+class CJoueur;
+class CCarte;
+class CEquipe;
 
 class CRegleTarot : public CRegle {
 private:

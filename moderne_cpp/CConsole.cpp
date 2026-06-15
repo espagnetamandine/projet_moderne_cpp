@@ -1,6 +1,33 @@
 #include "CConsole.h"
+#include "CJeu.h"
+#include "CHumain.h"
+#include "Cia.h"
+#include "CEquipe.h"
+#include "CPaquet.h"
 
 using namespace std;
+
+/**********************************************************************/
+/*                             ATTRIBUTS                              */
+/**********************************************************************/
+
+vector<string> CConsole::vsCOS_listeJeu = { "Dame de pique", "Tarot", "Belote" };
+
+const string CConsole::RESET = "\033[0m";
+const string CConsole::ROUGE = "\033[31m";
+const string CConsole::VERT = "\033[32m";
+const string CConsole::JAUNE = "\033[33m";
+const string CConsole::BLEU = "\033[34m";
+const string CConsole::MAGENTA = "\033[35m";
+const string CConsole::CYAN = "\033[36m";
+const string CConsole::GRAS = "\033[1m";
+
+const string CConsole::BG_BLANC = "\033[47m";
+const string CConsole::BG_NOIR = "\033[40m";
+
+/**********************************************************************/
+/*                              METHODES                              */
+/**********************************************************************/
 
 void CConsole::COS_ChoisirJeu()
 {
@@ -31,7 +58,7 @@ void CConsole::COS_ChoisirJeu()
 	{
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		unique_ptr<CJeu> pjJeuALancer = make_unique<CJeu>(vsCOS_listeJeu[uiChoixJeu - 1]);
-		COS_PreparerJeu(move(pjJeuALancer));
+		CConsole::COS_PreparerJeu(move(pjJeuALancer));
 	}
 }
 
@@ -79,7 +106,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 	for (uiBoucle = 0; uiBoucle < uiNbHumain; uiBoucle++)
 	{
 		string sNom = "";
-		cout << "Veuillez ecrire le prenom du joueur N°"<< uiBoucle + 1 <<" : ";
+		cout << "Veuillez ecrire le prenom du joueur N°" << uiBoucle + 1 << " : ";
 
 		getline(cin, sNom);
 
@@ -88,7 +115,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 
 	for (uiBoucle = uiNbHumain; uiBoucle < uiNbJoueur; uiBoucle++)
 	{
-		string sNom = "Joueur IA " + to_string(uiBoucle + 1 - uiNbHumain);;
+		string sNom = "Joueur IA " + to_string(uiBoucle + 1 - uiNbHumain);
 		pjJeuALancer->JEU_AjouterJoueur(make_unique<Cia>(sNom));
 	}
 
@@ -104,7 +131,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin.get();
 
-	COS_LancerJeu(move(pjJeuALancer));
+	CConsole::COS_LancerJeu(move(pjJeuALancer));
 }
 
 void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
@@ -123,14 +150,40 @@ void CConsole::COS_AttendreJoueurSuivant()
 	COS_NettoyerEcran();
 
 	cout << "----------------------------------------------------------" << endl;
-	cout << "C'est au tour de :" << GRAS << "JEU_GetNomJoueur()" << RESET;
+	cout << GRAS << "                    JOUEUR SUIVANT                        " << RESET << endl;
 	cout << "----------------------------------------------------------\n" << endl;
 
-	cout << "Veuillez passez l'ecran au prochain joueur.\n";
+	cout << "Veuillez passer l'ecran au prochain joueur.\n";
 	cout << "Une fois fait, veuillez presser ENTREE pour continuer.\n";
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin.get();
 
 	COS_NettoyerEcran();
+}
+
+void CConsole::COS_AfficherEcranSecretJoueur(
+	const string& sNomJoueur,
+	const unique_ptr<CPaquet>& pMain,
+	unsigned int uiNumeroEquipe = 0,
+	int iScoreEquipe = 0)
+{
+	CConsole::COS_AttendreJoueurSuivant();
+
+	cout << "----------------------------------------------------------" << endl;
+	cout << " Joueur : " << GRAS << sNomJoueur << RESET << endl;
+	if (uiNumeroEquipe != 0 )
+	{
+		cout << BLEU << " Equipe : " << uiNumeroEquipe << RESET;
+	}
+	if (uiNumeroEquipe != 0)
+	{
+		cout << BLEU << " Vous avez " << iScoreEquipe << " points." << RESET;
+	}
+	cout << "\n----------------------------------------------------------\n" << endl;
+
+	cout << "Voici votre main: " << endl;
+	if (pMain != nullptr) {
+		pMain->PAQ_AfficherSansCouleurs();
+	}
 }

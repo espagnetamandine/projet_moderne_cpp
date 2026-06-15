@@ -2,19 +2,30 @@
 #define _CREGLEBelote_H
 
 #include "CRegle.h"
+
 #include <map>
+#include <string>
+#include <vector>
+#include <memory>
+
+class CPaquet;
+class CJoueur;
+class CCarte;
+class CEquipe;
 
 class CRegleBelote : public CRegle {
 private:
+	string sREG_Atout;
 
-public:
+	void REG_DistribuerCinqCartes(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs);
+	int REG_PremierTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const CCarte& carteDuMilieu, map<unique_ptr<CEquipe>, int>& points);
+	int REG_DeuxiemeTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const string& sCouleurRetourne);
 
-	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs);
-
-	// FIN PLUS
 public:
 	CRegleBelote() = default;
 	~CRegleBelote() = default;
+
+	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs);
 
 	virtual void REG_DebutPartie(
 		unique_ptr<CPaquet>& paquet,
@@ -22,7 +33,7 @@ public:
 		map<unique_ptr<CEquipe>, int>& points
 	);
 
-	virtual bool REG_ConditionFinPartie();
+	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points);
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant);
 	virtual bool REG_ConditionFinManche();
 

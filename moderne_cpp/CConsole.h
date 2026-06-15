@@ -1,11 +1,6 @@
 #ifndef _CCONSOLE_H
 #define _CCONSOLE_H
 
-#include "CJeu.h"
-#include "CHumain.h"
-#include "Cia.h"
-#include "CEquipe.h"
-
 #include <string>
 #include <vector>
 #include <iostream>
@@ -13,41 +8,42 @@
 
 using namespace std;
 
+class CJeu;
+class CHumain;
+class Cia;
+class CEquipe;
+class CPaquet;
+
 class CConsole {
 private:
-	vector<string> vsCOS_listeJeu;
+	static vector<string> vsCOS_listeJeu;
 
-	// Code ANSI
-	const string RESET = "\033[0m";
-	const string ROUGE = "\033[31m";
-	const string VERT = "\033[32m";
-	const string JAUNE = "\033[33m";
-	const string BLEU = "\033[34m";
-	const string MAGENTA = "\033[35m";
-	const string CYAN = "\033[36m";
-	const string GRAS = "\033[1m";
+	// Code ANSI statiques et constants
+	static const string RESET;
+	static const string ROUGE;
+	static const string VERT;
+	static const string JAUNE;
+	static const string BLEU;
+	static const string MAGENTA;
+	static const string CYAN;
+	static const string GRAS;
 
-	const string BG_BLANC = "\033[47m";
-	const string BG_NOIR = "\033[40m";
+	static const string BG_BLANC;
+	static const string BG_NOIR;
 
 public:
-	CConsole()
-	{
-		vsCOS_listeJeu.insert(vsCOS_listeJeu.end(), {
-			"Dame de pique",
-			"Tarot",
-			"Belote",
-		});
-	};
-	void COS_ChoisirJeu();
-	// 
-	void COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer);
-	void COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer);
+	static void COS_ChoisirJeu();
+	static void COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer);
+	static void COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer);
+	static void COS_NettoyerEcran() { cout << "\033[2J\033[1;1H" << flush; }
+	static void COS_AttendreJoueurSuivant();
 
-	void COS_NettoyerEcran() { cout << "\033[2J\033[1;1H" << flush; }
-	void COS_AttendreJoueurSuivant();
-
+	static void COS_AfficherEcranSecretJoueur(
+		const string& sNomJoueur,
+		const unique_ptr<CPaquet>& pMain,
+		unsigned int uiNumeroEquipe,
+		int iScoreEquipe
+	);
 };
 
-
-#endif 
+#endif

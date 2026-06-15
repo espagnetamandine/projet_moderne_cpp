@@ -1,8 +1,8 @@
 #ifndef _CREGLE_H
 #define _CREGLE_H
 
-#include "CCarte.h"
 #include "CPaquet.h"
+#include "CConsole.h"
 #include "CJoueur.h"
 #include "CEquipe.h"
 
@@ -13,7 +13,6 @@ using namespace std;
 class CRegle {
 protected :
 	unsigned int uiNbJoueurPossible;
-	//bool bPremiereCarte; // initialisé à true
 
 public:
 	CRegle() = default;
@@ -22,7 +21,7 @@ public:
 	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs) = 0;
 
 	virtual void REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) = 0; // appelle constituer équipe
-	virtual bool REG_ConditionFinPartie() = 0;
+	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points) = 0;
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant) = 0; // ajouter 1 à la manche
 	virtual bool REG_ConditionFinManche() = 0;
 

@@ -1,8 +1,9 @@
-
 #include "CJeu.h"
-#include "CRegleDameDePique.h"
-#include "CPaquetManager.h"
 #include "CRegleManager.h"
+#include "CJoueur.h"
+#include "CPaquet.h"
+#include "CEquipe.h"
+
 #include <iostream>
 #include <cstdlib>
 
@@ -16,14 +17,22 @@ CJeu::CJeu(string sNom) {
 	
 	uiJEU_IdJoueurCourrant = 0;
 }
+CJeu::~CJeu() = default;
 
+string CJeu::JEU_GetNomJoueur(unsigned int uiIdJoueur) {
+	return vjJEU_joueurs[uiIdJoueur]->JOU_GetNomJoueur();
+}
+
+bool CJeu::JEU_SetNombreJoueur(unsigned int uiNbJoueurs) {
+	return prJEU_strategieRegle->REG_SetNbJoueur(uiNbJoueurs);
+}
 
 void CJeu::JEU_JouerPartie() {
 	unique_ptr<CCarte> carte;
 	unsigned int uiIndiceJoueurGagnant = 100; // grande valeur car pas -1 (unsigned int) mais doit être different des numeros de joueurs 
 
 	prJEU_strategieRegle->REG_DebutPartie(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points);
-	while (!prJEU_strategieRegle->REG_ConditionFinPartie()) // partie
+	while (!prJEU_strategieRegle->REG_ConditionFinPartie(mJEU_points)) // partie
 	{
 		// debut manche
 		unsigned int uiIndicePremierJoueur = prJEU_strategieRegle->REG_DebutManche(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points, uiJEU_IdJoueurCourrant);
@@ -56,6 +65,9 @@ void CJeu::JEU_JouerPartie() {
 	prJEU_strategieRegle->REG_AfficherGagnantPartie(vjJEU_joueurs, uiIndiceJoueurGagnant);
 }
 
+void CJeu::JEU_SetStrategieRegle(unique_ptr<CRegle> regle) {
+	prJEU_strategieRegle = move(regle);
+}
 
 void CJeu::JEU_AfficherPoints() {
 	prJEU_strategieRegle->REG_AfficherPoints(mJEU_points);

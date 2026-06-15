@@ -1,6 +1,10 @@
-
 #include "CRegleDameDePique.h"
+#include "CPaquet.h"
+#include "CJoueur.h"
+#include "CCarte.h"
 #include "CEquipe.h"
+#include "CConsole.h"
+
 bool CRegleDameDePique::REG_SetNbJoueur(unsigned int uiNbJoueurs) {
 	// ce jeu peut se jouer à 4 ou 6 joueurs mais ce programme n'implémente que la première
 	return (uiNbJoueurs == 4 || uiNbJoueurs==6);
@@ -14,7 +18,7 @@ void CRegleDameDePique::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<uniq
 
 
 // A FAIRE 
-bool CRegleDameDePique::REG_ConditionFinPartie() { return true; }
+bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points) { return true; }
 
 
 unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& point, unsigned int& uiJEU_IdJoueurCourrant) {

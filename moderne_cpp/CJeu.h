@@ -1,17 +1,18 @@
-
 #ifndef _CJEU_H
 #define _CJEU_H
 
-#include "CRegle.h"
-#include "CCarte.h"
-#include "CPaquet.h"
-#include "CJoueur.h"
-#include "CEquipe.h"
-
 #include <vector>
 #include <map>
+#include <string>
+#include <memory>
 
 using namespace std;
+
+class CRegle;
+class CCarte;
+class CPaquet;
+class CJoueur;
+class CEquipe;
 
 class CJeu {
 private:
@@ -30,28 +31,24 @@ private:
 
 public:
 	CJeu(string sNom);
+	~CJeu();
 
 	string JEU_GetNom() { return sJEU_nom; }
 
-	string JEU_GetNomJoueur(unsigned int uiIdJoueur) { return vjJEU_joueurs[uiIdJoueur].get()->JOU_GetNomJoueur(); }
+	string JEU_GetNomJoueur(unsigned int uiIdJoueur);
+
 	unsigned int JEU_GetIndiceJoueurCourant() { return uiJEU_IdJoueurCourrant; }
 	void JEU_SetIndiceJoueurCourant(unsigned int uiIndiceJoueur) { uiJEU_IdJoueurCourrant = uiIndiceJoueur; };
 
-	void JEU_SetStrategieRegle(unique_ptr<CRegle> regle) { prJEU_strategieRegle = move(regle); }
+	void JEU_SetStrategieRegle(unique_ptr<CRegle> regle);
 	void JEU_AjouterJoueur(unique_ptr<CJoueur> ujJoueurAAjouter) { vjJEU_joueurs.push_back(move(ujJoueurAAjouter)); }
-	void JEU_JouerPartie(); 
+	void JEU_JouerPartie();
 
-	void JEU_AfficherPoints(); // appelle à afficher points de règles
-	void JEU_AfficherEquipe(); // appelle à afficher équipe de règles
+	void JEU_AfficherPoints();
+	void JEU_AfficherEquipe();
 	void JEU_AfficherPli();
-	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle à afficher main joueur de règle car ça affiche la main, le nom du joueur, le pli et les équipes l’interface peut changer en fonction des jeux
+	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur);
 
-	// PLUS
-
-	bool JEU_SetNombreJoueur(unsigned int uiNbJoueurs) {
-		return prJEU_strategieRegle->REG_SetNbJoueur(uiNbJoueurs);
-	}
-
-
+	bool JEU_SetNombreJoueur(unsigned int uiNbJoueurs);
 };
-#endif 
+#endif
