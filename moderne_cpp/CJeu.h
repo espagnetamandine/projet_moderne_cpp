@@ -44,6 +44,9 @@ public:
 	void JEU_AjouterJoueur(unique_ptr<CJoueur> ujJoueurAAjouter) { vjJEU_joueurs.push_back(move(ujJoueurAAjouter)); }
 	void JEU_JouerPartie();
 
+
+
+
 	void JEU_AfficherPoints();
 	void JEU_AfficherEquipe();
 	void JEU_AfficherPli();

@@ -30,7 +30,8 @@ public:
 
 	// renvoie l'indice du premier joueur ou 0 (ou aléatoire, cf CRegleDameDePique.cpp) si pas de joueur en particulier
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant);
-	virtual bool REG_ConditionFinManche();
+	virtual bool REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs);
+
 
 	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);
 	virtual void REG_MettreEnPlacePioche();
@@ -45,7 +46,8 @@ public:
 	virtual void REG_CalculerPointsManche(); // si nécessaire
 
 	virtual void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli);
-	virtual void REG_AfficherGagnantPartie(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPartie);
+	virtual void REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& points, const vector<unique_ptr<CJoueur>>& joueurs);
+	virtual void REG_AfficherAfficherPli(unique_ptr<CPaquet> pPli, vector<unsigned int> vuIdJoueurPli) {};
 	virtual void REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle afficherpli
 	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points);
 };

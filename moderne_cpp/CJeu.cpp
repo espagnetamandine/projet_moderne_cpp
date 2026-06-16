@@ -38,7 +38,7 @@ void CJeu::JEU_JouerPartie() {
 		unsigned int uiIndicePremierJoueur = prJEU_strategieRegle->REG_DebutManche(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points, uiJEU_IdJoueurCourrant);
 		uiJEU_IdJoueurCourrant = uiIndicePremierJoueur;
 
-		while (!prJEU_strategieRegle->REG_ConditionFinManche()) // manche
+		while (!prJEU_strategieRegle->REG_ConditionFinManche(vjJEU_joueurs)) // manche
 		{
 			// réinitialiser le pli
 			vuJEU_idJoueurPli.clear();
@@ -62,7 +62,7 @@ void CJeu::JEU_JouerPartie() {
 		}
 		prJEU_strategieRegle->REG_CalculerPointsManche();
 	}
-	prJEU_strategieRegle->REG_AfficherGagnantPartie(vjJEU_joueurs, uiIndiceJoueurGagnant);
+	prJEU_strategieRegle->REG_AfficherGagnantPartie(mJEU_points, vjJEU_joueurs);
 }
 
 void CJeu::JEU_SetStrategieRegle(unique_ptr<CRegle> regle) {

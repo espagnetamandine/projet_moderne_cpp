@@ -30,6 +30,7 @@ public:
 	virtual vector<string>& PAQ_GetCouleurs() { return upPAQ_paquet->PAQ_GetCouleurs(); }
 	virtual void PAQ_Afficher() const { upPAQ_paquet->PAQ_Afficher(); }
 	virtual void PAQ_AfficherSansCouleurs() const { upPAQ_paquet->PAQ_AfficherSansCouleurs(); }
+	virtual void PAQ_AfficherAvecIdentifiant() const { upPAQ_paquet->PAQ_AfficherAvecIdentifiant(); }
 	virtual void PAQ_Melanger() { upPAQ_paquet->PAQ_Melanger(); }
 	virtual unique_ptr<CCarte> PAQ_RetirerCarte(int iIndiceCarte) { return upPAQ_paquet->PAQ_RetirerCarte(iIndiceCarte); }
 	virtual void PAQ_AjouterCarte(unique_ptr<CCarte> pCarteAAjouter) { upPAQ_paquet->PAQ_AjouterCarte(move(pCarteAAjouter)); }

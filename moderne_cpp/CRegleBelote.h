@@ -15,30 +15,38 @@ class CEquipe;
 
 class CRegleBelote : public CRegle {
 private:
+
+	// ATTRIBUTS
+
 	string sREG_Atout;
 
-	void REG_DistribuerCinqCartes(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs);
+	// METHODES SPECIALISEES
+
 	int REG_PremierTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const CCarte& carteDuMilieu, map<unique_ptr<CEquipe>, int>& points);
 	int REG_DeuxiemeTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const string& sCouleurRetourne);
+	void REG_SetAtout(string sNouveauAtout);
 
 public:
+
+	// CONSTRUCTEURS ET DESTRUCTEURS
+
 	CRegleBelote() = default;
 	~CRegleBelote() = default;
 
+	// SETTERS ET GETTERS
+
 	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs);
 
-	virtual void REG_DebutPartie(
-		unique_ptr<CPaquet>& paquet,
-		vector<unique_ptr<CJoueur>>& joueurs,
-		map<unique_ptr<CEquipe>, int>& points
-	);
+	// METHODES DE CREGLE
 
+	virtual void REG_DebutPartie(unique_ptr<CPaquet>& paquet,vector<unique_ptr<CJoueur>>& joueurs,map<unique_ptr<CEquipe>, int>& points);
+	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);
 	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points);
+	
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant);
-	virtual bool REG_ConditionFinManche();
+	virtual bool REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs);
 
 	virtual void REG_JoueurSuivant(unsigned int uiIndiceJoueur); // n’est jamais appelé directement, change indice joueur courant
-	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);
 	virtual void REG_MettreEnPlacePioche();
 
 	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet);
@@ -48,9 +56,14 @@ public:
 	virtual void REG_CalculerPointsPli();
 	virtual void REG_CalculerPointsManche(); // si nécessaire
 
+	// AFFICHAGE
+
+	virtual void REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& points, const vector<unique_ptr<CJoueur>>& joueurs);
+
 	virtual void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli);
-	virtual void REG_AfficherGagnantPartie(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPartie);
-	virtual void REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // appelle afficherpli
+
+	virtual void REG_AfficherAfficherPli(unique_ptr<CPaquet> pPli, vector<unsigned int> vuIdJoueurPli);
+	virtual void REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur);
 	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points);
 
 };

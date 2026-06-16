@@ -60,7 +60,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 
 
 // A FAIRE
-bool CRegleDameDePique::REG_ConditionFinManche() { return true; }
+bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs) { return true; }
 
 
 void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {
@@ -126,8 +126,8 @@ void CRegleDameDePique::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJou
 }
 
 
-void CRegleDameDePique::REG_AfficherGagnantPartie(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPartie) {
-	cout << "Félicitations " << vJoueurs[uiIndiceJoueurGagnantPartie]->JOU_GetNomJoueur() << " vous avez gagné !" << endl;
+void CRegleDameDePique::REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& points, const vector<unique_ptr<CJoueur>>& joueurs) {
+	//cout << "Félicitations " << vJoueurs[uiIndiceJoueurGagnantPartie]->JOU_GetNomJoueur() << " vous avez gagné !" << endl;
 }
 
 

@@ -7,9 +7,9 @@
 
 using namespace std;
 
-/**********************************************************************/
-/*                             ATTRIBUTS                              */
-/**********************************************************************/
+/********************************************************/
+/*                      ATTRIBUTS                       */
+/********************************************************/
 
 vector<string> CConsole::vsCOS_listeJeu = { "Dame de pique", "Tarot", "Belote" };
 
@@ -25,9 +25,9 @@ const string CConsole::GRAS = "\033[1m";
 const string CConsole::BG_BLANC = "\033[47m";
 const string CConsole::BG_NOIR = "\033[40m";
 
-/**********************************************************************/
-/*                              METHODES                              */
-/**********************************************************************/
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 void CConsole::COS_ChoisirJeu()
 {
@@ -64,7 +64,7 @@ void CConsole::COS_ChoisirJeu()
 
 void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 {
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 	unsigned int uiNbJoueur, uiNbHumain, uiBoucle;
 
 	cout << "----------------------------------------------------------" << endl;
@@ -136,7 +136,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 
 void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
 {
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 
 	cout << "----------------------------------------------------------" << endl;
 	cout << "Debut du jeu : " << GRAS << pjJeuALancer->JEU_GetNom() << RESET << endl;
@@ -145,9 +145,34 @@ void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
 	pjJeuALancer->JEU_JouerPartie();
 }
 
+void CConsole::COS_AfficherGagnants(const vector<string>& vsPrenomsGagnants, const string& sNomEquipe) {
+	CConsole::COS_NettoyerEcran();
+	
+	cout << "\n" << JAUNE << GRAS << "**************************************************" << RESET << endl;
+	cout << JAUNE << GRAS << "                FIN DE LA PARTIE                  " << RESET << endl;
+	cout << JAUNE << GRAS << "**************************************************" << RESET << endl;
+
+	if (!sNomEquipe.empty()) {
+		cout << VERT << GRAS << "\nVictoire de l'equipe : " << sNomEquipe << RESET << endl;
+	}
+	else {
+		cout << VERT << GRAS << "\nVictoire individuelle !" << RESET << endl;
+	}
+
+	cout << "Felicitations a : ";
+	for (size_t i = 0; i < vsPrenomsGagnants.size(); ++i) {
+		cout << GRAS << vsPrenomsGagnants[i] << RESET;
+		if (i < vsPrenomsGagnants.size() - 1) {
+			cout << " & ";
+		}
+	}
+	cout << " !" << endl;
+	cout << JAUNE << GRAS << "**************************************************\n" << RESET << endl;
+}
+
 void CConsole::COS_AttendreJoueurSuivant()
 {
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 
 	cout << "----------------------------------------------------------" << endl;
 	cout << GRAS << "                    JOUEUR SUIVANT                        " << RESET << endl;
@@ -159,7 +184,7 @@ void CConsole::COS_AttendreJoueurSuivant()
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin.get();
 
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 }
 
 void CConsole::COS_AfficherEcranSecretJoueur(
@@ -187,3 +212,4 @@ void CConsole::COS_AfficherEcranSecretJoueur(
 		pMain->PAQ_AfficherSansCouleurs();
 	}
 }
+

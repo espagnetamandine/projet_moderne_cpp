@@ -30,10 +30,11 @@ public:
 
 	virtual vector<unique_ptr<CCarte>>& PAQ_GetCartes() { return vcPAQ_paquet; }
 	virtual vector<string>& PAQ_GetCouleurs() { return vsPAQ_couleurs; }
+
 	virtual void PAQ_Afficher() const;
 	virtual void PAQ_AfficherSansCouleurs() const;
+	virtual void PAQ_AfficherAvecIdentifiant() const;
 
-	
 	virtual void PAQ_Melanger();
 	virtual unique_ptr<CCarte> PAQ_RetirerCarte(int iIndiceCarte);
 	virtual void PAQ_AjouterCarte(unique_ptr<CCarte> pCarteAAjouter);
