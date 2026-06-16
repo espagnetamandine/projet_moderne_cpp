@@ -9,7 +9,7 @@
 /*                  SETTERS ET GETTERS                  */
 /********************************************************/
 
-bool CRegleDameDePique::REG_SetNbJoueur(unsigned int uiNbJoueurs) {
+bool CRegleDameDePique::REG_VerificationNbJoueur(unsigned int uiNbJoueurs) {
 	// ce jeu peut se jouer à 4 ou 6 joueurs mais ce programme n'implémente que la première
 	return (uiNbJoueurs == 4 || uiNbJoueurs==6);
 }
@@ -83,7 +83,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 
 		cout << " Choisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
 		
-		vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
+		//vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
 		//vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
 
 		/*cout << "Indice de la première carte : ";
@@ -202,7 +202,7 @@ unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaque
 
 
 
-void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& points) {
+void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& points, unique_ptr<CPaquet>& pDefausse) {
 	unsigned int uiPointsAAjouter = 0;
 	for (unique_ptr<CCarte>& carte : pPli->PAQ_GetCartes()) {
 		if (carte->CAR_GetCouleur() == "Coeur") { uiPointsAAjouter++; }
@@ -216,8 +216,7 @@ void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, unsigne
 }
 
 
-void CRegleDameDePique::REG_CalculerPointsManche() {} // pas nécessaire pour ce jeu
-
+void CRegleDameDePique::REG_CalculerPointsManche(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& points, unique_ptr<CPaquet>& pDefausse, const vector<unique_ptr<CJoueur>>& joueurs) {} // pas nécessaire pour ce jeu
 
 void CRegleDameDePique::REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
 	for (unique_ptr<CJoueur>& joueur : joueurs) {
@@ -251,8 +250,8 @@ void CRegleDameDePique::REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>&
 }
 
 
-void CRegleDameDePique::REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
-	pJoueur->JOU_GetMain()->PAQ_Afficher();
+void CRegleDameDePique::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {
+	//pJoueur->JOU_GetMain()->PAQ_Afficher();
 }
 
 

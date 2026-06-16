@@ -20,7 +20,7 @@ public:
 
 	// METHODES
 
-	unique_ptr<CCarte> JOU_ChoixCarteAJouer();
+	virtual unsigned int JOU_ChoixCarteAJouer();
 	virtual bool JOU_EstIa() const { return true; }
 };
 #endif 

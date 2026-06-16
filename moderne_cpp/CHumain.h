@@ -19,6 +19,6 @@ public:
 
 	// METHODES
 
-	unique_ptr<CCarte> JOU_ChoixCarteAJouer();
+	virtual unsigned int JOU_ChoixCarteAJouer();
 };
 #endif 

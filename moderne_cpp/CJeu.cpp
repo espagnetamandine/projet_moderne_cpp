@@ -24,18 +24,23 @@ string CJeu::JEU_GetNomJoueur(unsigned int uiIdJoueur) {
 }
 
 bool CJeu::JEU_SetNombreJoueur(unsigned int uiNbJoueurs) {
-	return prJEU_strategieRegle->REG_SetNbJoueur(uiNbJoueurs);
+	return prJEU_strategieRegle->REG_VerificationNbJoueur(uiNbJoueurs);
 }
 
 void CJeu::JEU_JouerPartie() {
 	unique_ptr<CCarte> carte;
-	unsigned int uiIndiceJoueurGagnant = 100; // grande valeur car pas -1 (unsigned int) mais doit être different des numeros de joueurs 
+	unsigned int uiIndiceJoueurGagnant = 100;
+	unsigned int uiPremierJoueurManche = 0;
 
 	prJEU_strategieRegle->REG_DebutPartie(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points);
 	while (!prJEU_strategieRegle->REG_ConditionFinPartie(mJEU_points)) // partie
 	{
 		// debut manche
-		unsigned int uiIndicePremierJoueur = prJEU_strategieRegle->REG_DebutManche(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points, uiJEU_IdJoueurCourrant);
+		unsigned int uiIndicePremierJoueur = prJEU_strategieRegle->REG_DebutManche(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points, uiPremierJoueurManche);
+		uiJEU_IdJoueurCourrant = uiIndicePremierJoueur;
+		uiPremierJoueurManche = uiIndicePremierJoueur;
+
+		// C'est bien ce joueur qui commence le premier pli de cette manche
 		uiJEU_IdJoueurCourrant = uiIndicePremierJoueur;
 
 		while (!prJEU_strategieRegle->REG_ConditionFinManche(vjJEU_joueurs)) // manche
@@ -77,28 +82,60 @@ void CJeu::JEU_JouerPartie() {
 
 				while (!bCarteValidee)
 				{
-					carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
+					vector<unique_ptr<CCarte>>& upJOU_mainJoueur = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()->PAQ_GetCartes();
 
-					if (!prJEU_strategieRegle->REG_CarteValide(*carte, vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain(), pJEU_pli, vuJEU_idJoueurPli))
+					unsigned int uiIndexCarteChoisie = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
+
+					if (!prJEU_strategieRegle->REG_CarteValide(*(upJOU_mainJoueur[uiIndexCarteChoisie]), vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain(), pJEU_pli, vuJEU_idJoueurPli))
 					{
-						cout << "\nCarte invalide !\n" << endl;
-						vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()->PAQ_AjouterCarte(move(carte));
+						cout << "\nVeuillez resaisir.\n" << endl;
 					}
 					else
 					{
+						carte = move(upJOU_mainJoueur[uiIndexCarteChoisie]);
+
+						vector<unique_ptr<CCarte>>::iterator it = upJOU_mainJoueur.begin() + uiIndexCarteChoisie;
+						upJOU_mainJoueur.erase(it);
+
 						pJEU_pli->PAQ_AjouterCarte(move(carte));
 						vuJEU_idJoueurPli.push_back(uiJEU_IdJoueurCourrant);
+
 						uiJEU_IdJoueurCourrant = (uiJEU_IdJoueurCourrant + 1) % vjJEU_joueurs.size();
 						bCarteValidee = true;
 					}
 				}
 			}
 
+			CConsole::COS_NettoyerEcran();
+
 			uiIndiceJoueurGagnant = prJEU_strategieRegle->REG_DeterminerIndiceGagnantPli(pJEU_pli, vuJEU_idJoueurPli);
 			prJEU_strategieRegle->REG_AfficherGagnantPli(vjJEU_joueurs, uiIndiceJoueurGagnant);
-			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points);
+			JEU_AfficherPli();
+			uiJEU_IdJoueurCourrant = uiIndiceJoueurGagnant;
+
+			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points, pJEU_defausse);
+			vuJEU_idJoueurPli.clear();
+			while (!pJEU_pli->PAQ_GetCartes().empty()) {
+				pJEU_pli->PAQ_GetCartes().pop_back();
+			}
+
+			cout << "\nAppuyez sur ENTREE pour passer au pli suivant...";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cin.get();
+
+			CConsole::COS_NettoyerEcran();
 		}
-		prJEU_strategieRegle->REG_CalculerPointsManche();
+		prJEU_strategieRegle->REG_CalculerPointsManche(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points, pJEU_defausse, vjJEU_joueurs);
+
+		if (pJEU_defausse != nullptr) {
+			vector<unique_ptr<CCarte>>& cartesDefausse = pJEU_defausse->PAQ_GetCartes();
+			while (!cartesDefausse.empty()) {
+				pJEU_paquetDeCartes->PAQ_AjouterCarte(move(cartesDefausse.back()));
+				cartesDefausse.pop_back();
+			}
+		}
+
+		uiPremierJoueurManche = (uiPremierJoueurManche + 1) % vjJEU_joueurs.size();
 	}
 	prJEU_strategieRegle->REG_AfficherGagnantPartie(mJEU_points, vjJEU_joueurs);
 }
@@ -139,6 +176,6 @@ void CJeu::JEU_AfficherPli() {
 }
 
 // appelle à afficher main joueur de regle car ça affiche la main, le nom du joueur, le pli et les equipes l'interface peut changer en fonction des jeux
-void CJeu::JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
-	prJEU_strategieRegle->REG_AfficherMainJoueur(pJoueur);
-}
+//void CJeu::JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
+//	prJEU_strategieRegle->REG_AfficherMainJoueur(pJoueur);
+//}

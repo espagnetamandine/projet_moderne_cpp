@@ -139,9 +139,9 @@ void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
 {
 	CConsole::COS_NettoyerEcran();
 
-	cout << "----------------------------------------------------------" << endl;
-	cout << "Debut du jeu : " << GRAS << pjJeuALancer->JEU_GetNom() << RESET << endl;
-	cout << "----------------------------------------------------------\n" << endl;
+	cout << "--------------------------------------------------" << endl;
+	cout << "          Debut du jeu : " << GRAS << pjJeuALancer->JEU_GetNom() << RESET << endl;
+	cout << "--------------------------------------------------\n" << endl;
 
 	pjJeuALancer->JEU_JouerPartie();
 }
@@ -149,15 +149,15 @@ void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
 void CConsole::COS_AfficherGagnants(const vector<string>& vsPrenomsGagnants, const string& sNomEquipe) {
 	CConsole::COS_NettoyerEcran();
 	
-	cout << "\n" << JAUNE << GRAS << "**************************************************" << RESET << endl;
-	cout << JAUNE << GRAS << "                FIN DE LA PARTIE                  " << RESET << endl;
-	cout << JAUNE << GRAS << "**************************************************" << RESET << endl;
+	cout << JAUNE << GRAS << "--------------------------------------------------" << endl;
+	cout << "               Fin de la partie                   " << endl;
+	cout << "--------------------------------------------------\n" << RESET << endl;
 
 	if (!sNomEquipe.empty()) {
-		cout << VERT << GRAS << "\nVictoire de l'equipe : " << sNomEquipe << RESET << endl;
+		cout << VERT << GRAS << "Victoire de l'equipe : " << sNomEquipe << RESET << endl;
 	}
 	else {
-		cout << VERT << GRAS << "\nVictoire individuelle !" << RESET << endl;
+		cout << VERT << GRAS << "Victoire individuelle !" << RESET << endl;
 	}
 
 	cout << "Felicitations a : ";
@@ -168,16 +168,16 @@ void CConsole::COS_AfficherGagnants(const vector<string>& vsPrenomsGagnants, con
 		}
 	}
 	cout << " !" << endl;
-	cout << JAUNE << GRAS << "**************************************************\n" << RESET << endl;
+	cout << JAUNE << GRAS << "\n--------------- Merci d'avoir joue ---------------\n" << RESET << endl;
 }
 
 void CConsole::COS_AttendreJoueurSuivant(string sNomJoueur)
 {
 	CConsole::COS_NettoyerEcran();
 
-	cout << "----------------------------------------------------------" << endl;
-	cout << "Joueur suivant :  " << GRAS << sNomJoueur << RESET << endl;
-	cout << "----------------------------------------------------------\n" << endl;
+	cout << "--------------------------------------------------" << endl;
+	cout << "          Joueur suivant :  " << GRAS << sNomJoueur << RESET << endl;
+	cout << "--------------------------------------------------\n" << endl;
 
 	cout << "Veuillez passer l'ecran au prochain joueur.\n";
 	cout << "Une fois fait, veuillez presser ENTREE pour continuer.";
@@ -195,18 +195,18 @@ void CConsole::COS_AfficherEcranSecretJoueur(
 {
 	CConsole::COS_AttendreJoueurSuivant(pJoueur->JOU_GetNomJoueur());
 
-	cout << "----------------------------------------------------------" << endl;
-	cout << " Joueur : " << GRAS << pJoueur->JOU_GetNomJoueur() << RESET << endl;
+	cout << "--------------------------------------------------" << endl;
+	cout << "              Joueur : " << GRAS << pJoueur->JOU_GetNomJoueur() << RESET << endl;
 
 	if (uiNumeroEquipe != 0)
 	{
-		cout << BLEU << " Equipe : " << uiNumeroEquipe << RESET;
+		cout << BLEU << " Equipe : " << uiNumeroEquipe << "." << RESET;
 	}
 	if (uiNumeroEquipe != 0)
 	{
 		cout << BLEU << " Vous avez " << iScoreEquipe << " points." << RESET;
 	}
-	cout << "\n----------------------------------------------------------\n" << endl;
+	cout << "\n--------------------------------------------------\n" << endl;
 
 	cout << "Voici votre main: " << endl;
 	if (pJoueur->JOU_GetMain() != nullptr) {

@@ -26,7 +26,7 @@ public:
 
 	// METHODES
 
-	virtual unique_ptr<CCarte> JOU_ChoixCarteAJouer() = 0;
+	virtual unsigned int JOU_ChoixCarteAJouer() = 0;
 	unique_ptr<CPaquet>& JOU_GetMain();
 	string JOU_GetNomJoueur();
 	void JOU_SetMain(unique_ptr<CPaquet> upJOU_nouvelleMain);

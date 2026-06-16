@@ -16,14 +16,17 @@ class CEquipe;
 class CRegleBelote : public CRegle {
 private:
 
-	// ATTRIBUTS
+	// Attributs
 
 	string sREG_Atout;
+	unsigned int uiREG_NumeroEquipePreneuse = 0;
+	int iREG_PointsMancheEquipe1 = 0;
+	int iREG_PointsMancheEquipe2 = 0;
 
-	// METHODES SPECIALISEES
+	// Méthodes spécialisées
 
-	int REG_PremierTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const CCarte& carteDuMilieu, map<unique_ptr<CEquipe>, int>& points);
-	int REG_DeuxiemeTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const string& sCouleurRetourne, map<unique_ptr<CEquipe>, int>& points);
+	int REG_PremierTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const CCarte& carteDuMilieu, map<unique_ptr<CEquipe>, int>& muPointsEquipe);
+	int REG_DeuxiemeTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, unsigned int uiJoueurCourant, const string& sCouleurRetourne, map<unique_ptr<CEquipe>, int>& muPointsEquipe);
 	void REG_SetAtout(string sNouveauAtout);
 	
 	unsigned int REG_ObtenirForceAtout(const unsigned int& uiValeur);
@@ -32,45 +35,42 @@ private:
 
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	CRegleBelote() = default;
 	~CRegleBelote() = default;
 
-	// SETTERS ET GETTERS
+	// Méthodes de jeu
 
-	virtual bool REG_SetNbJoueur(unsigned int uiNbJoueurs);
+	virtual void REG_DebutPartie(unique_ptr<CPaquet>& upPaquetPrincipal, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe);
+	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe);
+	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& upPaquetPrincipal, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unsigned int& uiIdJoueurCourrant);
+	virtual bool REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& vuJoueurs);
+	virtual bool REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& upPaquetJoueur, const unique_ptr<CPaquet>& upPli, const vector<unsigned int>& vuIdJoueurPli);
 
-	// METHODES DE CREGLE
+	// Méthodes d'entre-jeu
 
-	virtual void REG_DebutPartie(unique_ptr<CPaquet>& paquet,vector<unique_ptr<CJoueur>>& joueurs,map<unique_ptr<CEquipe>, int>& points);
-	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);
-	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points);
-	
-	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant);
-	virtual bool REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs);
+	virtual unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& upPli, vector<unsigned int>& vuIdJoueurPli);
+	virtual void REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse);
+	virtual void REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs);
 
-	virtual void REG_JoueurSuivant(unsigned int uiIndiceJoueur); // n’est jamais appelé directement, change indice joueur courant
+	// Mise en place
+
+	virtual bool REG_VerificationNbJoueur(unsigned int uiNbJoueurs);
+	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe);
+	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& vuJoueurs, unique_ptr<CPaquet>& upPaquetPrincipal);
+	virtual void REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& vuJoueurs, unique_ptr<CPaquet>& upPaquetPrincipal);
 	virtual void REG_MettreEnPlacePioche();
 
-	virtual void REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet);
-	virtual bool REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur, const unique_ptr<CPaquet>& pPli, const vector<unsigned int>& vuIdJoueurPli);
+	// Affichage
 
-	virtual unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli); // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
-	virtual void REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& points);
-	virtual void REG_CalculerPointsManche(); // si nécessaire
+	virtual void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vuJoueurs, unsigned int uiIndiceJoueurGagnantPli);
+	virtual void REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs);
+	virtual void REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs);
+	virtual void REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe) ;
 
-	virtual void REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet);
-
-	// AFFICHAGE
-
-	virtual void REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& points, const vector<unique_ptr<CJoueur>>& joueurs);
-
-	virtual void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli);
-
-	virtual void REG_AfficherAfficherPli(unique_ptr<CPaquet> pPli, vector<unsigned int> vuIdJoueurPli);
-	virtual void REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur);
-	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points);
+	virtual void REG_AfficherAfficherPli(unique_ptr<CPaquet> upPli, vector<unsigned int> vuIdJoueurPli);
+	virtual void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe);
 
 };
 #endif
