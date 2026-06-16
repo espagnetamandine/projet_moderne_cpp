@@ -73,22 +73,23 @@ void CJeu::JEU_JouerPartie() {
 					cout << endl;
 				}
 
-				carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
-
 				bool bCarteValidee = false;
+
 				while (!bCarteValidee)
 				{
-					if (!prJEU_strategieRegle->REG_CarteValide(*carte, vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()))
+					carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
+
+					if (!prJEU_strategieRegle->REG_CarteValide(*carte, vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain(), pJEU_pli, vuJEU_idJoueurPli))
 					{
 						cout << "\nCarte invalide !\n" << endl;
 						vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()->PAQ_AjouterCarte(move(carte));
 					}
 					else
 					{
-						bCarteValidee = true;
 						pJEU_pli->PAQ_AjouterCarte(move(carte));
 						vuJEU_idJoueurPli.push_back(uiJEU_IdJoueurCourrant);
 						uiJEU_IdJoueurCourrant = (uiJEU_IdJoueurCourrant + 1) % vjJEU_joueurs.size();
+						bCarteValidee = true;
 					}
 				}
 			}

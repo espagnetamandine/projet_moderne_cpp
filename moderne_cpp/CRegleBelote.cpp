@@ -21,9 +21,8 @@ bool CRegleBelote::REG_SetNbJoueur(unsigned int uiNbJoueurs) {
 void CRegleBelote::REG_SetAtout(string sNouveauAtout) { sREG_Atout = sNouveauAtout; }
 
 /********************************************************/
-/*                  METHODES DE CREGLE                  */
+/*                    METHODES DE JEU                   */
 /********************************************************/
-
 
 void CRegleBelote::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points){
     if (paquet != nullptr) {
@@ -32,26 +31,6 @@ void CRegleBelote::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_pt
 
     REG_ConstituerEquipes(joueurs, points);
 };
-
-void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points)
-{
-	if (joueurs.size() == 4)
-	{
-		vector<unsigned int> uiNumerosJoueursUne = { 0, 2 };
-		vector<unsigned int> uiNumerosJoueursDeux = { 1, 3 };
-
-		unique_ptr<CEquipe> peEquipeUne = make_unique<CEquipe>(uiNumerosJoueursUne, 1);
-		unique_ptr<CEquipe> peEquipeDeux = make_unique<CEquipe>(uiNumerosJoueursDeux, 2);
-
-		points.emplace(move(peEquipeUne), 0);
-		points.emplace(move(peEquipeDeux), 0);
-
-		cout << "Voici les equipes creees :" << endl;
-		cout << " -> Equipe 1 : " << joueurs[0]->JOU_GetNomJoueur() << " & " << joueurs[2]->JOU_GetNomJoueur() << endl;
-		cout << " -> Equipe 2 : " << joueurs[1]->JOU_GetNomJoueur() << " & " << joueurs[3]->JOU_GetNomJoueur() << endl;
-	}
-};
-
 
 bool CRegleBelote::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points) {
 	for (auto it = points.begin(); it != points.end(); ++it)
@@ -66,7 +45,6 @@ bool CRegleBelote::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points)
 
 	return false;
 }
-
 
 unsigned int CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant)
 {
@@ -116,17 +94,24 @@ unsigned int CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<u
 	cout << "**************************************************" << endl;
 
 	cout << "\nLa manche peut commencer !" << endl;
-	cout << joueurs[iJoueurPreneur]->JOU_GetNomJoueur() << " a pris. L'atout est : " << sREG_Atout << " <<<\n" << endl;
+	cout << joueurs[iJoueurPreneur]->JOU_GetNomJoueur() << " a pris. L'atout est : " << sREG_Atout << endl;
 
-	// 4. Distribution du complément à 8 cartes
-	for (size_t i = 0; i < joueurs.size(); ++i) {
-		if (i == iJoueurPreneur) {
-			joueurs[i]->JOU_GetMain()->PAQ_AjouterCarte(move(pcCarteDuMilieu));
+	// Distribution du reste des cartes
+	for (size_t sBoucleJoueur = 0; sBoucleJoueur < joueurs.size(); ++sBoucleJoueur) {
+		if (sBoucleJoueur == iJoueurPreneur) {
+			joueurs[sBoucleJoueur]->JOU_GetMain()->PAQ_AjouterCarte(move(pcCarteDuMilieu));
 		}
-		
-		int iNbCartesA_Donner = (i == iJoueurPreneur) ? 2 : 3;
-		for (int c = 0; c < iNbCartesA_Donner; ++c) {
-			joueurs[i]->JOU_GetMain()->PAQ_AjouterCarte(paquet->PAQ_RetirerCarte());
+
+		unsigned int iNbCartesADonner;
+		if (sBoucleJoueur == iJoueurPreneur)
+		{
+			iNbCartesADonner = 2;
+		}
+		else {
+			iNbCartesADonner = 3;
+		}
+		for (unsigned int uiBoucle = 0; uiBoucle < iNbCartesADonner; ++uiBoucle) {
+			joueurs[sBoucleJoueur]->JOU_GetMain()->PAQ_AjouterCarte(paquet->PAQ_RetirerCarte());
 		}
 	}
 	cout << "Distribution terminee. Tous les joueurs ont 8 cartes." << endl;
@@ -140,8 +125,6 @@ unsigned int CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<u
 	return uiJEU_IdJoueurCourrant;
 }
 
-
-
 bool CRegleBelote::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs) {
 	for (unsigned int uiBoucleJoueur = 0; uiBoucleJoueur < joueurs.size(); uiBoucleJoueur++){
 		if (!joueurs[uiBoucleJoueur]->JOU_GetMain()->PAQ_GetCartes().empty()) {
@@ -151,12 +134,28 @@ bool CRegleBelote::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& jou
 	return true;
 };
 
+/********************************************************/
+/*                    MISES EN PLACE                    */
+/********************************************************/
 
+void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points)
+{
+	if (joueurs.size() == 4)
+	{
+		vector<unsigned int> uiNumerosJoueursUne = { 0, 2 };
+		vector<unsigned int> uiNumerosJoueursDeux = { 1, 3 };
 
+		unique_ptr<CEquipe> peEquipeUne = make_unique<CEquipe>(uiNumerosJoueursUne, 1);
+		unique_ptr<CEquipe> peEquipeDeux = make_unique<CEquipe>(uiNumerosJoueursDeux, 2);
 
+		points.emplace(move(peEquipeUne), 0);
+		points.emplace(move(peEquipeDeux), 0);
 
-void CRegleBelote::REG_JoueurSuivant(unsigned int uiIndiceJoueur) {}; // n’est jamais appelé directement, change indice joueur courant
-void CRegleBelote::REG_MettreEnPlacePioche() {};
+		cout << "Voici les equipes creees :" << endl;
+		cout << " -> Equipe 1 : " << joueurs[0]->JOU_GetNomJoueur() << " & " << joueurs[2]->JOU_GetNomJoueur() << endl;
+		cout << " -> Equipe 2 : " << joueurs[1]->JOU_GetNomJoueur() << " & " << joueurs[3]->JOU_GetNomJoueur() << endl;
+	}
+};
 
 void CRegleBelote::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
 	unsigned int uiBoucleCarte;
@@ -176,11 +175,6 @@ void CRegleBelote::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, un
 
 	cout << "[BELOTE] Distribution de 5 cartes par joueur" << endl;
 };
-bool CRegleBelote::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur) { return true; };
-
-unsigned int CRegleBelote::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { return 1; }; // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
-void CRegleBelote::REG_CalculerPointsPli() {};
-void CRegleBelote::REG_CalculerPointsManche() {}; // si nécessaire
 
 void CRegleBelote::REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
 	for (unique_ptr<CJoueur>& joueur : joueurs) {
@@ -192,6 +186,132 @@ void CRegleBelote::REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& jou
 		}
 	}
 }
+
+
+
+
+
+void CRegleBelote::REG_JoueurSuivant(unsigned int uiIndiceJoueur) {}; // n’est jamais appelé directement, change indice joueur courant
+void CRegleBelote::REG_MettreEnPlacePioche() {};
+
+
+bool CRegleBelote::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur, const unique_ptr<CPaquet>& pPli, const vector<unsigned int>& vuIdJoueurPli)
+{
+	vector<unique_ptr<CCarte>>& cartesDuPli = pPli->PAQ_GetCartes();
+	vector<unique_ptr<CCarte>>& mainJoueur = pPaquetJoueur->PAQ_GetCartes();
+
+	// Cas numéro 1 : Le pli est vide, tout est autorisé.
+	if (cartesDuPli.empty()) {
+		return true;
+	}
+
+	string sCouleurDemandee = cartesDuPli[0]->CAR_GetCouleur();
+	string sCouleurJouee = carte.CAR_GetCouleur();
+	unsigned int uiValeurJouee = carte.CAR_GetValeur();
+
+	// Infos de la main du joueur //
+	bool bPossedeCouleurDemandee = false;
+	bool bPossedeAtout = false;
+	unsigned int uiForceAtoutMain = 0;
+
+	for (size_t i = 0; i < mainJoueur.size(); ++i) {
+		if (mainJoueur[i]->CAR_GetCouleur() == sCouleurDemandee) {
+			bPossedeCouleurDemandee = true;
+		}
+		if (mainJoueur[i]->CAR_GetCouleur() == sREG_Atout) {
+			bPossedeAtout = true;
+			unsigned int uiForce = REG_ObtenirForceAtout(mainJoueur[i]->CAR_GetValeur());
+			if (uiForce > uiForceAtoutMain) {
+				uiForceAtoutMain = uiForce;
+			}
+		}
+	}
+
+	// Infos de la meilleure carte du pli //
+	unsigned int uiIdxMeilleureCarte = REG_ObtenirMeilleurCarteTapis(cartesDuPli, sCouleurDemandee, sREG_Atout);
+	unsigned int uiIdMaitreActuel = vuIdJoueurPli[uiIdxMeilleureCarte];
+
+	unsigned int uiIdJoueurCourant = (vuIdJoueurPli.back() + 1) % 4;
+	bool bPartenaireEstMaitre = (uiIdMaitreActuel % 2 == uiIdJoueurCourant % 2);
+
+	unsigned int uiValeurMaitreTapis = cartesDuPli[uiIdxMeilleureCarte]->CAR_GetValeur();
+	bool bTapisCoupe = (cartesDuPli[uiIdxMeilleureCarte]->CAR_GetCouleur() == sREG_Atout);
+
+	//////////////////////
+	// Règles générales //
+	//////////////////////
+
+	// Cas numéro 2.0 : L'atout n'est pas la couleur demandée.
+	if (sCouleurDemandee != sREG_Atout) {
+
+		// Cas numéro 2.1 : Le joueur a la couleur demandée, il doit la jouer.
+		if (bPossedeCouleurDemandee) {
+			if (sCouleurJouee != sCouleurDemandee)
+			{
+				cout << "Carte invalide : vous devez fournir la couleur demandee (" << sCouleurDemandee << ")." << endl;
+				return false;
+			}
+			return true;
+		}
+
+		// Cas numéro 2.2 : Le joueur n'a pas la couleur demandée mais il a de l'atout.
+		if (bPossedeAtout) {
+			// Le partenaire est maître, il peut jouer ce qu'il veut.
+			if (bPartenaireEstMaitre) {
+				return true;
+			}
+
+			// Le joueur doit couper.
+			if (sCouleurJouee != sREG_Atout) {
+				cout << "Carte invalide : vous devez couper a l'atout (" << sREG_Atout << ")." << endl;
+				return false;
+			}
+
+			// Le joueur doit couper plus fort.
+			if (bTapisCoupe) {
+				unsigned int uiForceTapis = REG_ObtenirForceAtout(uiValeurMaitreTapis);
+				if (uiForceAtoutMain > uiForceTapis) {
+					if (REG_ObtenirForceAtout(uiValeurJouee) < uiForceTapis)
+					{
+						cout << "Carte invalide : vous devez monter avec un atout plus fort  (" << sREG_Atout << ")." << endl;
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+	}
+	// Cas numéro 3.0 : L'atout est la couleur demandée.
+	else {
+		if (bPossedeAtout) {
+			// Le joueur doit donner de l'atout si il a.
+			if (sCouleurJouee != sREG_Atout) {
+				cout << "Carte invalide :  vous devez fournir de l'atout (" << sREG_Atout << ")." << endl;
+				return false;
+			}
+
+			// Obligation de monter à l'atout si on a une carte plus forte en main.
+			unsigned int uiForceTapis = REG_ObtenirForceAtout(uiValeurMaitreTapis);
+			if (uiForceAtoutMain > uiForceTapis) {
+				if (REG_ObtenirForceAtout(uiValeurJouee) < uiForceTapis)
+				{
+					cout << "Carte invalide : vous devez mettre un atout plus fort que celui sur la table." << endl;
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	// Cas numéro 4 : Le joueur n'a rien de demandé, il peut joueur ce qu'il veut.
+	return true;
+}
+
+unsigned int CRegleBelote::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { return 1; }; // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
+void CRegleBelote::REG_CalculerPointsPli() {};
+void CRegleBelote::REG_CalculerPointsManche() {}; // si nécessaire
+
+
 
 /********************************************************/
 /*                 METHODES SPECIALISEES                */
@@ -333,7 +453,66 @@ int CRegleBelote::REG_DeuxiemeTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, 
 	return -1;
 }
 
+unsigned int CRegleBelote::REG_ObtenirForceAtout(const unsigned int& uiValeur) {
+	if (uiValeur == 11) return 20;
+	if (uiValeur == 9)  return 14;
+	if (uiValeur == 1)  return 11;
+	if (uiValeur == 10) return 10;
+	if (uiValeur == 13) return 4;
+	if (uiValeur == 12) return 3;
+	if (uiValeur == 8)  return 2;
+	if (uiValeur == 7)  return 1;
+	return 0;
+}
 
+unsigned int CRegleBelote::REG_ObtenirForceNormal(const unsigned int& uiValeur) {
+	if (uiValeur == 1)  return 11;
+	if (uiValeur == 10) return 10;
+	if (uiValeur == 13) return 4;
+	if (uiValeur == 12) return 3;
+	if (uiValeur == 11) return 2;
+	if (uiValeur == 9)  return 0;
+	if (uiValeur == 8)  return 0;
+	if (uiValeur == 7)  return 0;
+	return 0;
+}
+
+unsigned int CRegleBelote::REG_ObtenirMeilleurCarteTapis(const vector<unique_ptr<CCarte>>& cartesDuPli, const string& sCouleurDemandee, const string& sAtout)
+{
+	if (cartesDuPli.empty()) { return 0; };
+
+	unsigned int uiIndiceMeilleurCarte = 0;
+	string sMeilleurCouleur = cartesDuPli[0]->CAR_GetCouleur();
+	unsigned int uiMeilleurValeur = cartesDuPli[0]->CAR_GetValeur();
+
+	for (unsigned int uiCartePli = 1; uiCartePli < cartesDuPli.size(); uiCartePli++) {
+		bool bChangementMeileurCarte = false;
+		string sCouleurCourante = cartesDuPli[uiCartePli]->CAR_GetCouleur();
+		unsigned int uiValeurCourante = cartesDuPli[uiCartePli]->CAR_GetValeur();
+
+		if (sCouleurCourante == sAtout && sMeilleurCouleur != sAtout) {
+			bChangementMeileurCarte = true;
+		}
+		else if (sCouleurCourante == sAtout && sMeilleurCouleur == sAtout) {
+			if (REG_ObtenirForceAtout(uiValeurCourante) > REG_ObtenirForceAtout(uiMeilleurValeur)) {
+				bChangementMeileurCarte = true;
+			}
+		}
+		else if (sCouleurCourante == sCouleurDemandee && sMeilleurCouleur == sCouleurDemandee) {
+			if (REG_ObtenirForceNormal(uiValeurCourante) > REG_ObtenirForceNormal(uiMeilleurValeur)) {
+				bChangementMeileurCarte = true;
+			}
+		}
+
+		if (bChangementMeileurCarte) {
+			sMeilleurCouleur = sCouleurCourante;
+			uiMeilleurValeur = uiValeurCourante;
+			uiIndiceMeilleurCarte = uiCartePli;
+		}
+	}
+
+	return uiIndiceMeilleurCarte;
+}
 
 /********************************************************/
 /*                       AFFICHAGE                      */
@@ -367,6 +546,6 @@ void CRegleBelote::REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& poin
 
 
 void CRegleBelote::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPartie) {};
-void CRegleBelote::REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {}; // appelle afficherpli
+void CRegleBelote::REG_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {};
 void CRegleBelote::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points) {};
 void CRegleBelote::REG_AfficherAfficherPli(unique_ptr<CPaquet> pPli, vector<unsigned int> vuIdJoueurPli) {};

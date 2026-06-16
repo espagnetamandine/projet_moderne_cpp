@@ -160,7 +160,7 @@ bool CRegleDameDePique::REG_PremiereCarte(CCarte& carte) {
 }
 
 
-bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur) {
+bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur, const unique_ptr<CPaquet>& pPli, const vector<unsigned int>& vuIdJoueurPli){
 	if (bPremiereCarte == true) { 
 		bPremiereCarte = false;
 		REG_PremiereCarte(carte);

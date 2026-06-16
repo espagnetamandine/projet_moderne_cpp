@@ -29,7 +29,7 @@ public :
 
 	string CAR_GetCouleur() const { return sCAR_couleur; };
 	string CAR_GetNom() const { return sCAR_nom; }
-	unsigned int CAR_GetValeur() { return uiCAR_valeur; };
+	unsigned int CAR_GetValeur() const { return uiCAR_valeur; };
 	
 	void CAR_MettreNom()
 	{
