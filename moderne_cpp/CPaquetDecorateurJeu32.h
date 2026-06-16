@@ -8,7 +8,7 @@ using namespace std;
 class CPaquetDecorateurJeu32 : public CPaquetDecorateur {
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	CPaquetDecorateurJeu32(unique_ptr<CPaquet> pPaquet) : CPaquetDecorateur(move(pPaquet))
 	{
@@ -17,7 +17,7 @@ public:
 
 private:
 
-	// METHODES
+	// Méthodes
 
 	void PAQ_Ajouter32Cartes()
 	{

@@ -5,6 +5,8 @@
 #include "CEquipe.h"
 #include "CConsole.h"
 
+using namespace std;
+
 /********************************************************/
 /*                  SETTERS ET GETTERS                  */
 /********************************************************/

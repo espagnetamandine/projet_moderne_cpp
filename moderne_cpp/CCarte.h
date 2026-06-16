@@ -8,11 +8,17 @@ using namespace std;
 
 class CCarte {
 private :
+
+	// Attributs
+
 	string sCAR_couleur;
 	string sCAR_nom;
 	unsigned int uiCAR_valeur;
 
 public :
+
+	// Constructeurs et destructeurs
+
 	CCarte(string sCouleur, unsigned int uiValeur, string sNom = "empty")
 	{
 		sCAR_couleur = sCouleur;
@@ -26,6 +32,8 @@ public :
 			sCAR_nom = sNom;
 		}
 	};
+
+	// Méthodes
 
 	string CAR_GetCouleur() const { return sCAR_couleur; };
 	string CAR_GetNom() const { return sCAR_nom; }

@@ -2,7 +2,9 @@
 
 using namespace std;
 
-// CONSTRUCTEURS ET DESTRUCTEURS
+/********************************************************/
+/*             CONSTRUCTEURS ET DESTRUCTEURS            */
+/********************************************************/
 
 CEquipe::CEquipe(): uiEQU_numeroEquipe(0)
 {
@@ -15,7 +17,9 @@ CEquipe:: ~CEquipe()
 {
 }
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 vector<unsigned int> CEquipe::getEQU_equipe()
 {

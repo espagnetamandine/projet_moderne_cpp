@@ -12,12 +12,12 @@ class CHumain : public CJoueur
 {
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	CHumain(string sJOU_nomJoueur = "Joueur humain") : CJoueur(sJOU_nomJoueur) {};
 	~CHumain() {};
 
-	// METHODES
+	// Méthodes
 
 	virtual unsigned int JOU_ChoixCarteAJouer();
 };

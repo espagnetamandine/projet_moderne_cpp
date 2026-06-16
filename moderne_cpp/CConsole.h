@@ -18,7 +18,7 @@ class CJoueur;
 class CConsole {
 private:
 
-	// ATTRIBUTS
+	// Attributs
 
 	static vector<string> vsCOS_listeJeu;
 
@@ -37,7 +37,7 @@ private:
 
 public:
 
-	// METHODES
+	// Méthodes
 
 	static void COS_ChoisirJeu();
 	static void COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer);
@@ -45,8 +45,6 @@ public:
 	static void COS_NettoyerEcran() { cout << "\033[2J\033[1;1H" << flush; }
 	static void COS_AttendreJoueurSuivant(string sNomJoueur);
 	static void COS_AfficherGagnants(const vector<string>& vsPrenomsGagnants, const string& sNomEquipe = "");
-	
-	
 	static void COS_AfficherEcranSecretJoueur(const unique_ptr<CJoueur>& pJoueur,unsigned int uiNumeroEquipe = 0,int iScoreEquipe = 0);
 };
 

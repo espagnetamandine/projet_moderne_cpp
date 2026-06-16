@@ -2,7 +2,9 @@
 
 using namespace std;
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 unsigned int CHumain::JOU_ChoixCarteAJouer()
 {

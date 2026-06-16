@@ -13,7 +13,7 @@ using namespace std;
 class CRegle {
 
 public:
-	// Constructeurs et des
+	// Constructeurs et destructeurs
 
 	CRegle() = default;
 	~CRegle() = default;

@@ -2,7 +2,9 @@
 
 using namespace std;
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 unsigned int Cia::JOU_ChoixCarteAJouer()
 {

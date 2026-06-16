@@ -11,20 +11,20 @@ using namespace std;
 class CPaquetDecorateur : public CPaquet {
 protected:
 
-	// ATTRIBUTS
+	// Attributs
 
 	unique_ptr<CPaquet> upPAQ_paquet;
 
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	CPaquetDecorateur(unique_ptr<CPaquet> pPaquet)
 	{
 		upPAQ_paquet = move(pPaquet);
 	}
 
-	// METHODES
+	// Méthodes
 
 	virtual vector<unique_ptr<CCarte>>& PAQ_GetCartes() { return upPAQ_paquet->PAQ_GetCartes(); }
 	virtual vector<string>& PAQ_GetCouleurs() { return upPAQ_paquet->PAQ_GetCouleurs(); }

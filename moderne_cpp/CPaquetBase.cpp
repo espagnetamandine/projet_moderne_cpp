@@ -1,6 +1,8 @@
 #include "CPaquetBase.h"
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 void CPaquetBase::PAQ_Afficher() const
 {

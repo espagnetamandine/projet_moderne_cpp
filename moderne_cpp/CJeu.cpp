@@ -7,6 +7,10 @@
 #include <iostream>
 #include <cstdlib>
 
+/********************************************************/
+/*             CONSTRUCTEURS ET DESTRUCTEURS            */
+/********************************************************/
+
 CJeu::CJeu(string sNom) {
 	sJEU_nom = sNom;
 	prJEU_strategieRegle = CRegleManager::REG_CreerRegle(sNom);
@@ -18,6 +22,10 @@ CJeu::CJeu(string sNom) {
 	uiJEU_IdJoueurCourrant = 0;
 }
 CJeu::~CJeu() = default;
+
+/********************************************************/
+/*             CONSTRUCTEURS ET DESTRUCTEURS            */
+/********************************************************/
 
 string CJeu::JEU_GetNomJoueur(unsigned int uiIdJoueur) {
 	return vjJEU_joueurs[uiIdJoueur]->JOU_GetNomJoueur();
