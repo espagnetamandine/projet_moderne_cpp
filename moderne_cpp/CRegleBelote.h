@@ -53,7 +53,7 @@ public:
 	virtual bool REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur);
 
 	virtual unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli); // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
-	virtual void REG_CalculerPointsPli();
+	virtual void REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& points);
 	virtual void REG_CalculerPointsManche(); // si nécessaire
 
 	virtual void REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet);

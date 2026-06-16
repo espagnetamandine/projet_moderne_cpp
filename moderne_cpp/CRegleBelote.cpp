@@ -179,7 +179,7 @@ void CRegleBelote::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, un
 bool CRegleBelote::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur) { return true; };
 
 unsigned int CRegleBelote::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { return 1; }; // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
-void CRegleBelote::REG_CalculerPointsPli() {};
+void CRegleBelote::REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& points) {};
 void CRegleBelote::REG_CalculerPointsManche() {}; // si nécessaire
 
 void CRegleBelote::REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
