@@ -5,6 +5,9 @@
 #include "CEquipe.h"
 #include "CConsole.h"
 
+#include <stdio.h>
+using namespace std;
+
 /********************************************************/
 /*                  SETTERS ET GETTERS                  */
 /********************************************************/
@@ -53,11 +56,9 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 
 	CConsole::COS_NettoyerEcran();
 
-	////////////////////////
-	// DEBUT DE LA MANCHE //
-	////////////////////////
-
-	unsigned int uiPremierChoix, uiDeuxiemeChoix, uiTroisiemeChoix;
+	/*-----------------------
+	|  DEBUT DE LA MANCHE   |
+	-----------------------*/
 
 	// distribution
 	REG_DistribuerCartes(joueurs, paquet);
@@ -83,35 +84,41 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 
 		cout << " Choisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
 		
-		//vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
-		//vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
+		cout << "Choix première carte : ";
+		vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
 
-		/*cout << "Indice de la première carte : ";
-		cin >> uiPremierChoix;
-		
-		cout << "Indice de la deuxième carte : ";
-		cin >> uiDeuxiemeChoix;
-		while (uiDeuxiemeChoix == uiPremierChoix) {
-			cout << "Choix invalide (vous avez déjà choisi cette carte), veuillez réessayer." << endl;
-			cin >> uiDeuxiemeChoix;
-		}
+		joueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
+		cout << "Choix deuxième carte : ";
+		vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
 
-		cout << "Indice de la troisième carte : ";
-		cin >> uiTroisiemeChoix;
-		while ((uiTroisiemeChoix == uiPremierChoix) || (uiTroisiemeChoix == uiDeuxiemeChoix)) {
-			cout << "Choix invalide (vous avez déjà choisi cette carte), veuillez réessayer." << endl;
-			cin >> uiTroisiemeChoix;
-		}*/
+		joueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
+		cout << "Choix troisième carte : ";
+		vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
+
+		if (vTroisCartes[1] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[1]) {} // erreur 
 	}
+
 	// puis donner les trois cartes au joueur de droite 
-	/*for (size_t i = 0; i < joueurs.size(); i++)
+	for (size_t i = 0; i < joueurs.size(); i++)
 	{
 		uiIndiceJoueurDeDroite = (i+1)%joueurs.size();
 		(joueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
 		(joueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
 		(joueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
-	}*/
-	cout << "Les cartes ont été donné aux autres joueurs." << endl;
+	}
+	while (!vTroisCartes.empty()) { vTroisCartes.pop_back(); }
+
+	CConsole::COS_NettoyerEcran();	
+	cout << "**************************************************" << endl;
+	cout << "               DEBUT DE LA MANCHE                 " << endl;
+	cout << "**************************************************" << endl;
+
+	cout << "\nLa manche peut commencer !" << endl;
+	cout << "\nAppuyez sur ENTREE des que vous etes pret a demarrer.";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.get();
+
+	CConsole::COS_NettoyerEcran();
 
 	// on choisit un premier joueur en aléatoire pour que ce ne soit pas toujours le joueur 0 qui commence
 	srand(time(nullptr));
@@ -123,7 +130,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 
 bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs) {
 	for (unsigned int i = 0; i < joueurs.size(); i++) {
-		if (joueurs[i]->JOU_GetMain()->PAQ_GetCartes().empty()) { return false; }
+		if (!joueurs[i]->JOU_GetMain()->PAQ_GetCartes().empty()) { return false; }
 	}
 	cout << "La manche est terminée." << endl;
 	return true; 
