@@ -58,6 +58,7 @@ void CJeu::JEU_JouerPartie() {
 			}
 			uiIndiceJoueurGagnant = prJEU_strategieRegle->REG_DeterminerIndiceGagnantPli(pJEU_pli, vuJEU_idJoueurPli);
 			prJEU_strategieRegle->REG_AfficherGagnantPli(vjJEU_joueurs, uiIndiceJoueurGagnant);
+			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points);
 		}
 		prJEU_strategieRegle->REG_CalculerPointsManche();
 	}
@@ -83,14 +84,12 @@ void CJeu::JEU_AfficherEquipe() {
 }
 
 
-//pas fini, ne fonctionne pas pour le moment 
 void CJeu::JEU_AfficherPli() {             
-	//auto& cartesDuPli = pJEU_pli->getPAQ_Cartes();
 	vector<unique_ptr<CCarte>>& cartesDuPli = pJEU_pli->PAQ_GetCartes();
 	for (unsigned int i = 0; i < vuJEU_idJoueurPli.size(); i++) {
-		//cout << vjJEU_joueurs[i].get()->getJOU_nomJoueur() << " : " << *(cartesDuPli[i]);
+		cout << vjJEU_joueurs[i]->JOU_GetNomJoueur() << " : " << *(cartesDuPli[i]);
 	}
-	//pJEU_pli->PAQ_Afficher();
+	pJEU_pli->PAQ_Afficher();
 }
 
 // appelle à afficher main joueur de regle car ça affiche la main, le nom du joueur, le pli et les equipes l'interface peut changer en fonction des jeux
