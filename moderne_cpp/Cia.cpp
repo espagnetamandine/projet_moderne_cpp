@@ -18,7 +18,13 @@ unique_ptr<CCarte> Cia::JOU_ChoixCarteAJouer()
 	// Attribut un numéro aléatoire entre 0 et pMain.size()-1 à iNumeroAleatoire
 	int iNumeroAleatoire = distribution(generator);
 	
-	// Retourne la carte avec l'indexe iNuméroAleatoire ( retourne une carte aléatoire)
-	return move(upJOU_mainIA[iNumeroAleatoire]);
+	// Stocke la carte choisie
+	unique_ptr<CCarte> carteChoisie = move(upJOU_mainIA[iNumeroAleatoire]);
+	
+	// La retire de la main de l'IA
+	upJOU_mainIA.erase(upJOU_mainIA.begin() + iNumeroAleatoire);
+	
+	// Retourne la carte avec l'indexe iNuméroAleatoire (retourne une carte aléatoire)
+	return carteChoisie;
 
 }
