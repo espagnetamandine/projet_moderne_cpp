@@ -44,7 +44,9 @@ void CJeu::JEU_JouerPartie() {
 			vuJEU_idJoueurPli.clear();
 			pJEU_pli->PAQ_GetCartes().clear();
 
-			while (pJEU_pli->PAQ_GetCartes().size() != vjJEU_joueurs.size()) // pli 
+			int i = 0;
+			//while (pJEU_pli->PAQ_GetCartes().size() != vjJEU_joueurs.size()) // pli 
+			while (i<4) // pli 
 			{
 				// Affichage de la main du joueur avec le pli pour qu'il puisse choisir sa carte
 				if (!vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_EstIa())
@@ -85,6 +87,7 @@ void CJeu::JEU_JouerPartie() {
 					}
 					else
 					{
+						i++;
 						bCarteValidee = true;
 						pJEU_pli->PAQ_AjouterCarte(move(carte));
 						vuJEU_idJoueurPli.push_back(uiJEU_IdJoueurCourrant);
@@ -96,6 +99,7 @@ void CJeu::JEU_JouerPartie() {
 			uiIndiceJoueurGagnant = prJEU_strategieRegle->REG_DeterminerIndiceGagnantPli(pJEU_pli, vuJEU_idJoueurPli);
 			prJEU_strategieRegle->REG_AfficherGagnantPli(vjJEU_joueurs, uiIndiceJoueurGagnant);
 			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points);
+			uiJEU_IdJoueurCourrant = uiIndiceJoueurGagnant;
 		}
 		prJEU_strategieRegle->REG_CalculerPointsManche();
 	}

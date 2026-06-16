@@ -108,9 +108,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 	}
 	while (!vTroisCartes.empty()) { vTroisCartes.pop_back(); }
 
-	CConsole::COS_NettoyerEcran();
-	cout << "Les cartes ont été donné aux autres joueurs.\n\n" << endl;
-	
+	CConsole::COS_NettoyerEcran();	
 	cout << "**************************************************" << endl;
 	cout << "               DEBUT DE LA MANCHE                 " << endl;
 	cout << "**************************************************" << endl;
@@ -132,7 +130,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 
 bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs) {
 	for (unsigned int i = 0; i < joueurs.size(); i++) {
-		if (joueurs[i]->JOU_GetMain()->PAQ_GetCartes().empty()) { return false; }
+		if (!joueurs[i]->JOU_GetMain()->PAQ_GetCartes().empty()) { return false; }
 	}
 	cout << "La manche est terminée." << endl;
 	return true; 
