@@ -218,7 +218,7 @@ int CRegleBelote::REG_DeuxiemeTourEnchere(vector<unique_ptr<CJoueur>>& joueurs, 
 
 
 
-bool CRegleBelote::REG_ConditionFinManche() { return true; };
+bool CRegleBelote::REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& joueurs) { return true; };
 
 void CRegleBelote::REG_JoueurSuivant(unsigned int uiIndiceJoueur) {}; // n’est jamais appelé directement, change indice joueur courant
 void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points)

@@ -35,7 +35,7 @@ public:
 
 	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points);
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant);
-	virtual bool REG_ConditionFinManche();
+	virtual bool REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& joueurs);
 
 	virtual void REG_JoueurSuivant(unsigned int uiIndiceJoueur); // n’est jamais appelé directement, change indice joueur courant
 	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);

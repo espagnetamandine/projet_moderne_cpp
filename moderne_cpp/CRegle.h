@@ -23,7 +23,7 @@ public:
 	virtual void REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) = 0; // appelle constituer équipe
 	virtual bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points) = 0;
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant) = 0; // ajouter 1 à la manche
-	virtual bool REG_ConditionFinManche() = 0;
+	virtual bool REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& joueurs) = 0;
 
 	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) = 0;
 	virtual void REG_MettreEnPlacePioche() = 0;

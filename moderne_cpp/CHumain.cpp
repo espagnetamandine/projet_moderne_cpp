@@ -9,7 +9,7 @@ unique_ptr<CCarte> CHumain::JOU_ChoixCarteAJouer()
 	vector<unique_ptr<CCarte>>& upJOU_mainHumain = upJOU_main->PAQ_GetCartes();
 	for (unsigned int uiBoucle = 0; uiBoucle < upJOU_mainHumain.size(); uiBoucle++)
 	{
-		cout << "carte " << uiBoucle << " : " << upJOU_mainHumain[uiBoucle] << endl;
+		cout << "carte " << uiBoucle << " : " << *upJOU_mainHumain[uiBoucle] << endl;
 	}
 	cout << " CHoissisez une carte " << endl;
 	unsigned int uiNumeroCarteChoisie = 0;
