@@ -112,6 +112,7 @@ bool CRegleDameDePique::REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& joue
 	for (unsigned int i = 0; i < joueurs.size(); i++) {
 		if (joueurs[i]->JOU_GetMain()->PAQ_GetCartes().size() != 0) { return false; }
 	}
+	cout << "La manche est terminée." << endl;
 	return true; 
 }
 
@@ -170,6 +171,8 @@ bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaq
 
 // appelle à calculer points pli
 unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { 
+	REG_CalculerPointsPli();
+	
 	unsigned int uiIndiceJoueurGagnantPli = 0;
 	for (unsigned int i = 0; i < vuIdJoueurPli.size(); i++) {
 
