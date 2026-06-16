@@ -62,8 +62,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 		
 		// 1. Affichage secret
 		CConsole::COS_AfficherEcranSecretJoueur(
-			joueurs[i]->JOU_GetNomJoueur(),
-			joueurs[i]->JOU_GetMain(),
+			joueurs[i],
 			i,
 			vScoreEquipe[i]
 		);
@@ -108,7 +107,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vec
 }
 
 
-bool CRegleDameDePique::REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& joueurs) {
+bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs) {
 	for (unsigned int i = 0; i < joueurs.size(); i++) {
 		if (joueurs[i]->JOU_GetMain()->PAQ_GetCartes().size() != 0) { return false; }
 	}

@@ -32,7 +32,6 @@ public:
 	virtual unsigned int REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant);
 	virtual bool REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs);
 
-
 	virtual void REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points);
 	virtual void REG_MettreEnPlacePioche();
 
