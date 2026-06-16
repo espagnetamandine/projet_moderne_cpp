@@ -108,21 +108,34 @@ unsigned int CRegleBelote::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<u
 		return REG_DebutManche(paquet, joueurs, points, uiJEU_IdJoueurCourrant);
 	}
 
-	cout << "\n>>> Le contrat est valide ! " << joueurs[iJoueurPreneur]->JOU_GetNomJoueur()
-		<< " a pris. L'atout est : " << sREG_Atout << " <<<\n" << endl;
+
+	CConsole::COS_NettoyerEcran();
+
+	cout << "**************************************************" << endl;
+	cout << "               DEBUT DE LA MANCHE                 " << endl;
+	cout << "**************************************************" << endl;
+
+	cout << "\nLa manche peut commencer !" << endl;
+	cout << joueurs[iJoueurPreneur]->JOU_GetNomJoueur() << " a pris. L'atout est : " << sREG_Atout << " <<<\n" << endl;
 
 	// 4. Distribution du complément à 8 cartes
 	for (size_t i = 0; i < joueurs.size(); ++i) {
 		if (i == iJoueurPreneur) {
 			joueurs[i]->JOU_GetMain()->PAQ_AjouterCarte(move(pcCarteDuMilieu));
 		}
-		// Le preneur reçoit 2 cartes (en plus de la retourne), les autres en reçoivent 3
+		
 		int iNbCartesA_Donner = (i == iJoueurPreneur) ? 2 : 3;
 		for (int c = 0; c < iNbCartesA_Donner; ++c) {
 			joueurs[i]->JOU_GetMain()->PAQ_AjouterCarte(paquet->PAQ_RetirerCarte());
 		}
 	}
-	cout << "[BELOTE] Distribution terminee. Tous les joueurs ont leurs 8 cartes." << endl;
+	cout << "Distribution terminee. Tous les joueurs ont 8 cartes." << endl;
+
+	cout << "\nAppuyez sur ENTREE des que vous etes pret a demarrer.";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.get();
+
+	CConsole::COS_NettoyerEcran();
 
 	return uiJEU_IdJoueurCourrant;
 }

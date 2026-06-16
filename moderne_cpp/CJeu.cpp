@@ -46,16 +46,53 @@ void CJeu::JEU_JouerPartie() {
 
 			while (pJEU_pli->PAQ_GetCartes().size() != vjJEU_joueurs.size()) // pli 
 			{
+				// Affichage de la main du joueur avec le pli pour qu'il puisse choisir sa carte
+				if (!vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_EstIa())
+				{
+					unsigned int uiNumEquipe = 0;
+					int iScoreEquipe = 0;
+
+					map<unique_ptr<CEquipe>, int>::iterator it;
+
+					for (it = mJEU_points.begin(); it != mJEU_points.end(); ++it) {
+					
+						vector<unsigned int> vNumeros = it->first->getEQU_equipe();
+
+						for (unsigned int uiBoucle = 0; uiBoucle < vNumeros.size(); ++uiBoucle) {
+							if (vNumeros[uiBoucle] == uiJEU_IdJoueurCourrant) {
+								uiNumEquipe = it->first->getEQU_numeroEquipe();
+								iScoreEquipe = it->second;
+								break;
+							}
+						}
+					}
+
+					CConsole::COS_AfficherEcranSecretJoueur(vjJEU_joueurs[uiJEU_IdJoueurCourrant], uiNumEquipe, iScoreEquipe);
+
+					JEU_AfficherPli();
+					cout << endl;
+				}
+
 				carte = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
 
-				if (!prJEU_strategieRegle->REG_CarteValide(*carte, vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain())) { } //erreur 
-				else
+				bool bCarteValidee = false;
+				while (!bCarteValidee)
 				{
-					pJEU_pli->PAQ_AjouterCarte(move(carte));
-					vuJEU_idJoueurPli.push_back(uiJEU_IdJoueurCourrant);
-					uiJEU_IdJoueurCourrant++;
+					if (!prJEU_strategieRegle->REG_CarteValide(*carte, vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()))
+					{
+						cout << "\nCarte invalide !\n" << endl;
+						vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()->PAQ_AjouterCarte(move(carte));
+					}
+					else
+					{
+						bCarteValidee = true;
+						pJEU_pli->PAQ_AjouterCarte(move(carte));
+						vuJEU_idJoueurPli.push_back(uiJEU_IdJoueurCourrant);
+						uiJEU_IdJoueurCourrant = (uiJEU_IdJoueurCourrant + 1) % vjJEU_joueurs.size();
+					}
 				}
 			}
+
 			uiIndiceJoueurGagnant = prJEU_strategieRegle->REG_DeterminerIndiceGagnantPli(pJEU_pli, vuJEU_idJoueurPli);
 			prJEU_strategieRegle->REG_AfficherGagnantPli(vjJEU_joueurs, uiIndiceJoueurGagnant);
 			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points);
@@ -84,12 +121,20 @@ void CJeu::JEU_AfficherEquipe() {
 }
 
 
-void CJeu::JEU_AfficherPli() {             
+void CJeu::JEU_AfficherPli() {
+	cout << "\nTapis de jeu :" << endl;
+
 	vector<unique_ptr<CCarte>>& cartesDuPli = pJEU_pli->PAQ_GetCartes();
-	for (unsigned int i = 0; i < vuJEU_idJoueurPli.size(); i++) {
-		cout << vjJEU_joueurs[i]->JOU_GetNomJoueur() << " : " << *(cartesDuPli[i]);
+	
+	if (cartesDuPli.empty()) {
+		cout << "Le pli est vide" << endl;
 	}
-	pJEU_pli->PAQ_Afficher();
+	else {
+		for (size_t i = 0; i < cartesDuPli.size(); i++) {
+			unsigned int idJoueur = vuJEU_idJoueurPli[i];
+			cout << " -> " << vjJEU_joueurs[idJoueur]->JOU_GetNomJoueur() << " a joue : " << *(cartesDuPli[i]) << endl;
+		}
+	}
 }
 
 // appelle à afficher main joueur de regle car ça affiche la main, le nom du joueur, le pli et les equipes l'interface peut changer en fonction des jeux

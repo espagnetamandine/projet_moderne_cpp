@@ -7,17 +7,22 @@ using namespace std;
 unique_ptr<CCarte> CHumain::JOU_ChoixCarteAJouer()
 {
 	vector<unique_ptr<CCarte>>& upJOU_mainHumain = upJOU_main->PAQ_GetCartes();
-	for (unsigned int uiBoucle = 0; uiBoucle < upJOU_mainHumain.size(); uiBoucle++)
+	
+	cout << "Choisissez une carte a jouer (de 1 a " << upJOU_mainHumain.size() << ") : ";
+	unsigned int uiChoixUtilisateur = 0;
+	cin >> uiChoixUtilisateur;
+
+	while (uiChoixUtilisateur < 1 || uiChoixUtilisateur > upJOU_mainHumain.size())
 	{
-		cout << "carte " << uiBoucle << " : " << *upJOU_mainHumain[uiBoucle] << endl;
+		cout << "Numero de carte invalide. Veuillez ressaisir (de 1 a " << upJOU_mainHumain.size() << ") : ";
+		cin >> uiChoixUtilisateur;
 	}
-	cout << " CHoissisez une carte " << endl;
-	unsigned int uiNumeroCarteChoisie = 0;
-	cin >> uiNumeroCarteChoisie;
-	while (uiNumeroCarteChoisie> upJOU_mainHumain.size() - 1)
-	{
-		cout << " Numéro de carte invalide, recommencez " << endl;
-		cin >> uiNumeroCarteChoisie;
-	}
-	return move(upJOU_mainHumain[uiNumeroCarteChoisie]);
+
+	unsigned int uiIndexVecteur = uiChoixUtilisateur - 1;
+
+	unique_ptr<CCarte> carteChoisie = move(upJOU_mainHumain[uiIndexVecteur]);
+
+	upJOU_mainHumain.erase(upJOU_mainHumain.begin() + uiIndexVecteur);
+
+	return carteChoisie;
 }
