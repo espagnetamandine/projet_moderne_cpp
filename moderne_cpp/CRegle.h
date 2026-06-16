@@ -1,8 +1,8 @@
 #ifndef _CREGLE_H
 #define _CREGLE_H
 
-#include "CCarte.h"
 #include "CPaquet.h"
+#include "CConsole.h"
 #include "CJoueur.h"
 #include "CEquipe.h"
 
@@ -11,9 +11,8 @@
 using namespace std;
 
 class CRegle {
-protected:
+protected :
 	unsigned int uiNbJoueurPossible;
-	//bool bPremiereCarte; // initialisé à true
 
 public:
 	CRegle() = default;

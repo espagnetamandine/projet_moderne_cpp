@@ -1,11 +1,10 @@
 #ifndef _CHUMAIN_H
 #define _CHUMAIN_H
 
+#include "CJoueur.h"
+
 #include <vector>
 #include <iostream>
-
-#include "CJoueur.h"
-#include "CCarte.h"
 
 using namespace std;
 

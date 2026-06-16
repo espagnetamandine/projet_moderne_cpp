@@ -1,13 +1,11 @@
 #ifndef _CIA_H
 #define _CIA_H
 
+#include "CJoueur.h"
+
 #include <random>
 #include <algorithm>
 #include <vector>
-
-#include "CJoueur.h"
-#include "CCarte.h"
-#include "CPaquet.h"
 
 using namespace std;
 
@@ -23,6 +21,7 @@ public:
 	// METHODES
 
 	unique_ptr<CCarte> JOU_ChoixCarteAJouer();
+	virtual bool JOU_EstIa() const { return true; }
 };
 #endif 
 

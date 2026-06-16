@@ -1,12 +1,10 @@
 #ifndef _CJOUEUR_H
 #define _CJOUEUR_H
 
-#include <string>
-
-#include "CPaquetManager.h"
-#include "CPaquetBase.h"
 #include "CPaquet.h"
-#include "CCarte.h"
+#include "CPaquetManager.h"
+
+#include <string>
 
 using namespace std;
 
@@ -23,7 +21,7 @@ public:
 
 	// CONSTRUCTEURS ET DESTRUCTEURS
 
-	CJoueur(string sJOU_NomJoueur = "Joueur");
+	CJoueur(string sJOU_nomJoueur = "Joueur");
 	virtual ~CJoueur();
 
 	// METHODES
@@ -33,6 +31,8 @@ public:
 	string JOU_GetNomJoueur();
 	void JOU_SetMain(unique_ptr<CPaquet> upJOU_nouvelleMain);
 	void JOU_SetNomJoueur(string sJOU_nouveauNom);
+
+	virtual bool JOU_EstIa() const { return false; }
 };
 
 #endif 

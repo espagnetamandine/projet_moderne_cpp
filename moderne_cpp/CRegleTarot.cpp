@@ -1,6 +1,9 @@
 #include "CRegleTarot.h"
+#include "CPaquet.h"
 #include "CJoueur.h"
 #include "CCarte.h"
+#include "CEquipe.h"
+#include "CConsole.h"
 
 
 bool CRegleTarot::REG_SetNbJoueur(unsigned int uiNbJoueurs){}

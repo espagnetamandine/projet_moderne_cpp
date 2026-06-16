@@ -27,8 +27,8 @@ public :
 		}
 	};
 
-	string CAR_GetCouleur() { return sCAR_couleur; };
-	string CAR_GetNom() { return sCAR_nom; }
+	string CAR_GetCouleur() const { return sCAR_couleur; };
+	string CAR_GetNom() const { return sCAR_nom; }
 	unsigned int CAR_GetValeur() { return uiCAR_valeur; };
 	
 	void CAR_MettreNom()
