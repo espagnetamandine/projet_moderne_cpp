@@ -1,6 +1,7 @@
 #include "CConsole.h"
 #include "CJeu.h"
 #include "CHumain.h"
+#include "CJoueur.h"
 #include "Cia.h"
 #include "CEquipe.h"
 #include "CPaquet.h"
@@ -85,7 +86,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 	}
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	cout << "\n\nVous etes " << uiNbJoueur << " a jouer !" << endl;
+	cout << "\nVous etes " << uiNbJoueur << " a jouer !" << endl;
 
 	cout << "Combien d'humain joueront ? : ";
 	cin >> uiNbHumain;
@@ -125,7 +126,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 		cout << pjJeuALancer->JEU_GetNomJoueur(uiBoucle) << endl;
 	}
 
-	cout << "\n\nLe jeu demarre quand vous voulez." << endl;
+	cout << "\nLe jeu demarre quand vous voulez." << endl;
 	cout << "Veuillez presser ENTREE pour continuer.\n";
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -170,16 +171,16 @@ void CConsole::COS_AfficherGagnants(const vector<string>& vsPrenomsGagnants, con
 	cout << JAUNE << GRAS << "**************************************************\n" << RESET << endl;
 }
 
-void CConsole::COS_AttendreJoueurSuivant()
+void CConsole::COS_AttendreJoueurSuivant(string sNomJoueur)
 {
 	CConsole::COS_NettoyerEcran();
 
 	cout << "----------------------------------------------------------" << endl;
-	cout << GRAS << "                    JOUEUR SUIVANT                        " << RESET << endl;
+	cout << "Joueur suivant :  " << GRAS << sNomJoueur << RESET << endl;
 	cout << "----------------------------------------------------------\n" << endl;
 
 	cout << "Veuillez passer l'ecran au prochain joueur.\n";
-	cout << "Une fois fait, veuillez presser ENTREE pour continuer.\n";
+	cout << "Une fois fait, veuillez presser ENTREE pour continuer.";
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin.get();
@@ -188,16 +189,16 @@ void CConsole::COS_AttendreJoueurSuivant()
 }
 
 void CConsole::COS_AfficherEcranSecretJoueur(
-	const string& sNomJoueur,
-	const unique_ptr<CPaquet>& pMain,
-	unsigned int uiNumeroEquipe = 0,
-	int iScoreEquipe = 0)
+	const unique_ptr<CJoueur>& pJoueur,
+	unsigned int uiNumeroEquipe,
+	int iScoreEquipe)
 {
-	CConsole::COS_AttendreJoueurSuivant();
+	CConsole::COS_AttendreJoueurSuivant(pJoueur->JOU_GetNomJoueur());
 
 	cout << "----------------------------------------------------------" << endl;
-	cout << " Joueur : " << GRAS << sNomJoueur << RESET << endl;
-	if (uiNumeroEquipe != 0 )
+	cout << " Joueur : " << GRAS << pJoueur->JOU_GetNomJoueur() << RESET << endl;
+
+	if (uiNumeroEquipe != 0)
 	{
 		cout << BLEU << " Equipe : " << uiNumeroEquipe << RESET;
 	}
@@ -208,8 +209,8 @@ void CConsole::COS_AfficherEcranSecretJoueur(
 	cout << "\n----------------------------------------------------------\n" << endl;
 
 	cout << "Voici votre main: " << endl;
-	if (pMain != nullptr) {
-		pMain->PAQ_AfficherSansCouleurs();
+	if (pJoueur->JOU_GetMain() != nullptr) {
+		pJoueur->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
 	}
 }
 

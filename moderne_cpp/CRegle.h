@@ -37,6 +37,8 @@ public:
 	virtual void REG_CalculerPointsPli() = 0;
 	virtual void REG_CalculerPointsManche() = 0; // si nécessaire
 
+	virtual void REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) = 0;
+
 	// AFFICHAGE
 
 

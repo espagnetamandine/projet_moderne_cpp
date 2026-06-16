@@ -150,3 +150,14 @@ void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_p
 		cout << it->first->getEQU_numeroEquipe() << " : " << it->second << endl;
 	}
 }
+
+void CRegleDameDePique::REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
+	for (unique_ptr<CJoueur>& joueur : joueurs) {
+		vector<unique_ptr<CCarte>>& mainJoueur = joueur->JOU_GetMain()->PAQ_GetCartes();
+
+		while (!mainJoueur.empty()) {
+			paquet->PAQ_AjouterCarte(move(mainJoueur.back()));
+			mainJoueur.pop_back();
+		}
+	}
+}
