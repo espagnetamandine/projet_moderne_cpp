@@ -12,58 +12,113 @@ bool CRegleDameDePique::REG_SetNbJoueur(unsigned int uiNbJoueurs) {
 
 // appelle constituer équipe
 void CRegleDameDePique::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {
-	REG_DistribuerCartes(joueurs, paquet);
 	REG_ConstituerEquipes(joueurs, points);
 } 
 
 
-// A FAIRE 
-bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points) { return true; }
+bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points) {
+	int iScoreEquipe;
+	for (auto it = points.begin(); it != points.end(); ++it)
+	{
+		iScoreEquipe = it->second;
+
+		if (iScoreEquipe >= 100) // ce score pourrait être parametrable 
+		{
+			cout << "\n[DAME DE PIQUE] Fin de la partie ! L'equipe "
+				<< it->first->getEQU_numeroEquipe()
+				<< " a depasse les 100 points (" << iScoreEquipe << " pts) !" << endl;
+			return true;
+		}
+	}
+	return false;
+}
 
 
 unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& point, unsigned int& uiJEU_IdJoueurCourrant) {
-	//choisi un premier joueur en aléatoire pour que ce ne soit pas tjs le joueur 0 qui commence
-	srand(time(nullptr));
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	unsigned int uiIndicePremierJoueur = rand() % joueurs.size();
+	cout << "\n-------------------------------------------------" << endl;
+	cout << "               Debut de la manche                 " << endl;
+	cout << "--------------------------------------------------\n" << endl;
 	
 	// chaque joueur choisi 3 cartes et les donne à un autre joueur. D'après les règles, 1ere manche = donner au joueur de gauche, 
-	// 2e manche = joueur d'en face, 3e manche = joueur de droite, 4e manche = pas d'échange et ainsi de suite
-	// par soucis de rapidité, ici on donne tt le tps au joueur de droite
+	// 2e manche = joueur d'en face, 3e manche = joueur de droite, 4e manche = pas d'échange et ainsi de suite.
+	// Par soucis de rapidité, ici on donne tout le temps au joueur de droite
 
+	unsigned int uiPremierChoix, uiDeuxiemeChoix, uiTroisiemeChoix;
+
+	// distribution
+	REG_DistribuerCartes(joueurs, paquet);
+
+	// chaque joueur doit choisir 3 cartes
 	size_t uiIndiceJoueurDeDroite = 0;
-
-	for (size_t i=0; i<joueurs.size(); i++)
+	for (size_t i = 0; i < joueurs.size(); i++)
 	{
-		// choisir 3 cartes
+		// on récupère le score par équipe (ie par joueur) pour l'appel à la méthode de CConsole
+		vector<unsigned int> vScoreEquipe;
+		for (auto it = point.begin(); it != point.end(); ++it)
+		{
+			vScoreEquipe.push_back(it->second);
+		}
+
+		
+		// 1. Affichage secret
+		CConsole::COS_AfficherEcranSecretJoueur(
+			joueurs[i]->JOU_GetNomJoueur(),
+			joueurs[i]->JOU_GetMain(),
+			i,
+			vScoreEquipe[i]
+		);
+
+		cout << " Choisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
+		
 		vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
+		//vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
 
-		while (vTroisCartes[1]->CAR_GetNom() != vTroisCartes[0]->CAR_GetNom()) {
-			vTroisCartes.pop_back();
-			vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
+		/*cout << "Indice de la première carte : ";
+		cin >> uiPremierChoix;
+		
+		cout << "Indice de la deuxième carte : ";
+		cin >> uiDeuxiemeChoix;
+		while (uiDeuxiemeChoix == uiPremierChoix) {
+			cout << "Choix invalide (vous avez déjà choisi cette carte), veuillez réessayer." << endl;
+			cin >> uiDeuxiemeChoix;
 		}
 
-		while ((vTroisCartes[2]->CAR_GetNom() != vTroisCartes[0]->CAR_GetNom()) && (vTroisCartes[2]->CAR_GetNom() != vTroisCartes[1]->CAR_GetNom())) {
-			vTroisCartes.pop_back();
-			vTroisCartes.push_back(joueurs[i]->JOU_ChoixCarteAJouer());
-		}
-
-		// les donner au joueur de droite 
+		cout << "Indice de la troisième carte : ";
+		cin >> uiTroisiemeChoix;
+		while ((uiTroisiemeChoix == uiPremierChoix) || (uiTroisiemeChoix == uiDeuxiemeChoix)) {
+			cout << "Choix invalide (vous avez déjà choisi cette carte), veuillez réessayer." << endl;
+			cin >> uiTroisiemeChoix;
+		}*/
+	}
+	// puis donner les trois cartes au joueur de droite 
+	/*for (size_t i = 0; i < joueurs.size(); i++)
+	{
 		uiIndiceJoueurDeDroite = (i+1)%joueurs.size();
 		(joueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
 		(joueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
 		(joueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
-	}
+	}*/
+	cout << "Les cartes ont été donné aux autres joueurs." << endl;
 
+	// on choisit un premier joueur en aléatoire pour que ce ne soit pas toujours le joueur 0 qui commence
+	srand(time(nullptr));
+	unsigned int uiIndicePremierJoueur = rand() % joueurs.size();
+	cout << "Le premier joueur est " << joueurs[uiIndicePremierJoueur]->JOU_GetNomJoueur() << endl;
 	return uiIndicePremierJoueur;
 }
 
 
-// A FAIRE
-bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& joueurs) { return true; }
+bool CRegleDameDePique::REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& joueurs) {
+	for (unsigned int i = 0; i < joueurs.size(); i++) {
+		if (joueurs[i]->JOU_GetMain()->PAQ_GetCartes().size() != 0) { return false; }
+	}
+	cout << "La manche est terminée." << endl;
+	return true; 
+}
 
 
 void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {
+	// pas besoin d'afficher les équipes car ce jeu ne se joue pas en équipe
 	for (unsigned int i = 0; i < joueurs.size(); i++) {
 		vector<unsigned int> uiNumerosJoueurs;
 		uiNumerosJoueurs.push_back(i);
@@ -74,12 +129,20 @@ void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& joueu
 	}
 }
 
-// A FAIRE OU A SUPPRIMER ????
-void CRegleDameDePique::REG_MettreEnPlacePioche() {}
+
+// A SUPPRIMER ?????
+void CRegleDameDePique::REG_MettreEnPlacePioche() {};
 
 
 void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueurs, unique_ptr<CPaquet>& paquet) {
 	paquet->PAQ_Melanger();
+	
+	// vider la main de chaque joueur au cas où elle contiendrait des cartes 
+	for (unsigned int k = 0; k < joueurs.size(); k++)
+	{
+		(joueurs[k]->JOU_GetMain())->PAQ_GetCartes().clear();
+	}
+	
 	for (unsigned int i = 0; i < (paquet->PAQ_GetCartes().size() / joueurs.size()); i++)
 	{
 		for (unsigned int j = 0; j < joueurs.size(); j++)
@@ -88,6 +151,8 @@ void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& joueur
 		}
 	}
 	if (paquet->PAQ_GetCartes().size() != 0) {} // erreur
+
+	cout << "[DAME DE PIQUE] Distribution terminee. Tous les joueurs ont 13 cartes." << endl;
 }
 
 
@@ -106,6 +171,8 @@ bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaq
 
 // appelle à calculer points pli
 unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { 
+	REG_CalculerPointsPli();
+	
 	unsigned int uiIndiceJoueurGagnantPli = 0;
 	for (unsigned int i = 0; i < vuIdJoueurPli.size(); i++) {
 
