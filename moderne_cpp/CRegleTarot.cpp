@@ -54,7 +54,16 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 
 	// on remet toutes les cartes dans le paquet
 	REG_RemettreCartesDansPaquet(vuJoueurs, upPaquet);
-
+	
+	// Si le chien n'est pas vide, on le vide.
+	if(upREG_Chien != nullptr)
+	{
+		while (!upREG_Chien->PAQ_GetCartes().empty())
+		{
+			upPaquet->PAQ_AjouterCarte(upREG_Chien->PAQ_RetirerCarte());
+		}
+	}
+	
 	// mélange des cartes
 	upPaquet->PAQ_Melanger();
 	
@@ -71,8 +80,7 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 	for (unsigned int uiBoucle = 0; uiBoucle < vuJoueurs.size(); uiBoucle++) {
 		if (dynamic_cast<CHumain*>(vuJoueurs[uiBoucle].get()) != nullptr)
 		{
-			cin.ignore();
-			cin.get();
+			CConsole::COS_AttendreJoueurSuivant(vuJoueurs[uiBoucle]->JOU_GetNomJoueur());
 			REG_AfficherMainJoueur(uiBoucle, vuJoueurs, muREG_PointsManche);
 		}
 		unsigned int uiChoix;
@@ -226,6 +234,7 @@ void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, un
 			unique_ptr<CCarte> carte = upREG_Chien->PAQ_RetirerCarte();
 			vuJoueurs[uiIndicePreneur]->JOU_GetMain()->PAQ_AjouterCarte(move(carte));
 		}
+		CConsole::COS_AttendreJoueurSuivant(vuJoueurs[uiIndicePreneur]->JOU_GetNomJoueur());
 		REG_AfficherMainJoueur(uiIndicePreneur,vuJoueurs,muREG_PointsManche);
 		cout << "\n Faites votre jeux " << endl;
 		unsigned int uiNbCartesChien = 0;
@@ -330,6 +339,9 @@ void CRegleTarot::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int
 		{
 			*iPointsEquipeGagnante += 1;
 		}
+	}
+	while (!upPli->PAQ_GetCartes().empty()) {
+		upDefausse->PAQ_AjouterCarte(upPli->PAQ_RetirerCarte());
 	}
 }
 
