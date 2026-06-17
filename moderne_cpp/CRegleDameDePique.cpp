@@ -219,7 +219,7 @@ unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaque
 }
 
 
-void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse) {
+void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
 	unsigned int uiPointsAAjouter = 0;
 
 	// les coeurs valent 1 point, la dame de pique en vaut 13
@@ -243,7 +243,7 @@ void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsign
 	}
 
 	// afficher le score de chaque joueur (un joueur = une équipe)
-	REG_AfficherPoints(muPointsEquipe);
+	REG_AfficherPoints(muPointsEquipe, vuJoueurs);
 
 	// on vide le pli dans la défausse (qui sera elle même revider dans le paquet de carte plus tard)
 	while (!upPli->PAQ_GetCartes().empty()) {

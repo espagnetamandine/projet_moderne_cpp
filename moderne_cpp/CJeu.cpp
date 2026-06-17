@@ -139,7 +139,7 @@ void CJeu::JEU_JouerPartie() {
 			uiJEU_IdJoueurCourrant = uiIndiceJoueurGagnant;
 
 			// met à jour les points de chaque équipe/joueur en fonction des résultats du pli
-			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points, pJEU_defausse);
+			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points, pJEU_defausse, vjJEU_joueurs);
 			
 			// efface le contenu du pli pour le tour suivant
 			vuJEU_idJoueurPli.clear();

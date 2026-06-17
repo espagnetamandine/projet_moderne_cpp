@@ -257,7 +257,7 @@ unsigned int CRegleBelote::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& u
 	return vuIdJoueurPli[uiIdxMeilleureCarte];
 };
 
-void CRegleBelote::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse) {
+void CRegleBelote::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
 	vector<unique_ptr<CCarte>>& cartesDuPli = upPli->PAQ_GetCartes();
 	unsigned int uiTotalPointsPli = 0;
 
