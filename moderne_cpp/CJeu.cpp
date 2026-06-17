@@ -24,7 +24,7 @@ CJeu::CJeu(string sNom) {
 CJeu::~CJeu() = default;
 
 /********************************************************/
-/*             CONSTRUCTEURS ET DESTRUCTEURS            */
+/*                  GETTER ET SETTER                    */
 /********************************************************/
 
 string CJeu::JEU_GetNomJoueur(unsigned int uiIdJoueur) {
@@ -34,6 +34,10 @@ string CJeu::JEU_GetNomJoueur(unsigned int uiIdJoueur) {
 bool CJeu::JEU_SetNombreJoueur(unsigned int uiNbJoueurs) {
 	return prJEU_strategieRegle->REG_VerificationNbJoueur(uiNbJoueurs);
 }
+
+/********************************************************/
+/*                METHODE PRINCIPALE                    */
+/********************************************************/
 
 void CJeu::JEU_JouerPartie() {
 	unique_ptr<CCarte> carte;
@@ -152,6 +156,10 @@ void CJeu::JEU_SetStrategieRegle(unique_ptr<CRegle> regle) {
 	prJEU_strategieRegle = move(regle);
 }
 
+/********************************************************/
+/*                     AFFICHAGE                        */
+/********************************************************/
+
 void CJeu::JEU_AfficherPoints() {
 	prJEU_strategieRegle->REG_AfficherPoints(mJEU_points);
 }
@@ -165,7 +173,6 @@ void CJeu::JEU_AfficherEquipe() {
 		}
 	}
 }
-
 
 void CJeu::JEU_AfficherPli() {
 	cout << "\nTapis de jeu :" << endl;
@@ -182,8 +189,3 @@ void CJeu::JEU_AfficherPli() {
 		}
 	}
 }
-
-// appelle à afficher main joueur de regle car ça affiche la main, le nom du joueur, le pli et les equipes l'interface peut changer en fonction des jeux
-//void CJeu::JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur) {
-//	prJEU_strategieRegle->REG_AfficherMainJoueur(pJoueur);
-//}

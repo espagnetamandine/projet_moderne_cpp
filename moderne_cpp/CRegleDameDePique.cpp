@@ -33,7 +33,7 @@ bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& mu
 }
 
 
-// chaque joueur choisi 3 cartes et les donne à un autre joueur. D'après les règles, 1ere manche = donner au joueur de gauche, 
+// Chaque joueur choisi 3 cartes et les donne à un autre joueur. D'après les règles, 1ere manche = donner au joueur de gauche, 
 // 2e manche = joueur d'en face, 3e manche = joueur de droite, 4e manche = pas d'échange et ainsi de suite.
 // Par soucis de rapidité, ici on donne tout le temps au joueur de droite
 unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPrincipal, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unsigned int& uiIdJoueurCourrant) {
@@ -53,6 +53,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 
 	// chaque joueur doit choisir 3 cartes
 	size_t uiIndiceJoueurDeDroite = 0;
+	unsigned int uiIndiceCarteAJouer;
 	for (size_t i = 0; i < vuJoueurs.size(); i++)
 	{
 		// on récupère le score par équipe (ie par joueur) pour l'appel à la méthode de CConsole
@@ -61,9 +62,8 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 		{
 			vScoreEquipe.push_back(it->second);
 		}
-
 		
-		// 1. Affichage secret
+		// Affichage secret
 		CConsole::COS_AfficherEcranSecretJoueur(
 			vuJoueurs[i],
 			i,
@@ -72,16 +72,22 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 
 		cout << " Choisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
 		
-		//cout << "Choix première carte : ";
-		//vTroisCartes.push_back(vuJoueurs[i]->JOU_ChoixCarteAJouer());
-
-		//vuJoueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
-		//cout << "Choix deuxième carte : ";
-		//vTroisCartes.push_back(vuJoueurs[i]->JOU_ChoixCarteAJouer());
-
-		//vuJoueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
-		//cout << "Choix troisième carte : ";
-		//vTroisCartes.push_back(vuJoueurs[i]->JOU_ChoixCarteAJouer());
+		cout << "Choix première carte : ";
+		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
+		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
+		
+		//REG_AfficherMainJoueur(i, vuJoueurs, muPointsEquipe);
+		vuJoueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
+		cout << "test" << endl;
+		cout << "Choix deuxième carte : ";
+		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
+		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
+		
+		//REG_AfficherMainJoueur(i, vuJoueurs, muPointsEquipe);
+		vuJoueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
+		cout << "Choix troisième carte : ";
+		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
+		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
 
 		if (vTroisCartes[1] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[1]) {} // erreur 
 	}
@@ -93,6 +99,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
 		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
 		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
+		//vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
 	}
 	while (!vTroisCartes.empty()) { vTroisCartes.pop_back(); }
 
@@ -130,7 +137,7 @@ bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaq
 		bPremiereCarte = false;
 		REG_PremiereCarte(carte);
 	}
-	return true;
+	return true; // a faire 
 }
 
 /********************************************************/
@@ -144,13 +151,18 @@ unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaque
 	unsigned int uiValeurGagnant = upPli->PAQ_GetCartes()[0]->CAR_GetValeur();
 	unsigned int uiIndiceJoueurGagnantPli = 0;
 
+	// on parcourt les cartes du pli : pour remporter le pli il faut avoir 
+	// la carte la plus forte dans la couleur de la première carte jouée
 	for (unsigned int i = 1; i < vuIdJoueurPli.size(); i++) {
 		sCouleur = upPli->PAQ_GetCartes()[i]->CAR_GetCouleur();
 		uiValeur = upPli->PAQ_GetCartes()[i]->CAR_GetValeur();
 		if (sCouleur == sCouleurGagnant && uiValeur > uiValeurGagnant)
 		{
 			uiValeurGagnant = uiValeur;
-			uiIndiceJoueurGagnantPli = i;
+
+			// on récupère bien l'indice du joueur dans le pli 
+			// ici par exemple si vuIdJoueur vaut 2, 3, 4, 1 et que i vaut 2, l'indice du joueur c'est 4
+			uiIndiceJoueurGagnantPli = vuIdJoueurPli[i];
 		}
 	}
 	return uiIndiceJoueurGagnantPli;
@@ -159,10 +171,16 @@ unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaque
 
 void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse) {
 	unsigned int uiPointsAAjouter = 0;
+
+	// les coeurs valent 1 points, la dame de pique en vaut 13
+	// toutes les autres cartes valent 0 point
 	for (unique_ptr<CCarte>& carte : upPli->PAQ_GetCartes()) {
 		if (carte->CAR_GetCouleur() == "Coeur") { uiPointsAAjouter++; }
 		if (carte->CAR_GetCouleur() == "Pique" && carte->CAR_GetValeur() == 12) { uiPointsAAjouter += 13; }
 	}
+
+	// on parcourt la map des points pour ajouter au joueur qui remporte le pli les points du pli
+	// (NB : un joueur = une équipe)
 	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) {
 		if (it->first->getEQU_numeroEquipe() == uiIndiceJoueurGagnantPli) {
 			it->second += uiPointsAAjouter;
@@ -175,7 +193,7 @@ void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsign
 /********************************************************/
 
 bool CRegleDameDePique::REG_VerificationNbJoueur(unsigned int uiNbJoueurs) {
-	// Ce jeu peut se jouer à 4 ou 6 joueurs mais ce programme n'implémente que le fait de jouer à 4.
+	// Ce jeu peut se jouer à 4 ou 6 joueurs mais ce programme n'implémente que la version à 4 joueurs.
 	return (uiNbJoueurs == 4 || uiNbJoueurs == 6);
 }
 
@@ -187,6 +205,7 @@ void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJou
 
 		unique_ptr<CEquipe> pEquipe = make_unique<CEquipe>(uiNumerosJoueurs, i + 1);
 
+		// une equipe = un joueur
 		muPointsEquipe.emplace(move(pEquipe), 0);
 	}
 }
@@ -200,8 +219,10 @@ void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& vuJoue
 		(vuJoueurs[k]->JOU_GetMain())->PAQ_GetCartes().clear();
 	}
 
-	for (unsigned int i = 0; i < (upPaquetPrincipal->PAQ_GetCartes().size() / vuJoueurs.size()); i++)
+	// pour un jeu de 52 cartes, on distribue 13 cartes à chaque joueur
+	for (unsigned int i = 0; i < 13; i++)
 	{
+		// ici on distribue les cartes 1 par 1 à chaque joueur
 		for (unsigned int j = 0; j < vuJoueurs.size(); j++)
 		{
 			(vuJoueurs[j]->JOU_GetMain())->PAQ_AjouterCarte(upPaquetPrincipal->PAQ_RetirerCarte());
@@ -238,23 +259,71 @@ bool CRegleDameDePique::REG_PremiereCarte(CCarte& pcCarte) {
 /********************************************************/
 
 void CRegleDameDePique::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vuJoueurs, unsigned int uiIndiceJoueurGagnantPli) {
+	cout << "--------------------------------------------------" << endl;
+	cout << "                  Fin du pli                      " << endl;
+	cout << "--------------------------------------------------\n" << endl;
+	
 	cout << vuJoueurs[uiIndiceJoueurGagnantPli]->JOU_GetNomJoueur() << " remporte le pli." << endl;
 }
 
 void CRegleDameDePique::REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
+	cout << "--------------------------------------------------" << endl;
+	cout << "               Fin de la manche                   " << endl;
+	cout << "--------------------------------------------------\n" << endl;
+
+	cout << "Nombre de points par joueur :" << endl;
+	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) 
+	{
+		cout << " -> " << vuJoueurs[it->first->getEQU_numeroEquipe()]->JOU_GetNomJoueur() << " : " << it->second << " points." << endl;
+	}
+
+	cout << "\n\nAppuyez sur ENTREE pour passer a la manche suivante...";
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.get();
 }
 
 void CRegleDameDePique::REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
-	// Hello, petit message car tu passera par là, déjà gg pour tout ce que tu as fait durant le projet et durant l'année :) tu as fait beaucoup de progrès !
-	// Si jamais pour cette fonction tu dois utiliser CConsole::COS_AfficherGagnants(vsNomsGagnants, sNomEquipe);
+	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it)
+	{
+		int iScoreEquipe = it->second;
 
-	//cout << "Félicitations " << vJoueurs[uiIndiceJoueurGagnantPartie]->JOU_GetNomJoueur() << " vous avez gagné !" << endl;
+		if (iScoreEquipe >= 100)
+		{
+			vector<unsigned int> vuIdsMembres = it->first->getEQU_equipe();
+
+			vector<string> vsNomsGagnants;
+			for (unsigned int id : vuIdsMembres) {
+				if (id < vuJoueurs.size()) {
+					vsNomsGagnants.push_back(vuJoueurs[id]->JOU_GetNomJoueur());
+				}
+			}
+
+			string sNomEquipe = "Equipe " + to_string(it->first->getEQU_numeroEquipe());
+
+			CConsole::COS_AfficherGagnants(vsNomsGagnants, sNomEquipe);
+
+			break;
+		}
+	}
 }
 
 void CRegleDameDePique::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe) {
-	//pJoueur->JOU_GetMain()->PAQ_Afficher();
-	// N'oublie pas que dans CConsole tu as un affichage de main ;)
+	unsigned int uiNumEquipe = 0;
+	int iScoreEquipe = 0;
+
+	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) {
+		vector<unsigned int> vNumeros = it->first->getEQU_equipe();
+		for (unsigned int num : vNumeros) {
+			if (num == uiIdJoueur) {
+				uiNumEquipe = it->first->getEQU_numeroEquipe();
+				iScoreEquipe = it->second;
+				break;
+			}
+		}
+	}
+
+	CConsole::COS_AfficherEcranSecretJoueur(vuJoueurs[uiIdJoueur], uiNumEquipe, iScoreEquipe);
 }
 
 void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe) {

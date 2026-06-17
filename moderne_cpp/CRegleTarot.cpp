@@ -6,10 +6,13 @@
 #include "CConsole.h"
 
 
-bool CRegleTarot::REG_SetNbJoueur(unsigned int uiNbJoueurs){}
+// a faire
+bool CRegleTarot::REG_SetNbJoueur(unsigned int uiNbJoueurs) { return true; }
 
 void CRegleTarot::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {} // appelle constituer équipe
-bool  CRegleTarot::REG_ConditionFinPartie(){}
+
+// a faire
+bool  CRegleTarot::REG_ConditionFinPartie() { return true;  }
 
 unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points, unsigned int& uiJEU_IdJoueurCourrant) 
 {
@@ -93,7 +96,8 @@ bool EstDansVecteur(vector<int> v, int numero) {
 
 
 
-unsigned int CRegleTarot::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) {}// appelle à joueur suivant + calculer points pli + ajouter 1 au pli
+// a faire
+unsigned int CRegleTarot::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli) { return 0;  }// appelle à joueur suivant + calculer points pli + ajouter 1 au pli
 void CRegleTarot::REG_CalculerPointsPli(){}
 void CRegleTarot::REG_CalculerPointsManche() {} // si nécessairewini
 
