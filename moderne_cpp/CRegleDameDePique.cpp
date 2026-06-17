@@ -126,9 +126,21 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 
 	CConsole::COS_NettoyerEcran();
 
-	// on choisit un premier joueur en aléatoire pour que ce ne soit pas toujours le joueur 0 qui commence
-	srand(time(nullptr));
-	unsigned int uiIndicePremierJoueur = rand() % vuJoueurs.size();
+	// le premier joueur est celui qui possède le 2 de trèfle
+	unsigned int uiIndicePremierJoueur = 0;
+	// pour chaque joueur on parcourt sa main pour chercher le 2 de trèfle
+	for (unsigned int i = 0; i < vuJoueurs.size(); i++)
+	{
+		for (unsigned int j = 0; j < vuJoueurs[i]->JOU_GetMain()->PAQ_GetCartes().size(); j++)
+		{
+			if ((vuJoueurs[i]->JOU_GetMain()->PAQ_GetCartes()[j]->CAR_GetValeur() == 2)
+				&& (vuJoueurs[i]->JOU_GetMain()->PAQ_GetCartes()[j]->CAR_GetCouleur() == "Trefle"))
+			{
+				uiIndicePremierJoueur = i;
+			}
+		}
+	}
+
 	cout << "Le premier joueur est " << vuJoueurs[uiIndicePremierJoueur]->JOU_GetNomJoueur() << endl;
 	return uiIndicePremierJoueur;
 }
@@ -147,8 +159,14 @@ bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>
 bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur, const unique_ptr<CPaquet>& pPli, const vector<unsigned int>& vuIdJoueurPli) {
 	// ce jeu impose que la première carte à jouer soit le 2 de trèfle
 	if (bPremiereCarte == true) {
-		bPremiereCarte = false;
-		REG_PremiereCarte(carte);
+		if (REG_PremiereCarte(carte)) {
+			bPremiereCarte = false; // On ne passe à false QUE si le 2 de trèfle est validé
+			return true;
+		}
+		else {
+			cout << "Le premier joueur doit obligatoirement jouer le 2 de Trefle !" << endl;
+			return false;
+		}
 	}
 
 	else {

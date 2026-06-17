@@ -20,11 +20,7 @@ const string CConsole::VERT = "\033[32m";
 const string CConsole::JAUNE = "\033[33m";
 const string CConsole::BLEU = "\033[34m";
 const string CConsole::MAGENTA = "\033[35m";
-const string CConsole::CYAN = "\033[36m";
 const string CConsole::GRAS = "\033[1m";
-
-const string CConsole::BG_BLANC = "\033[47m";
-const string CConsole::BG_NOIR = "\033[40m";
 
 /********************************************************/
 /*                       METHODES                       */
