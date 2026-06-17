@@ -10,7 +10,18 @@
 /*                    METHODES DE JEU                   */
 /********************************************************/
 
+void CRegleTarot::REG_DebutPartie(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPoints) 
+{
+	pvREG_Joueurs = &vuJoueurs;
+	for (unsigned int uiBoucle = 0; uiBoucle < vuJoueurs.size(); uiBoucle++)
+	{
+		unique_ptr<CEquipe> upEquipe = make_unique<CEquipe>();
+		upEquipe->EQU_ajouterJoueur(uiBoucle);
+		upEquipe->setEQU_numeroEquipe(uiBoucle);
+		muPoints[move(upEquipe)] = 0;
 
+	}
+}
 
 bool  CRegleTarot::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPoints)
 {
@@ -21,8 +32,8 @@ bool  CRegleTarot::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPoint
 			return true;
 
 		}
-		return false;
 	}
+	return false;
 }
 
 // Le chien est créer dans un prmeier temps puis le reste des cartes et distribuer aux joueurs. 
@@ -59,15 +70,26 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 		{
 			cin.ignore();
 			cin.get();
-			REG_AfficherMainJoueur(vuJoueurs[uiBoucle]);
+			REG_AfficherMainJoueur(uiBoucle, vuJoueurs, muREG_PointsManche);
 		}
-		cout << "\n " << vuJoueurs[uiBoucle]->JOU_GetNomJoueur() << endl;
-		cout << "\n Choississez parmi les options suivantes: Passer, Petite, Garde, Garde Sans, Garde Contre :" << endl;
 		unsigned int uiChoix;
-		cin >> uiChoix;
-		while (uiChoix > 4 || (uiChoix>0 && uiChoix <= uiAnnonceMax)) {
-			cout << "\n Choix invalide, recommencez " << endl;
+		if (dynamic_cast<CHumain*>(vuJoueurs[uiBoucle].get())!= nullptr)
+		{
+			cout << "\n " << vuJoueurs[uiBoucle]->JOU_GetNomJoueur() << endl;
+			cout << "\n Choississez parmi les options suivantes: Passer, Petite, Garde, Garde Sans, Garde Contre :" << endl;
 			cin >> uiChoix;
+			while (uiChoix > 4 || (uiChoix > 0 && uiChoix <= uiAnnonceMax)) {
+				cout << "\n Choix invalide, recommencez " << endl;
+				cin >> uiChoix;
+			}
+		
+		}
+		else
+		{
+			uiChoix = rand() % 5;
+			while (uiChoix > 0 && uiChoix <= uiAnnonceMax) {
+				uiChoix = rand() % 5;
+			}
 		}
 		if (uiChoix > uiAnnonceMax)
 		{
@@ -106,7 +128,7 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 	else {
 		uiREG_AnnonceMax = uiAnnonceMax;
 		uiREG_IndicePreneur = uiIndicePreneur;
-		REG_ConstituerEquipes(vuJoueurs, mREG_PointsManche, uiIndicePreneur);
+		REG_ConstituerEquipes(vuJoueurs, muREG_PointsManche);
 		REG_ChoixCarteChien(vuJoueurs, uiIndicePreneur, uiAnnonceMax);
 		return uiIndicePreneur;
 	}
@@ -116,7 +138,7 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 
 
 // une manche s'arrete lorsque personne n'a plus plus de cartes
-bool  CRegleTarot::REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& vuJoueurs)
+bool  CRegleTarot::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
 	if (vuJoueurs[0]->JOU_GetMain()->PAQ_GetCartes().size() == 0)
 	{
@@ -178,12 +200,12 @@ void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, un
 	{
 	case 1:
 	case 2:
-		while (!pREG_Chien-> PAQ_GetCartes().empty())
+		while (!upREG_Chien-> PAQ_GetCartes().empty())
 		{
-			unique_ptr<CCarte> carte = pREG_Chien->PAQ_RetirerCarte();
+			unique_ptr<CCarte> carte = upREG_Chien->PAQ_RetirerCarte();
 			vuJoueurs[uiIndicePreneur]->JOU_GetMain()->PAQ_AjouterCarte(move(carte));
 		}
-		REG_AfficherMainJoueur(vuJoueurs[uiIndicePreneur]);
+		REG_AfficherMainJoueur(uiIndicePreneur,vuJoueurs,muREG_PointsManche);
 		cout << "\n Faites votre jeux " << endl;
 		unsigned int uiNbCartesChien = 0;
 		if (vuJoueurs.size() == 5)
@@ -195,7 +217,7 @@ void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, un
 			uiNbCartesChien = 6;
 		}
 		for (unsigned int uiBoucle = 0; uiBoucle < uiNbCartesChien; uiBoucle++) {
-			REG_AfficherMainJoueur(vuJoueurs[uiIndicePreneur]);
+			REG_AfficherMainJoueur(uiIndicePreneur, vuJoueurs, muREG_PointsManche);
 			unsigned int uiIndiceCarte;
 			cout << "\n Choississez les cartes que vous voulez mettre dans le chien" << endl;
 			cin >> uiIndiceCarte;
@@ -205,7 +227,7 @@ void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, un
 				cin >> uiIndiceCarte;
 			}
 			unique_ptr<CCarte> carte = vuJoueurs[uiIndicePreneur]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarte);
-			pREG_Chien->PAQ_AjouterCarte(move(carte));
+			upREG_Chien->PAQ_AjouterCarte(move(carte));
 		}
 		break;
 	}
@@ -242,49 +264,44 @@ unsigned int CRegleTarot::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pP
 
 
 // calcul des points pour un pli
-void CRegleTarot::REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, map<unique_ptr<CEquipe>, int>& muPoints, unsigned int uiIndiceGagnant, vector<unsigned int>& vuIdJoueurPli)
+void CRegleTarot::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse)
 {
 	int* iPointsEquipeGagnante = nullptr;
 
-	for (auto& equipe : mREG_PointsManche)
+	for (auto& equipe : muREG_PointsManche)
 	{
 		equipe.first;
 		equipe.second;
-		if (find(equipe.first->getEQU_equipe().begin(), equipe.first->getEQU_equipe().end(), uiIndiceGagnant) != equipe.first->getEQU_equipe().end())
+		vector<unsigned int> vuEquipe = equipe.first->getEQU_equipe();
+		if (find(vuEquipe.begin(), vuEquipe.end(), uiIndiceJoueurGagnantPli) != vuEquipe.end())
 		{
 			iPointsEquipeGagnante = &equipe.second;
 		}
 	}
+	if (iPointsEquipeGagnante == nullptr) {
+		cout << "ERREUR: equipe gagnante non trouvee pour le joueur " << uiIndiceJoueurGagnantPli << endl;
+		return;
+	}
 	// les valeurs *2 de chaque cartes
-	for (unsigned int uiBoucle = 0; uiBoucle < pPli->PAQ_GetCartes().size(); uiBoucle++)
+	for (unsigned int uiBoucle = 0; uiBoucle < upPli->PAQ_GetCartes().size(); uiBoucle++)
 	{
-		if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Roi" || (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == "Atout" && (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 1 || pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 21)))
+		if (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Roi" || (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == "Atout" && (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 1 || upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 21)))
 		{
 			*iPointsEquipeGagnante += 9;
 		}
-		else if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "L'excuse")
+		else if (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "L'excuse")
 		{
-			unsigned int uiIndiceJoueurExcuse = vuIdJoueurPli[uiBoucle];
-			for (auto& equipeExcuse : mREG_PointsManche)
-			{
-				if (find(equipeExcuse.first->getEQU_equipe().begin(), equipeExcuse.first->getEQU_equipe().end(), uiIndiceJoueurExcuse) != equipeExcuse.first->getEQU_equipe().end())
-				{
-					equipeExcuse.second += 8;
-				}
-			}
-			*iPointsEquipeGagnante += 1;
-
-
+			*iPointsEquipeGagnante += 9;
 		}
-		else if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Dame")
+		else if (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Dame")
 		{
 			*iPointsEquipeGagnante += 7;
 		}
-		else if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Cavalier")
+		else if (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Cavalier")
 		{
 			*iPointsEquipeGagnante += 5;
 		}
-		else if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Valet")
+		else if (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "Valet")
 		{
 			*iPointsEquipeGagnante += 3;
 		}
@@ -296,12 +313,12 @@ void CRegleTarot::REG_CalculerPointsPli(unique_ptr<CPaquet>& pPli, map<unique_pt
 }
 
 // calcul des points d'une manche des joueurs
-void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnant, map<unique_ptr<CEquipe>, int>& muPoints, unique_ptr<CPaquet>& upDefausse, vector<unique_ptr<CJoueur>>& vuJoueurs)
+void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnant, map<unique_ptr<CEquipe>, int>& muPoints, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
 	unsigned int uiNbBouts = 0;
-	for (unsigned int uiBoucle = 0; uiBoucle < pREG_Chien->PAQ_GetCartes().size(); uiBoucle++)
+	for (unsigned int uiBoucle = 0; uiBoucle < upREG_Chien->PAQ_GetCartes().size(); uiBoucle++)
 	{
-		if (pREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == "Atout" && (pREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 1 || pREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 21 || pREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "L'excuse"))
+		if (upREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == "Atout" && (upREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 1 || upREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 21 || upREG_Chien->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() == "L'excuse"))
 		{
 			uiNbBouts++;
 		}
@@ -337,10 +354,12 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 		// au contraire s'il perd alors il prend 10 points de malus
 		if (upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == "Atout" && upPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() == 1)
 		{
-			for (auto& equipe : mREG_PointsManche)
-				if (find(equipe.first->getEQU_equipe().begin(), equipe.first->getEQU_equipe().end(), uiREG_IndicePreneur) != equipe.first->getEQU_equipe().end())
+			for (auto& equipe : muREG_PointsManche) {
+
+				vector<unsigned int> vuEquipe = equipe.first->getEQU_equipe();
+				if (find(vuEquipe.begin(), vuEquipe.end(), uiREG_IndicePreneur) != vuEquipe.end())
 				{
-					if (find(equipe.first->getEQU_equipe().begin(), equipe.first->getEQU_equipe().end(), uiIndiceJoueurGagnant) != equipe.first->getEQU_equipe().end())
+					if (find(vuEquipe.begin(), vuEquipe.end(), uiIndiceJoueurGagnant) != vuEquipe.end())
 					{
 						equipe.second += 10;
 					}
@@ -349,12 +368,13 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 						equipe.second -= 10;
 					}
 				}
+			}
 		}
 	}
 	int iPointsPreneur = 0;
-	for (auto& equipe : mREG_PointsManche) {
-
-		if (find(equipe.first->getEQU_equipe().begin(), equipe.first->getEQU_equipe().end(), uiREG_IndicePreneur) != equipe.first->getEQU_equipe().end())
+	for (auto& equipe : muREG_PointsManche) {
+		vector<unsigned int> vuEquipe = equipe.first->getEQU_equipe();
+		if (find(vuEquipe.begin(), vuEquipe.end(), uiREG_IndicePreneur) != vuEquipe.end())
 		{
 			iPointsPreneur = equipe.second;
 		}
@@ -378,30 +398,33 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 		break;
 	}
 	// calcul des points
-	for (auto& equipe : muPoints) {
-		if (find(equipe.first->getEQU_equipe().begin(), equipe.first->getEQU_equipe().end(), uiREG_IndicePreneur) != equipe.first->getEQU_equipe().end())
-		{
-			if (iPointsPreneur >= uiSeuilVictoire * 2)
-			{
-				equipe.second += (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur * (vuJoueurs.size() - 1);
-			}
-			else
-			{
-				equipe.second -= (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur * (vuJoueurs.size() - 1);
-			}
-		}
-		else
-		{
-			if (iPointsPreneur >= uiSeuilVictoire * 2)
-			{
-				equipe.second -= (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur;
-			}
-			else
-			{
-				equipe.second += (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur;
-			}
-		}
+	for (auto& equipeIndividuelle : muPoints) {
+		unsigned int uiJoueur = equipeIndividuelle.first->getEQU_equipe()[0];
 
+		bool bJoueurEstPreneur = (uiJoueur == uiREG_IndicePreneur);
+
+		if (bJoueurEstPreneur)
+		{
+			if (iPointsPreneur >= uiSeuilVictoire * 2)
+			{
+				equipeIndividuelle.second += (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur * (vuJoueurs.size() - 1);
+			}
+			else
+			{
+				equipeIndividuelle.second -= (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur * (vuJoueurs.size() - 1);
+			}
+		}
+		else 
+		{
+			if (iPointsPreneur >= uiSeuilVictoire * 2) 
+			{
+				equipeIndividuelle.second -= (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur ;
+			}
+			else
+			{
+				equipeIndividuelle.second += (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur ;
+			}
+		}
 	}
 }
 
@@ -425,15 +448,15 @@ bool CRegleTarot::REG_VerificationNbJoueur(unsigned int uiNbJoueurs)
 // l'équipe des défenseurs contient 3 joueurs et l'équipe des preneurs contient 2 joueurs où c'est le preneur qui va choisir son coéquipier en appelant un roi qui ne possede pas
 // si le preneur possède tous les rois, alors il joue tout seul contre 4 personnes, et de même s'il appelle un roi qui est dans le chien
 // si une partie se déroule à 3 ou 4 joueurs alors le preneur joue tout seul contre les autres joueurs
-void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPoints, unsigned int uiIndincePreneur)
+void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPoints)
 {
 	unique_ptr<CEquipe> pEquipePreneur = make_unique<CEquipe>();
 	unique_ptr<CEquipe> pEquipeDefenseurs = make_unique<CEquipe>();
-	pEquipePreneur->EQU_ajouterJoueur(uiIndincePreneur);
+	pEquipePreneur->EQU_ajouterJoueur(uiREG_IndicePreneur);
 	if (vuJoueurs.size() == 5)
 	{
 		unsigned int uiNbRois = 0;
-		for (auto& carte : vuJoueurs[uiIndincePreneur]-> JOU_GetMain()->PAQ_GetCartes())
+		for (auto& carte : vuJoueurs[uiREG_IndicePreneur]-> JOU_GetMain()->PAQ_GetCartes())
 		{
 			
 			if (carte->CAR_GetNom()== "Roi")
@@ -445,7 +468,7 @@ void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, 
 		{
 			for (unsigned int uiBoucle= 0; uiBoucle < vuJoueurs.size(); uiBoucle++)
 			{
-				if (uiBoucle != uiIndincePreneur)
+				if (uiBoucle != uiREG_IndicePreneur)
 				{
 					pEquipeDefenseurs->EQU_ajouterJoueur(uiBoucle);
 				}
@@ -453,7 +476,7 @@ void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, 
 		}
 		else {
 			
-			cout << "\n Le joueur " << vuJoueurs[uiIndincePreneur]->JOU_GetNomJoueur() << "appelle le Roi de " << endl;
+			cout << "\n Le joueur " << vuJoueurs[uiREG_IndicePreneur]->JOU_GetNomJoueur() << "appelle le Roi de " << endl;
 			string sCouleurChoisie;
 			cin >> sCouleurChoisie;
 			while (sCouleurChoisie != "Coeur" && sCouleurChoisie != "Trefle" && sCouleurChoisie != "Carreau" && sCouleurChoisie != "Pique")
@@ -463,7 +486,7 @@ void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, 
 			}
 			for (unsigned int uiBoucle = 0; uiBoucle < vuJoueurs.size(); uiBoucle++)
 			{
-				if (uiBoucle != uiIndincePreneur)
+				if (uiBoucle != uiREG_IndicePreneur)
 				{
 					bool bPossedeLeRoi = false ;
 					for (auto& carte : vuJoueurs[uiBoucle]->JOU_GetMain()->PAQ_GetCartes())
@@ -491,7 +514,7 @@ void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, 
 	{
 		for (unsigned int uiBoucle = 0; uiBoucle < vuJoueurs.size(); uiBoucle++)
 		{
-			if (uiBoucle != uiIndincePreneur) {
+			if (uiBoucle != uiREG_IndicePreneur) {
 				pEquipeDefenseurs->EQU_ajouterJoueur(uiBoucle);
 			}
 		}
@@ -504,7 +527,7 @@ void CRegleTarot::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, 
 void CRegleTarot::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
 
-	pREG_Chien = CPaquetManager::PAQ_CreerPaquet("Joueur");
+	upREG_Chien = CPaquetManager::PAQ_CreerPaquet("Joueur");
 	unsigned int uiNbCartesChien = 0;
 	// s'il y a 5 joueurs, alors le chien contient 3 cartes
 	if (vuJoueurs.size() == 5)
@@ -519,7 +542,7 @@ void CRegleTarot::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& upPaquet, vector<
 	for (unsigned int uiBoucle = 0; uiBoucle < uiNbCartesChien; uiBoucle++)
 	{
 		unique_ptr<CCarte> upCarte = upPaquet->PAQ_RetirerCarte();
-		pREG_Chien->PAQ_AjouterCarte(move(upCarte));
+		upREG_Chien->PAQ_AjouterCarte(move(upCarte));
 	}
 
 }
@@ -576,11 +599,11 @@ void CRegleTarot::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vuJoueurs,
 	cout << "\n Le joueur" << vuJoueurs[uiIndiceJoueurGagnantPli]->JOU_GetNomJoueur() << " remporte le pli !" << endl;
 }
 
-void CRegleTarot::REG_AfficherGagnantManche(vector<unique_ptr<CJoueur>>& vJoueurs)
+void CRegleTarot::REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
 	int iPointsMax = 0;
 	CEquipe* pEquipeGagnante = nullptr;
-	for (auto& equipe : mREG_PointsManche) {
+	for (auto& equipe : muPointsEquipe) {
 
 		if (equipe.second > iPointsMax)
 		{
@@ -591,22 +614,36 @@ void CRegleTarot::REG_AfficherGagnantManche(vector<unique_ptr<CJoueur>>& vJoueur
 	cout << "\n Les joueurs qui remportent la manche sont: " << endl;
 	for (unsigned int uiBoucle : pEquipeGagnante->getEQU_equipe())
 	{
-		cout << vJoueurs[uiBoucle]->JOU_GetNomJoueur() << endl;
+		cout << vuJoueurs[uiBoucle]->JOU_GetNomJoueur() << endl;
 	}
 }
 
 
 // affichage final du gagnant de la partie
-void CRegleTarot::REG_AfficherGagnantPartie(vector<unique_ptr<CJoueur>>& vuJoueurs, unsigned int uiIndiceJoueurGagnantPartie)
+void CRegleTarot::REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& muPoints, const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
-	cout << "\n Le joueur" << vuJoueurs[uiIndiceJoueurGagnantPartie]->JOU_GetNomJoueur() << " remporte la partie !" << endl;
+	int iPointsMax = 0;
+	CEquipe* pEquipeGagnante = nullptr;
+	for (auto& equipe: muPoints)
+	{
+		if (equipe.second > iPointsMax)
+		{
+			iPointsMax = equipe.second;
+			pEquipeGagnante = equipe.first.get();
+		}
+	}
+	cout << "\n Le joueur qui remporte la partie est : " << endl;
+	for (unsigned int uiBoucle : pEquipeGagnante->getEQU_equipe())
+	{
+		cout << vuJoueurs[uiBoucle]->JOU_GetNomJoueur() << endl;
+	}
 }
 
-void CRegleTarot::REG_AfficherMainJoueur(unique_ptr<CJoueur>& upJoueur) 
+void CRegleTarot::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe)
 {
-	for (unsigned int uiBoucle = 0; uiBoucle < upJoueur->JOU_GetMain()->PAQ_GetCartes().size(); uiBoucle++)
+	for (unsigned int uiBoucle = 0; uiBoucle < vuJoueurs[uiIdJoueur]->JOU_GetMain()->PAQ_GetCartes().size(); uiBoucle++)
 	{
-		cout << "Carte " << uiBoucle << " : " << *upJoueur->JOU_GetMain()->PAQ_GetCartes()[uiBoucle] << endl;
+		cout << "Carte " << uiBoucle << " : " << *vuJoueurs[uiIdJoueur]->JOU_GetMain()->PAQ_GetCartes()[uiBoucle] << endl;
 	}
 
 } 
@@ -615,7 +652,8 @@ void CRegleTarot::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoints)
 {
 	for (auto& equipe : muPoints)
 	{
-		cout << "\n Equipe " << equipe.first->getEQU_numeroEquipe() << " : " << equipe.second << " points" << endl;
+		unsigned int uiJoueur = equipe.first->getEQU_equipe()[0];
+		cout << "\n " << (*pvREG_Joueurs)[uiJoueur]->JOU_GetNomJoueur() << " : " << equipe.second << " points" << endl;
 	}
 }
 
@@ -626,5 +664,4 @@ void CRegleTarot::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoints)
 /*                    NON - UTILISEES                   */
 /********************************************************/
 
-
-void CRegleTarot::REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points) {}
+void CRegleTarot::REG_AfficherAfficherPli(unique_ptr<CPaquet> upPli, vector<unsigned int> vuIdJoueurPli){}

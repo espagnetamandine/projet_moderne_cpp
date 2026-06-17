@@ -270,5 +270,5 @@ void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoin
 
 void CRegleDameDePique::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs) {}
 
-void CRegleDameDePique::REG_MettreEnPlacePioche() {};
+void CRegleDameDePique::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs) {};
 void CRegleDameDePique::REG_AfficherAfficherPli(unique_ptr<CPaquet> upPli, vector<unsigned int> vuIdJoueurPli) {};
