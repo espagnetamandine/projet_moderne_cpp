@@ -18,12 +18,13 @@ void CRegleDameDePique::REG_DebutPartie(unique_ptr<CPaquet>& upPaquetPrincipal, 
 } 
 
 
-bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe) {
+bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe) {	
 	int iScoreEquipe;
 	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it)
 	{
 		iScoreEquipe = it->second;
 
+		// le jeu s'arrête quand un joueur atteint 100 points
 		if (iScoreEquipe >= 100) // ce score pourrait être parametrable 
 		{
 			return true;
@@ -74,6 +75,8 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 
 		cout << "\nChoisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
 		
+		// le joueur choisit une carte (ou plutôt l'indice de cette acrte dans sa main) puis on retire la carte de sa main
+		// on stocke temporairement les cartes dans un vecteur
 		cout << "Choix premiere carte : ";
 		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
 		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
@@ -91,7 +94,8 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 		if (vTroisCartes[1] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[1]) {} // erreur 
 	}
 
-	// puis donner les trois cartes au joueur de droite 
+	// on vide le vecteur de stockage temporaire des cartes : 
+	// les trois cartes choisies pour chaque joueur sont données au joueur de droite 
 	for (size_t i = 0; i < vuJoueurs.size(); i++)
 	{
 		uiIndiceJoueurDeDroite = (i + 1) % vuJoueurs.size();
@@ -101,6 +105,8 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[sJoueurIndex + 1]));
 		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[sJoueurIndex + 2]));
 	}
+
+	// on vide le vecteur de stockage temporaire
 	while (!vTroisCartes.empty()) { vTroisCartes.pop_back(); }
 	vTroisCartes.clear();
 
@@ -126,6 +132,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 
 
 bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& vuJoueurs) {
+	// une manche est terminée quand les joueurs n'ont plus de cartes dans leur main (donc au bout de 13 plis)
 	for (unsigned int i = 0; i < vuJoueurs.size(); i++) {
 		if (!vuJoueurs[i]->JOU_GetMain()->PAQ_GetCartes().empty()) { return false; }
 	}
@@ -173,7 +180,7 @@ unsigned int CRegleDameDePique::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaque
 void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse) {
 	unsigned int uiPointsAAjouter = 0;
 
-	// les coeurs valent 1 points, la dame de pique en vaut 13
+	// les coeurs valent 1 point, la dame de pique en vaut 13
 	// toutes les autres cartes valent 0 point
 	for (unique_ptr<CCarte>& carte : upPli->PAQ_GetCartes()) {
 		if (carte->CAR_GetCouleur() == "Coeur") { uiPointsAAjouter++; }
@@ -186,6 +193,12 @@ void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsign
 		if (it->first->getEQU_numeroEquipe() == uiIndiceJoueurGagnantPli) {
 			it->second += uiPointsAAjouter;
 		}
+	}
+
+	// on vide le pli dans la défausse (qui sera elle même revider dans le paquet de carte plus tard)
+	while (!upPli->PAQ_GetCartes().empty()) {
+		upDefausse->PAQ_AjouterCarte(move(upPli->PAQ_GetCartes().back()));
+		upPli->PAQ_GetCartes().pop_back();
 	}
 }
 

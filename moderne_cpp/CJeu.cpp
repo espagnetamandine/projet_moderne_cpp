@@ -44,6 +44,7 @@ void CJeu::JEU_JouerPartie() {
 	unsigned int uiIndiceJoueurGagnant = 100;
 	unsigned int uiPremierJoueurManche = 0;
 
+	// debut partie
 	prJEU_strategieRegle->REG_DebutPartie(pJEU_paquetDeCartes, vjJEU_joueurs, mJEU_points);
 	while (!prJEU_strategieRegle->REG_ConditionFinPartie(mJEU_points)) // partie
 	{
@@ -63,7 +64,8 @@ void CJeu::JEU_JouerPartie() {
 
 			while (pJEU_pli->PAQ_GetCartes().size() != vjJEU_joueurs.size()) // pli 
 			{
-				// Affichage de la main du joueur avec le pli pour qu'il puisse choisir sa carte
+				// on recupere le numero d'équipe du joueur et le score associé pour 
+				// le passer en paramètre de la méthode de CConsole juste en dessous
 				if (!vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_EstIa())
 				{
 					unsigned int uiNumEquipe = 0;
@@ -84,6 +86,7 @@ void CJeu::JEU_JouerPartie() {
 						}
 					}
 
+					// Affichage de la main du joueur avec le pli pour qu'il puisse choisir sa carte
 					CConsole::COS_AfficherEcranSecretJoueur(vjJEU_joueurs[uiJEU_IdJoueurCourrant], uiNumEquipe, iScoreEquipe);
 
 					JEU_AfficherPli();
@@ -94,24 +97,31 @@ void CJeu::JEU_JouerPartie() {
 
 				while (!bCarteValidee)
 				{
+					// on récupère la main du joueur
 					vector<unique_ptr<CCarte>>& upJOU_mainJoueur = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain()->PAQ_GetCartes();
 
+					// le joueur choisit sa carte (ou plus exactement l'indice de cette carte dans sa main)
 					unsigned int uiIndexCarteChoisie = vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_ChoixCarteAJouer();
 
+					// on vérifie si la carte est valide, sinon on demande au joueur de choisir à nouveau
 					if (!prJEU_strategieRegle->REG_CarteValide(*(upJOU_mainJoueur[uiIndexCarteChoisie]), vjJEU_joueurs[uiJEU_IdJoueurCourrant]->JOU_GetMain(), pJEU_pli, vuJEU_idJoueurPli))
 					{
-						cout << "\nVeuillez resaisir.\n" << endl;
+						cout << "\nVeuillez ressaisir.\n" << endl;
 					}
 					else
 					{
+						// récupère la carte choisie à partir de son indice renvoyée par la méthode JOU_ChoixCarteAJouer 
 						carte = move(upJOU_mainJoueur[uiIndexCarteChoisie]);
 
+						// on n'oublie pas de supprimer proprement la carte de la main du joueur (sinon on y laisse un nullptr)
 						vector<unique_ptr<CCarte>>::iterator it = upJOU_mainJoueur.begin() + uiIndexCarteChoisie;
 						upJOU_mainJoueur.erase(it);
 
+						// on déplace la carte dans le pli
 						pJEU_pli->PAQ_AjouterCarte(move(carte));
 						vuJEU_idJoueurPli.push_back(uiJEU_IdJoueurCourrant);
 
+						// on passe au joueur suivant 
 						uiJEU_IdJoueurCourrant = (uiJEU_IdJoueurCourrant + 1) % vjJEU_joueurs.size();
 						bCarteValidee = true;
 					}
@@ -120,12 +130,18 @@ void CJeu::JEU_JouerPartie() {
 
 			CConsole::COS_NettoyerEcran();
 
+			// on détermine le joueur qui a gagné le pli et on l'affiche
 			uiIndiceJoueurGagnant = prJEU_strategieRegle->REG_DeterminerIndiceGagnantPli(pJEU_pli, vuJEU_idJoueurPli);
 			prJEU_strategieRegle->REG_AfficherGagnantPli(vjJEU_joueurs, uiIndiceJoueurGagnant);
 			JEU_AfficherPli();
+
+			// le joueur qui a remporté le pli commencera le pli 
 			uiJEU_IdJoueurCourrant = uiIndiceJoueurGagnant;
 
+			// met à jour les points de chaque équipe/joueur en fonction des résultats du pli
 			prJEU_strategieRegle->REG_CalculerPointsPli(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points, pJEU_defausse);
+			
+			// efface le contenu du pli pour le tour suivant
 			vuJEU_idJoueurPli.clear();
 			while (!pJEU_pli->PAQ_GetCartes().empty()) {
 				pJEU_pli->PAQ_GetCartes().pop_back();
@@ -137,8 +153,11 @@ void CJeu::JEU_JouerPartie() {
 
 			CConsole::COS_NettoyerEcran();
 		}
+
+		// met à jour les points de chaque équipe/joueur en fonction des résultats de la manche
 		prJEU_strategieRegle->REG_CalculerPointsManche(pJEU_pli, uiIndiceJoueurGagnant, mJEU_points, pJEU_defausse, vjJEU_joueurs);
 
+		// s'il y a une defausse, son contenu est déplacé de nouveau dans le paquet de carte
 		if (pJEU_defausse != nullptr) {
 			vector<unique_ptr<CCarte>>& cartesDefausse = pJEU_defausse->PAQ_GetCartes();
 			while (!cartesDefausse.empty()) {
@@ -147,6 +166,7 @@ void CJeu::JEU_JouerPartie() {
 			}
 		}
 
+		// le joueur à droite du joueur qui avait commencé la manche commencera la prochaine manche
 		uiPremierJoueurManche = (uiPremierJoueurManche + 1) % vjJEU_joueurs.size();
 	}
 	prJEU_strategieRegle->REG_AfficherGagnantPartie(mJEU_points, vjJEU_joueurs);
