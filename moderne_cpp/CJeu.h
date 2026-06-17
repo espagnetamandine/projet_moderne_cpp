@@ -55,7 +55,6 @@ public:
 	void JEU_AfficherPoints();
 	void JEU_AfficherEquipe();
 	void JEU_AfficherPli();
-	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // penser à enlever si on l'utilise pas
 
 	bool JEU_SetNombreJoueur(unsigned int uiNbJoueurs);
 };

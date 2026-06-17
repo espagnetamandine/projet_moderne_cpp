@@ -361,7 +361,7 @@ void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs,
 		cout << " -> Equipe 1 : " << vuJoueurs[0]->JOU_GetNomJoueur() << " & " << vuJoueurs[2]->JOU_GetNomJoueur() << endl;
 		cout << " -> Equipe 2 : " << vuJoueurs[1]->JOU_GetNomJoueur() << " & " << vuJoueurs[3]->JOU_GetNomJoueur() << endl;
 	}
-};
+}
 
 void CRegleBelote::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& vuJoueurs, unique_ptr<CPaquet>& upPaquetPrincipal) {
 	unsigned int uiBoucleCarte;
@@ -672,7 +672,7 @@ void CRegleBelote::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique
 /*                    NON - UTILISEES                   */
 /********************************************************/
 
-void CRegleBelote::REG_MettreEnPlacePioche() {};
+void CRegleBelote::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs) {};
 
 void CRegleBelote::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points) {};
-void CRegleBelote::REG_AfficherAfficherPli(unique_ptr<CPaquet> pPli, vector<unsigned int> vuIdJoueurPli) {};
+void CRegleBelote::REG_AfficherAfficherPli(unique_ptr<CPaquet>& upPli, vector<unsigned int> vuIdJoueurPli) {};
