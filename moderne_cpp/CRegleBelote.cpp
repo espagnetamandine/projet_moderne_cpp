@@ -674,5 +674,5 @@ void CRegleBelote::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique
 
 void CRegleBelote::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs) {};
 
-void CRegleBelote::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points) {};
+void CRegleBelote::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points, const vector<unique_ptr<CJoueur>>& vuJoueurs) {};
 void CRegleBelote::REG_AfficherAfficherPli(unique_ptr<CPaquet>& upPli, vector<unsigned int> vuIdJoueurPli) {};

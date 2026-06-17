@@ -21,7 +21,6 @@ private:
 	map<unique_ptr<CEquipe>, int> muREG_PointsManche;
 	unsigned int uiREG_AnnonceMax;
 	unsigned int uiREG_IndicePreneur;
-	vector<unique_ptr<CJoueur>>* pvREG_Joueurs;
 
 	// Méthodes spécialisées
 
@@ -63,7 +62,7 @@ public:
 	void REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs);
 	void REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs);
 	void REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe);
-	void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe);
+	void REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs);
 	void REG_AfficherAfficherPli(unique_ptr<CPaquet>& upPli, vector<unsigned int> vuIdJoueurPli);
 
 };

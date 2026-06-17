@@ -257,7 +257,7 @@ void CRegleDameDePique::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<u
 	// N'oublie pas que dans CConsole tu as un affichage de main ;)
 }
 
-void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe) {
+void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
 	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it)
 	{
 		cout << it->first->getEQU_numeroEquipe() << " : " << it->second << endl;

@@ -12,7 +12,6 @@
 
 void CRegleTarot::REG_DebutPartie(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPoints) 
 {
-	pvREG_Joueurs = &vuJoueurs;
 	for (unsigned int uiBoucle = 0; uiBoucle < vuJoueurs.size(); uiBoucle++)
 	{
 		unique_ptr<CEquipe> upEquipe = make_unique<CEquipe>();
@@ -87,7 +86,7 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 		if (dynamic_cast<CHumain*>(vuJoueurs[uiBoucle].get())!= nullptr)
 		{
 			cout << "\n " << vuJoueurs[uiBoucle]->JOU_GetNomJoueur() << endl;
-			cout << "\n Choississez parmi les options suivantes: Passer, Petite, Garde, Garde Sans, Garde Contre :" << endl;
+			cout << "\n Choississez parmi les options suivantes: Passer (0), Petite (1), Garde (2), Garde Sans (3), Garde Contre (4):" << endl;
 			cin >> uiChoix;
 			while (uiChoix > 4 || (uiChoix > 0 && uiChoix <= uiAnnonceMax)) {
 				cout << "\n Choix invalide, recommencez " << endl;
@@ -462,7 +461,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 		}
 	}
 	REG_AfficherGagnantManche(muPoints, vuJoueurs);
-	REG_AfficherPoints(muPoints);
+	REG_AfficherPoints(muPoints,vuJoueurs);
 
 }
 
@@ -686,12 +685,12 @@ void CRegleTarot::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_
 
 } 
 // affichage des points
-void CRegleTarot::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoints)
+void CRegleTarot::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoints, const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
 	for (auto& equipe : muPoints)
 	{
 		unsigned int uiJoueur = equipe.first->getEQU_equipe()[0];
-		cout << "\n " << (*pvREG_Joueurs)[uiJoueur]->JOU_GetNomJoueur() << " : " << equipe.second << " points" << endl;
+		cout << "\n " << (vuJoueurs)[uiJoueur]->JOU_GetNomJoueur() << " : " << equipe.second << " points" << endl;
 	}
 }
 
