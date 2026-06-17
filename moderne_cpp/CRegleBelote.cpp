@@ -30,7 +30,7 @@ bool CRegleBelote::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPoint
 	{
 		int iScoreEquipe = it->second;
 
-		if (iScoreEquipe >= 200) // À changer à 1000 plus tard
+		if (iScoreEquipe >= 1000)
 		{
 			return true;
 		}

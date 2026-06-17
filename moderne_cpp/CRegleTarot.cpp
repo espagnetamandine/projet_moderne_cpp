@@ -503,8 +503,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 		unsigned int uiJoueur = equipeIndividuelle.first->getEQU_equipe()[0];
 		bool bJoueurEstPreneur = (uiJoueur == uiREG_IndicePreneur);
 
-		int iEcartReel = (int)iPointsPreneur - (int)(uiSeuilVictoire * 2);
-		int iScoreManche = (25 * 2 + abs(iEcartReel)) * uiMultiplicateur;
+		int iEcart = abs((int)iPointsPreneur - (int)(uiSeuilVictoire * 2) + 25 * 2) * uiMultiplicateur;
 
 		bool bContratRempli = ((int)iPointsPreneur >= (int)uiSeuilVictoire * 2);
 
@@ -524,15 +523,15 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 			if (bJoueurEstDansCampPreneur)
 			{
 				if (uiJoueur == uiREG_IndicePreneur) {
-					equipeIndividuelle.second += iScoreManche * (vuJoueurs.size() - 1);
+					equipeIndividuelle.second += iEcart * (vuJoueurs.size() - 1);
 				}
 				else {
-					equipeIndividuelle.second += iScoreManche;
+					equipeIndividuelle.second += iEcart;
 				}
 			}
 			else
 			{
-				equipeIndividuelle.second -= iScoreManche; // Défenseur
+				equipeIndividuelle.second -= iEcart; // Défenseur
 			}
 		}
 		else
@@ -540,21 +539,25 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 			if (bJoueurEstDansCampPreneur)
 			{
 				if (uiJoueur == uiREG_IndicePreneur) {
-					equipeIndividuelle.second -= iScoreManche * (vuJoueurs.size() - 1);
+					equipeIndividuelle.second -= iEcart * (vuJoueurs.size() - 1);
 				}
 				else {
-					equipeIndividuelle.second -= iScoreManche;
+					equipeIndividuelle.second -= iEcart;
 				}
 			}
 			else
 			{
-				equipeIndividuelle.second += iScoreManche;
+				equipeIndividuelle.second += iEcart;
 			}
 		}
 	}
 	REG_AfficherGagnantManche(muPointsEquipe, vuJoueurs);
 	REG_AfficherPoints(muPointsEquipe,vuJoueurs);
 
+	cout << "\nAppuyez sur ENTREE des que vous etes pret a demarrer une nouvelle manche";
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin.get();
 }
 
 /********************************************************/
