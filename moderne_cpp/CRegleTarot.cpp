@@ -259,7 +259,7 @@ void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, un
 // récupération du joueur qui gagne le pli
 unsigned int CRegleTarot::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli)
 {
-	pPli->PAQ_GetCartes()[0];
+	vector<unique_ptr<CCarte>>& vcCartesPli = pPli->PAQ_GetCartes();
 	unsigned int uiValeurAtoutMax = 0;
 	unsigned int uiValeurCarteMax = 0;
 	unsigned int uiIndiceGagnant = 0;
@@ -267,15 +267,15 @@ unsigned int CRegleTarot::REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pP
 
 	{
 
-		if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == "Atout" && pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() != "L'excuse" && pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() > uiValeurAtoutMax)
+		if (vcCartesPli[uiBoucle]->CAR_GetCouleur() == "Atout" && vcCartesPli[uiBoucle]->CAR_GetNom() != "L'excuse" && vcCartesPli[uiBoucle]->CAR_GetValeur() > uiValeurAtoutMax)
 		{
-			uiValeurAtoutMax = (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur());
+			uiValeurAtoutMax = (vcCartesPli[uiBoucle]->CAR_GetValeur());
 			uiIndiceGagnant = vuIdJoueurPli[uiBoucle];
 
 		}
-		else if (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetCouleur() == pPli->PAQ_GetCartes()[0]->CAR_GetCouleur() && pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetNom() != "L'excuse" && pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur() > uiValeurCarteMax)
+		else if (vcCartesPli[uiBoucle]->CAR_GetCouleur() == vcCartesPli[0]->CAR_GetCouleur() && vcCartesPli[uiBoucle]->CAR_GetNom() != "L'excuse" && vcCartesPli[uiBoucle]->CAR_GetValeur() > uiValeurCarteMax)
 		{
-			uiValeurCarteMax = (pPli->PAQ_GetCartes()[uiBoucle]->CAR_GetValeur());
+			uiValeurCarteMax = (vcCartesPli[uiBoucle]->CAR_GetValeur());
 			uiIndiceGagnant = vuIdJoueurPli[uiBoucle];
 		}
 	}
@@ -402,7 +402,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 	}
 
 	// différents multiplicateurs selon la mise aux enchères au début de de la partie
-	unsigned int uiMultiplicateur;
+	unsigned int uiMultiplicateur = 1;
 	switch (uiREG_AnnonceMax)
 	{
 	case 1:
@@ -417,6 +417,9 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 	case 4:
 		uiMultiplicateur = 6;
 		break;
+	default:
+		uiMultiplicateur = 1;
+		break;
 	}
 	// calcul des points
 	for (auto& equipeIndividuelle : muPoints) {
@@ -425,7 +428,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 		int iEcart = abs((int)iPointsPreneur - (int)(uiSeuilVictoire * 2) + 25 * 2) * uiMultiplicateur;
 		if (bJoueurEstPreneur)
 		{
-			if (iPointsPreneur >= uiSeuilVictoire * 2)
+			if ((int)iPointsPreneur >= (int)uiSeuilVictoire * 2)
 			{
 				equipeIndividuelle.second +=  iEcart * (vuJoueurs.size() - 1);
 			}
@@ -436,7 +439,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 		}
 		else 
 		{
-			if (iPointsPreneur >= uiSeuilVictoire * 2) 
+			if ((int)iPointsPreneur >= (int)uiSeuilVictoire * 2)
 			{
 				equipeIndividuelle.second -= iEcart;
 			}
