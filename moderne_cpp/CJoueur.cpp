@@ -2,7 +2,9 @@
 
 using namespace std;
 
-// CONSTRUCTEURS ET DESTRUCTEURS
+/********************************************************/
+/*             CONSTRUCTEURS ET DESTRUCTEURS            */
+/********************************************************/
 
 CJoueur::CJoueur(string sJOU_nomJoueur) : sJOU_nomJoueur(sJOU_nomJoueur)
 {
@@ -13,7 +15,9 @@ CJoueur::~CJoueur()
 
 }
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 unique_ptr<CPaquet>& CJoueur::JOU_GetMain()
 {

@@ -12,20 +12,20 @@ class CEquipe
 {
 private:
 
-	// ATTRIBUTS 
+	// Attributs 
 
 	vector< unsigned int> vuiEQU_equipe;
 	unsigned int uiEQU_numeroEquipe;
 
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	CEquipe();
 	CEquipe(vector<unsigned int> vuiEQU_equipe, unsigned int uiEQU_numeroEquipe);
 	~CEquipe();
 
-	// METHODES
+	// Méthodes
 
 	void EQU_ajouterJoueur(unsigned int uiEQU_nouveauJoueur);
 	void EQU_supprimerJoueur(unsigned int uiEQU_joueurASupprimer);

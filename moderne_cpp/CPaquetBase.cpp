@@ -1,6 +1,8 @@
 #include "CPaquetBase.h"
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 void CPaquetBase::PAQ_Afficher() const
 {
@@ -29,6 +31,18 @@ void CPaquetBase::PAQ_AfficherSansCouleurs() const
 	for (uiBoucleVector = 0; uiBoucleVector < vcPAQ_paquet.size(); uiBoucleVector++)
 	{
 		cout << *(vcPAQ_paquet[uiBoucleVector]) << endl;
+	}
+}
+
+void CPaquetBase::PAQ_AfficherAvecIdentifiant() const
+{
+	unsigned int uiBoucleVector;
+
+	cout << "\nCartes du paquet (" << vcPAQ_paquet.size() << " cartes) : " << endl;
+
+	for (uiBoucleVector = 0; uiBoucleVector < vcPAQ_paquet.size(); uiBoucleVector++)
+	{
+		cout << "Carte " << uiBoucleVector + 1 << " : " << * (vcPAQ_paquet[uiBoucleVector]) << endl;
 	}
 };
 

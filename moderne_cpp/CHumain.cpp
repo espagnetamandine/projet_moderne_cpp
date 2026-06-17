@@ -2,22 +2,39 @@
 
 using namespace std;
 
-// METHODES
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
-unique_ptr<CCarte> CHumain::JOU_ChoixCarteAJouer()
+unsigned int CHumain::JOU_ChoixCarteAJouer()
 {
 	vector<unique_ptr<CCarte>>& upJOU_mainHumain = upJOU_main->PAQ_GetCartes();
-	for (unsigned int uiBoucle = 0; uiBoucle < upJOU_mainHumain.size(); uiBoucle++)
+	unsigned int uiChoixUtilisateur = 0;
+
+	while (true)
 	{
-		cout << "carte " << uiBoucle << " : " << upJOU_mainHumain[uiBoucle] << endl;
+		cout << "Choisissez une carte a jouer (de 1 a " << upJOU_mainHumain.size() << ") : ";
+		cin >> uiChoixUtilisateur;
+
+		
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Erreur : Saisie invalide." << endl;
+			continue;
+		}
+
+		if (uiChoixUtilisateur < 1 || uiChoixUtilisateur > upJOU_mainHumain.size())
+		{
+			cout << "Numero de carte invalide. Veuillez ressaisir (de 1 a " << upJOU_mainHumain.size() << ") : \n" << endl;
+			continue;
+		}
+
+		break;
 	}
-	cout << " CHoissisez une carte " << endl;
-	unsigned int uiNumeroCarteChoisie = 0;
-	cin >> uiNumeroCarteChoisie;
-	while (uiNumeroCarteChoisie> upJOU_mainHumain.size() - 1)
-	{
-		cout << " Numéro de carte invalide, recommencez " << endl;
-		cin >> uiNumeroCarteChoisie;
-	}
-	return move(upJOU_mainHumain[uiNumeroCarteChoisie]);
+
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+	return uiChoixUtilisateur - 1;
 }

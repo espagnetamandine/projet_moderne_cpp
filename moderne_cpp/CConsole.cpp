@@ -1,15 +1,16 @@
 #include "CConsole.h"
 #include "CJeu.h"
 #include "CHumain.h"
+#include "CJoueur.h"
 #include "Cia.h"
 #include "CEquipe.h"
 #include "CPaquet.h"
 
 using namespace std;
 
-/**********************************************************************/
-/*                             ATTRIBUTS                              */
-/**********************************************************************/
+/********************************************************/
+/*                      ATTRIBUTS                       */
+/********************************************************/
 
 vector<string> CConsole::vsCOS_listeJeu = { "Dame de pique", "Tarot", "Belote" };
 
@@ -25,9 +26,9 @@ const string CConsole::GRAS = "\033[1m";
 const string CConsole::BG_BLANC = "\033[47m";
 const string CConsole::BG_NOIR = "\033[40m";
 
-/**********************************************************************/
-/*                              METHODES                              */
-/**********************************************************************/
+/********************************************************/
+/*                       METHODES                       */
+/********************************************************/
 
 void CConsole::COS_ChoisirJeu()
 {
@@ -64,7 +65,7 @@ void CConsole::COS_ChoisirJeu()
 
 void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 {
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 	unsigned int uiNbJoueur, uiNbHumain, uiBoucle;
 
 	cout << "----------------------------------------------------------" << endl;
@@ -85,7 +86,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 	}
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	cout << "\n\nVous etes " << uiNbJoueur << " a jouer !" << endl;
+	cout << "\nVous etes " << uiNbJoueur << " a jouer !" << endl;
 
 	cout << "Combien d'humain joueront ? : ";
 	cin >> uiNbHumain;
@@ -125,7 +126,7 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 		cout << pjJeuALancer->JEU_GetNomJoueur(uiBoucle) << endl;
 	}
 
-	cout << "\n\nLe jeu demarre quand vous voulez." << endl;
+	cout << "\nLe jeu demarre quand vous voulez." << endl;
 	cout << "Veuillez presser ENTREE pour continuer.\n";
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -136,54 +137,80 @@ void CConsole::COS_PreparerJeu(unique_ptr<CJeu> pjJeuALancer)
 
 void CConsole::COS_LancerJeu(unique_ptr<CJeu> pjJeuALancer)
 {
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 
-	cout << "----------------------------------------------------------" << endl;
-	cout << "Debut du jeu : " << GRAS << pjJeuALancer->JEU_GetNom() << RESET << endl;
-	cout << "----------------------------------------------------------\n" << endl;
+	cout << "--------------------------------------------------" << endl;
+	cout << "          Debut du jeu : " << GRAS << pjJeuALancer->JEU_GetNom() << RESET << endl;
+	cout << "--------------------------------------------------\n" << endl;
 
 	pjJeuALancer->JEU_JouerPartie();
 }
 
-void CConsole::COS_AttendreJoueurSuivant()
-{
-	COS_NettoyerEcran();
+void CConsole::COS_AfficherGagnants(const vector<string>& vsPrenomsGagnants, const string& sNomEquipe) {
+	CConsole::COS_NettoyerEcran();
+	
+	cout << JAUNE << GRAS << "--------------------------------------------------" << endl;
+	cout << "               Fin de la partie                   " << endl;
+	cout << "--------------------------------------------------\n" << RESET << endl;
 
-	cout << "----------------------------------------------------------" << endl;
-	cout << GRAS << "                    JOUEUR SUIVANT                        " << RESET << endl;
-	cout << "----------------------------------------------------------\n" << endl;
+	if (!sNomEquipe.empty()) {
+		cout << VERT << GRAS << "Victoire de l'equipe : " << sNomEquipe << RESET << endl;
+	}
+	else {
+		cout << VERT << GRAS << "Victoire individuelle !" << RESET << endl;
+	}
+
+	cout << "Felicitations a : ";
+	for (size_t i = 0; i < vsPrenomsGagnants.size(); ++i) {
+		cout << GRAS << vsPrenomsGagnants[i] << RESET;
+		if (i < vsPrenomsGagnants.size() - 1) {
+			cout << " & ";
+		}
+	}
+	cout << " !" << endl;
+	cout << JAUNE << GRAS << "\n--------------- Merci d'avoir joue ---------------\n" << RESET << endl;
+}
+
+void CConsole::COS_AttendreJoueurSuivant(string sNomJoueur)
+{
+	CConsole::COS_NettoyerEcran();
+
+	cout << "--------------------------------------------------" << endl;
+	cout << "          Joueur suivant :  " << GRAS << sNomJoueur << RESET << endl;
+	cout << "--------------------------------------------------\n" << endl;
 
 	cout << "Veuillez passer l'ecran au prochain joueur.\n";
-	cout << "Une fois fait, veuillez presser ENTREE pour continuer.\n";
+	cout << "Une fois fait, veuillez presser ENTREE pour continuer.";
 
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin.get();
 
-	COS_NettoyerEcran();
+	CConsole::COS_NettoyerEcran();
 }
 
 void CConsole::COS_AfficherEcranSecretJoueur(
-	const string& sNomJoueur,
-	const unique_ptr<CPaquet>& pMain,
-	unsigned int uiNumeroEquipe = 0,
-	int iScoreEquipe = 0)
+	const unique_ptr<CJoueur>& pJoueur,
+	unsigned int uiNumeroEquipe,
+	int iScoreEquipe)
 {
-	CConsole::COS_AttendreJoueurSuivant();
+	CConsole::COS_AttendreJoueurSuivant(pJoueur->JOU_GetNomJoueur());
 
-	cout << "----------------------------------------------------------" << endl;
-	cout << " Joueur : " << GRAS << sNomJoueur << RESET << endl;
-	if (uiNumeroEquipe != 0 )
+	cout << "--------------------------------------------------" << endl;
+	cout << "              Joueur : " << GRAS << pJoueur->JOU_GetNomJoueur() << RESET << endl;
+
+	if (uiNumeroEquipe != 0)
 	{
-		cout << BLEU << " Equipe : " << uiNumeroEquipe << RESET;
+		cout << BLEU << " Equipe : " << uiNumeroEquipe << "." << RESET;
 	}
 	if (uiNumeroEquipe != 0)
 	{
 		cout << BLEU << " Vous avez " << iScoreEquipe << " points." << RESET;
 	}
-	cout << "\n----------------------------------------------------------\n" << endl;
+	cout << "\n--------------------------------------------------\n" << endl;
 
 	cout << "Voici votre main: " << endl;
-	if (pMain != nullptr) {
-		pMain->PAQ_AfficherSansCouleurs();
+	if (pJoueur->JOU_GetMain() != nullptr) {
+		pJoueur->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
 	}
 }
+

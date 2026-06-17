@@ -13,14 +13,14 @@ class Cia : public CJoueur
 {
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	Cia(string sJOU_nomJoueur = "Joueur IA") : CJoueur(sJOU_nomJoueur) {};
 	~Cia() {};
 
-	// METHODES
+	// Méthodes
 
-	unique_ptr<CCarte> JOU_ChoixCarteAJouer();
+	virtual unsigned int JOU_ChoixCarteAJouer();
 	virtual bool JOU_EstIa() const { return true; }
 };
 #endif 

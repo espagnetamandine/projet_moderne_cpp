@@ -19,6 +19,7 @@ public:
 	virtual void PAQ_Melanger() = 0;
 	virtual void PAQ_Afficher() const = 0;
 	virtual void PAQ_AfficherSansCouleurs() const = 0;
+	virtual void PAQ_AfficherAvecIdentifiant() const = 0;
 	virtual unique_ptr<CCarte> PAQ_RetirerCarte(int iIndiceCarte = -1) = 0;
 	virtual void PAQ_AjouterCarte(unique_ptr<CCarte> pCarteAAjouter) = 0;
 };

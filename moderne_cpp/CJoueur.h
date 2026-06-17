@@ -12,21 +12,21 @@ class CJoueur
 {
 protected:
 
-	// ATTRIBUTS
+	// Attributs
 
 	string sJOU_nomJoueur;
 	unique_ptr<CPaquet> upJOU_main;
 
 public:
 
-	// CONSTRUCTEURS ET DESTRUCTEURS
+	// Constructeurs et destructeurs
 
 	CJoueur(string sJOU_nomJoueur = "Joueur");
 	virtual ~CJoueur();
 
-	// METHODES
+	// Méthodes
 
-	virtual unique_ptr<CCarte> JOU_ChoixCarteAJouer() = 0;
+	virtual unsigned int JOU_ChoixCarteAJouer() = 0;
 	unique_ptr<CPaquet>& JOU_GetMain();
 	string JOU_GetNomJoueur();
 	void JOU_SetMain(unique_ptr<CPaquet> upJOU_nouvelleMain);

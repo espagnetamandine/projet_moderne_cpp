@@ -16,6 +16,9 @@ class CEquipe;
 
 class CJeu {
 private:
+
+	// Attributs
+
 	string sJEU_nom;
 
 	unique_ptr<CRegle> prJEU_strategieRegle;
@@ -30,8 +33,13 @@ private:
 	unsigned int uiJEU_IdJoueurCourrant;
 
 public:
+
+	// Constructeurs et destructeurs
+
 	CJeu(string sNom);
 	~CJeu();
+
+	// Méthodes
 
 	string JEU_GetNom() { return sJEU_nom; }
 
@@ -47,7 +55,7 @@ public:
 	void JEU_AfficherPoints();
 	void JEU_AfficherEquipe();
 	void JEU_AfficherPli();
-	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur);
+	void JEU_AfficherMainJoueur(unique_ptr<CJoueur>& pJoueur); // penser à enlever si on l'utilise pas
 
 	bool JEU_SetNombreJoueur(unsigned int uiNbJoueurs);
 };
