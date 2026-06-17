@@ -145,7 +145,9 @@ void CJeu::JEU_JouerPartie() {
 
 		uiPremierJoueurManche = (uiPremierJoueurManche + 1) % vjJEU_joueurs.size();
 	}
+	
 	prJEU_strategieRegle->REG_AfficherGagnantPartie(mJEU_points, vjJEU_joueurs);
+	
 }
 
 void CJeu::JEU_SetStrategieRegle(unique_ptr<CRegle> regle) {

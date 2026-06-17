@@ -22,7 +22,7 @@ public:
 		}
 		else if (sTypeJeu == "Tarot")
 		{
-			//pRegle = make_unique<CRegleTarot>();
+			pRegle = make_unique<CRegleTarot>();
 		}
 		else if (sTypeJeu == "Belote")
 		{
