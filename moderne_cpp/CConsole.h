@@ -29,11 +29,7 @@ private:
 	static const string JAUNE;
 	static const string BLEU;
 	static const string MAGENTA;
-	static const string CYAN;
 	static const string GRAS;
-
-	static const string BG_BLANC;
-	static const string BG_NOIR;
 
 public:
 
