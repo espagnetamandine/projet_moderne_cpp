@@ -52,6 +52,9 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 	|  DEBUT DE LA MANCHE   |
 	-----------------------*/
 
+	// on remet toutes les cartes dans le paquet
+	REG_RemettreCartesDansPaquet(vuJoueurs, upPaquet);
+
 	// mélange des cartes
 	upPaquet->PAQ_Melanger();
 	
@@ -128,6 +131,24 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 	else {
 		uiREG_AnnonceMax = uiAnnonceMax;
 		uiREG_IndicePreneur = uiIndicePreneur;
+		string sAnnonceChoix;
+		switch(uiAnnonceMax)
+		{
+		case 1: 
+			sAnnonceChoix = "Petite";
+			break;
+		case 2:
+			sAnnonceChoix = "Garde";
+			break;
+		case 3:
+			sAnnonceChoix = "Garde Sans";
+			break;
+		case 4:
+			sAnnonceChoix = "Garde Contre";
+			break;
+
+		}
+		cout << "\n " << vuJoueurs[uiIndicePreneur]->JOU_GetNomJoueur() << " prend : " << sAnnonceChoix <<" !" << endl;
 		REG_ConstituerEquipes(vuJoueurs, muREG_PointsManche);
 		REG_ChoixCarteChien(vuJoueurs, uiIndicePreneur, uiAnnonceMax);
 		return uiIndicePreneur;
@@ -400,32 +421,34 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 	// calcul des points
 	for (auto& equipeIndividuelle : muPoints) {
 		unsigned int uiJoueur = equipeIndividuelle.first->getEQU_equipe()[0];
-
 		bool bJoueurEstPreneur = (uiJoueur == uiREG_IndicePreneur);
-
+		int iEcart = abs((int)iPointsPreneur - (int)(uiSeuilVictoire * 2) + 25 * 2) * uiMultiplicateur;
 		if (bJoueurEstPreneur)
 		{
 			if (iPointsPreneur >= uiSeuilVictoire * 2)
 			{
-				equipeIndividuelle.second += (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur * (vuJoueurs.size() - 1);
+				equipeIndividuelle.second +=  iEcart * (vuJoueurs.size() - 1);
 			}
 			else
 			{
-				equipeIndividuelle.second -= (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur * (vuJoueurs.size() - 1);
+				equipeIndividuelle.second -= iEcart * (vuJoueurs.size() - 1);
 			}
 		}
 		else 
 		{
 			if (iPointsPreneur >= uiSeuilVictoire * 2) 
 			{
-				equipeIndividuelle.second -= (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur ;
+				equipeIndividuelle.second -= iEcart;
 			}
 			else
 			{
-				equipeIndividuelle.second += (iPointsPreneur - uiSeuilVictoire * 2 + 25 * 2) * uiMultiplicateur ;
+				equipeIndividuelle.second += iEcart;
 			}
 		}
 	}
+	REG_AfficherGagnantManche(muPoints, vuJoueurs);
+	REG_AfficherPoints(muPoints);
+
 }
 
 /********************************************************/
@@ -596,7 +619,7 @@ bool CRegleTarot::REG_PremiereCarte(CCarte& carte) {
 // affichage du gagnant d'un pli
 void CRegleTarot::REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vuJoueurs, unsigned int uiIndiceJoueurGagnantPli)
 {
-	cout << "\n Le joueur" << vuJoueurs[uiIndiceJoueurGagnantPli]->JOU_GetNomJoueur() << " remporte le pli !" << endl;
+	cout << "\n Le joueur " << vuJoueurs[uiIndiceJoueurGagnantPli]->JOU_GetNomJoueur() << " remporte le pli !" << endl;
 }
 
 void CRegleTarot::REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs)
