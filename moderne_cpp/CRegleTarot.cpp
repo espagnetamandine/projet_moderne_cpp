@@ -29,7 +29,7 @@ bool  CRegleTarot::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& muPoint
 // Ensuite se met en place les enchères, soi un joueur passe  son tour ou alors il prend.
 // Si un joueur prend alors selon sa mise il récupère le chien ou non, si personne ne prend alors on resdistribue les cartes.
 
-unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPoints, unsigned int& uiJEU_IdJoueurCourrant) 
+unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unsigned int& uiJEU_IdJoueurCourrant) 
 {
 	cout << "\n-------------------------------------------------" << endl;
 	cout << "               Debut de la manche                 " << endl;
@@ -101,13 +101,13 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 
 	if (uiAnnonceMax == 0)
 	{
-		return REG_DebutManche(upPaquet, vuJoueurs, muPoints, uiJEU_IdJoueurCourrant);
+		return REG_DebutManche(upPaquet, vuJoueurs, muPointsEquipe, uiJEU_IdJoueurCourrant);
 	}
 	else {
 		uiREG_AnnonceMax = uiAnnonceMax;
 		uiREG_IndicePreneur = uiIndicePreneur;
 		REG_ConstituerEquipes(vuJoueurs, mREG_PointsManche, uiIndicePreneur);
-		REG_ChoixCarteChien(vuJoueurs, uiIndicePreneur, uiAnnonceMax);
+		REG_ChoixCarteChien(vuJoueurs, uiIndicePreneur, uiAnnonceMax, muPointsEquipe);
 		return uiIndicePreneur;
 	}
 	
@@ -116,7 +116,7 @@ unsigned int CRegleTarot::REG_DebutManche(unique_ptr<CPaquet>& upPaquet, vector<
 
 
 // une manche s'arrete lorsque personne n'a plus plus de cartes
-bool  CRegleTarot::REG_ConditionFinManche(vector<unique_ptr<CJoueur>>& vuJoueurs)
+bool  CRegleTarot::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>& vuJoueurs)
 {
 	if (vuJoueurs[0]->JOU_GetMain()->PAQ_GetCartes().size() == 0)
 	{
@@ -172,7 +172,7 @@ bool CRegleTarot::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& upPaquetJo
 
 // le joueur récupère le chien, et fait son paquet
 
-void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, unsigned uiIndicePreneur, unsigned uiAnnonceMax)
+void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, unsigned uiIndicePreneur, unsigned uiAnnonceMax, map<unique_ptr<CEquipe>, int>& muPointsEquipe)
 {
 	switch(uiAnnonceMax)
 	{

@@ -344,7 +344,7 @@ bool CRegleBelote::REG_VerificationNbJoueur(unsigned int uiNbJoueurs) {
 	return false;
 }
 
-void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe)
+void CRegleBelote::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unsigned int uiIndincePreneur)
 {
 	if (vuJoueurs.size() == 4)
 	{
@@ -672,7 +672,7 @@ void CRegleBelote::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique
 /*                    NON - UTILISEES                   */
 /********************************************************/
 
-void CRegleBelote::REG_MettreEnPlacePioche() {};
+void CRegleBelote::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs) {};
 
 void CRegleBelote::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& mJEU_points) {};
-void CRegleBelote::REG_AfficherAfficherPli(unique_ptr<CPaquet> pPli, vector<unsigned int> vuIdJoueurPli) {};
+void CRegleBelote::REG_AfficherAfficherPli(unique_ptr<CPaquet>& pPli, vector<unsigned int> vuIdJoueurPli) {};

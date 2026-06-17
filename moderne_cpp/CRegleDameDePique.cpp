@@ -179,7 +179,7 @@ bool CRegleDameDePique::REG_VerificationNbJoueur(unsigned int uiNbJoueurs) {
 	return (uiNbJoueurs == 4 || uiNbJoueurs == 6);
 }
 
-void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe) {
+void CRegleDameDePique::REG_ConstituerEquipes(vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unsigned int uiIndincePreneur) {
 	// pas besoin d'afficher les équipes car ce jeu ne se joue pas en équipe
 	for (unsigned int i = 0; i < vuJoueurs.size(); i++) {
 		vector<unsigned int> uiNumerosJoueurs;
@@ -270,5 +270,5 @@ void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoin
 
 void CRegleDameDePique::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs) {}
 
-void CRegleDameDePique::REG_MettreEnPlacePioche() {};
-void CRegleDameDePique::REG_AfficherAfficherPli(unique_ptr<CPaquet> upPli, vector<unsigned int> vuIdJoueurPli) {};
+void CRegleDameDePique::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs) {};
+void CRegleDameDePique::REG_AfficherAfficherPli(unique_ptr<CPaquet>& upPli, vector<unsigned int> vuIdJoueurPli) {};
