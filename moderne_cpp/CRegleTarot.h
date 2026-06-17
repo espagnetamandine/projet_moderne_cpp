@@ -17,12 +17,15 @@ class CRegleTarot : public CRegle {
 private:
 	unique_ptr<CPaquet> pREG_Chien;
 	map<unique_ptr<CEquipe>, int> mREG_PointsManche;
+	unsigned int uiREG_AnnonceMax;
+	unsigned int uiREG_IndicePreneur;
 public:
 	CRegleTarot()= default;
 	~CRegleTarot()= default;
 	
 
-	bool REG_SetNbJoueur(unsigned int uiNbJoueurs);
+	bool REG_VerificationNbJoueur(unsigned int uiNbJoueurs);
+		
 
 	void REG_DebutPartie(unique_ptr<CPaquet>& paquet, vector<unique_ptr<CJoueur>>& joueurs, map<unique_ptr<CEquipe>, int>& points); // appelle constituer équipe
 	bool REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& points);
@@ -37,12 +40,12 @@ public:
 	void REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& joueurs, unsigned uiIndicePreneur, unsigned uiAnnonceMax);
 
 	bool REG_PremiereCarte(CCarte& carte);
-
-	bool REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur);
+	void REG_RemettreCartesDansPaquet(vector<unique_ptr<CJoueur>>& vuJoueurs, unique_ptr<CPaquet>& upPaquetPrincipal);
+	bool REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& upPaquetJoueur, const unique_ptr<CPaquet>& upPli, const vector<unsigned int>& vuIdJoueurPli);
 
 	unsigned int REG_DeterminerIndiceGagnantPli(unique_ptr<CPaquet>& pPli, vector<unsigned int>& vuIdJoueurPli); // appelle à joueur suivant + calculer points pli + ajouter 1 au pli
 	void REG_CalculerPointsPli(unique_ptr<CPaquet>& pPlie, map<unique_ptr<CEquipe>, int>& points, unsigned int uiIndinceGagnant, vector<unsigned int>& vuIdJoueurPli);
-	void REG_CalculerPointsManche(map<unique_ptr<CEquipe>, int>& points, unsigned int uiIndicePreneur, unsigned int uiAnnonceMax, unique_ptr<CPaquet>& pDernierPli, unsigned int uiIndiceGagnantDernierPli, unique_ptr<CPaquet>& pCartesPreneur,vector<unique_ptr<CJoueur>>& joueurs); // si nécessaire
+	virtual void REG_CalculerPointsManche(unique_ptr<CPaquet>& pPli, unsigned int uiIndiceJoueurGagnant, map<unique_ptr<CEquipe>, int>& mPoints, unique_ptr<CPaquet>& pDefausse, vector<unique_ptr<CJoueur>>& vuJoueurs) = 0; // si nécessaire
 
 	void REG_AfficherGagnantPli(vector<unique_ptr<CJoueur>>& vJoueurs, unsigned int uiIndiceJoueurGagnantPli);
 	void REG_AfficherGagnantManche(vector<unique_ptr<CJoueur>>& vJoueurs);
