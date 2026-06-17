@@ -403,7 +403,7 @@ void CRegleDameDePique::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<u
 	CConsole::COS_AfficherEcranSecretJoueur(vuJoueurs[uiIdJoueur], uiNumEquipe, iScoreEquipe);
 }
 
-void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe) {
+void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
 	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it)
 	{
 		cout << "Equipe " << it->first->getEQU_numeroEquipe() << " : " << it->second << " points." << endl;

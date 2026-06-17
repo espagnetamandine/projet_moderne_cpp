@@ -183,7 +183,7 @@ void CJeu::JEU_SetStrategieRegle(unique_ptr<CRegle> regle) {
 /********************************************************/
 
 void CJeu::JEU_AfficherPoints() {
-	prJEU_strategieRegle->REG_AfficherPoints(mJEU_points);
+	prJEU_strategieRegle->REG_AfficherPoints(mJEU_points, vjJEU_joueurs);
 }
 
 void CJeu::JEU_AfficherEquipe() {
