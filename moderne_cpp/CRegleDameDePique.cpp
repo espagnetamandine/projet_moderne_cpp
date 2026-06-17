@@ -63,29 +63,28 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 			vScoreEquipe.push_back(it->second);
 		}
 		
-		// Affichage secret
-		CConsole::COS_AfficherEcranSecretJoueur(
-			vuJoueurs[i],
-			i,
-			vScoreEquipe[i]
-		);
+		if(!vuJoueurs[i]->JOU_EstIa()){
+			// Affichage secret
+			CConsole::COS_AfficherEcranSecretJoueur(
+				vuJoueurs[i],
+				i,
+				vScoreEquipe[i]
+			);
+		}
 
-		cout << " Choisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
+		cout << "\nChoisissez 3 cartes de votre main afin de les passer au joueur de droite. " << endl;
 		
-		cout << "Choix première carte : ";
+		cout << "Choix premiere carte : ";
 		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
 		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
 		
-		//REG_AfficherMainJoueur(i, vuJoueurs, muPointsEquipe);
 		vuJoueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
-		cout << "test" << endl;
-		cout << "Choix deuxième carte : ";
+		cout << "Choix deuxieme carte : ";
 		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
 		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
 		
-		//REG_AfficherMainJoueur(i, vuJoueurs, muPointsEquipe);
 		vuJoueurs[i]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
-		cout << "Choix troisième carte : ";
+		cout << "Choix troisieme carte : ";
 		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
 		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
 
@@ -95,13 +94,15 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 	// puis donner les trois cartes au joueur de droite 
 	for (size_t i = 0; i < vuJoueurs.size(); i++)
 	{
-		uiIndiceJoueurDeDroite = (i+1)% vuJoueurs.size();
-		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
-		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
-		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[i]));
-		//vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain()->PAQ_AfficherAvecIdentifiant();
+		uiIndiceJoueurDeDroite = (i + 1) % vuJoueurs.size();
+		size_t sJoueurIndex = i * 3; // Index de départ des 3 cartes données par le joueur i
+
+		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[sJoueurIndex]));
+		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[sJoueurIndex + 1]));
+		(vuJoueurs[uiIndiceJoueurDeDroite]->JOU_GetMain())->PAQ_AjouterCarte(move(vTroisCartes[sJoueurIndex + 2]));
 	}
 	while (!vTroisCartes.empty()) { vTroisCartes.pop_back(); }
+	vTroisCartes.clear();
 
 	CConsole::COS_NettoyerEcran();
 
