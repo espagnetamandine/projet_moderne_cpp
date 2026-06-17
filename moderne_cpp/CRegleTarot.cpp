@@ -814,9 +814,6 @@ void CRegleTarot::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoints, co
 	}
 }
 
-
-
-
 /********************************************************/
 /*                    NON - UTILISEES                   */
 /********************************************************/
