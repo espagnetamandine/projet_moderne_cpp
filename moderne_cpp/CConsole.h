@@ -22,7 +22,7 @@ private:
 
 	static vector<string> vsCOS_listeJeu;
 
-	// Code ANSI statiques et constants
+	// Code ANSI
 	static const string RESET;
 	static const string ROUGE;
 	static const string VERT;
