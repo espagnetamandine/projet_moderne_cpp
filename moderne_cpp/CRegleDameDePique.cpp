@@ -25,7 +25,7 @@ bool CRegleDameDePique::REG_ConditionFinPartie(map<unique_ptr<CEquipe>, int>& mu
 		iScoreEquipe = it->second;
 
 		// le jeu s'arrête quand un joueur atteint 100 points
-		if (iScoreEquipe >= 5) // ce score pourrait être parametrable 
+		if (iScoreEquipe >= 100) // ce score pourrait être parametrable 
 		{
 			return true;
 		}
@@ -216,6 +216,12 @@ void CRegleDameDePique::REG_CalculerPointsPli(unique_ptr<CPaquet>& upPli, unsign
 	}
 }
 
+
+void CRegleDameDePique::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
+	REG_AfficherGagnantManche(muPointsEquipe, vuJoueurs);
+}
+
+
 /********************************************************/
 /*                    MISES EN PLACE                    */
 /********************************************************/
@@ -303,7 +309,7 @@ void CRegleDameDePique::REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>&
 	cout << "Nombre de points par joueur :" << endl;
 	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) 
 	{
-		cout << " -> " << vuJoueurs[it->first->getEQU_numeroEquipe()]->JOU_GetNomJoueur() << " : " << it->second << " points." << endl;
+		cout << " -> " << vuJoueurs[it->first->getEQU_equipe()[0]]->JOU_GetNomJoueur() << " : " << it->second << " points." << endl;
 	}
 
 	cout << "\n\nAppuyez sur ENTREE pour passer a la manche suivante...";
@@ -312,28 +318,37 @@ void CRegleDameDePique::REG_AfficherGagnantManche(map<unique_ptr<CEquipe>, int>&
 }
 
 void CRegleDameDePique::REG_AfficherGagnantPartie(map<unique_ptr<CEquipe>, int>& muPointsEquipe, const vector<unique_ptr<CJoueur>>& vuJoueurs) {
-	for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it)
-	{
-		int iScoreEquipe = it->second;
+	// trouve le joueur qui a atteint 100 en premier
+	unsigned int uiIdJoueurPerdant = 0;
+	int iScorePerdant = 0;
 
-		if (iScoreEquipe >= 100)
-		{
-			vector<unsigned int> vuIdsMembres = it->first->getEQU_equipe();
+    for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) {
+        if (it->second >= 100) {
+            uiIdJoueurPerdant = it->first->getEQU_equipe()[0];
+        }
+    }
 
-			vector<string> vsNomsGagnants;
-			for (unsigned int id : vuIdsMembres) {
-				if (id < vuJoueurs.size()) {
-					vsNomsGagnants.push_back(vuJoueurs[id]->JOU_GetNomJoueur());
-				}
-			}
+    // trouve le plus petit score
+    int iScoreMinimum = 100;
+    for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) {
+        if (it->second < iScoreMinimum) {
+            iScoreMinimum = it->second;
+        }
+    }
 
+    // trouve le vainqueur (ou les vainqueurs si égalité)
+    vector<string> vsNomsGagnants;
+    string sNomEquipe = "";
+
+    for (auto it = muPointsEquipe.begin(); it != muPointsEquipe.end(); ++it) {
+        if (it->second == iScoreMinimum) {
+            vsNomsGagnants.push_back(vuJoueurs[it->first->getEQU_equipe()[0]]->JOU_GetNomJoueur());
 			string sNomEquipe = "Equipe " + to_string(it->first->getEQU_numeroEquipe());
+        }
+    }
 
-			CConsole::COS_AfficherGagnants(vsNomsGagnants, sNomEquipe);
-
-			break;
-		}
-	}
+    CConsole::COS_NettoyerEcran();
+	CConsole::COS_AfficherGagnants(vsNomsGagnants, sNomEquipe);
 }
 
 void CRegleDameDePique::REG_AfficherMainJoueur(unsigned int uiIdJoueur, vector<unique_ptr<CJoueur>>& vuJoueurs, map<unique_ptr<CEquipe>, int>& muPointsEquipe) {
@@ -364,8 +379,6 @@ void CRegleDameDePique::REG_AfficherPoints(map<unique_ptr<CEquipe>, int>& muPoin
 /********************************************************/
 /*                    NON - UTILISEES                   */
 /********************************************************/
-
-void CRegleDameDePique::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned int uiIndiceJoueurGagnantPli, map<unique_ptr<CEquipe>, int>& muPointsEquipe, unique_ptr<CPaquet>& upDefausse, const vector<unique_ptr<CJoueur>>& vuJoueurs) {}
 
 void CRegleDameDePique::REG_MettreEnPlacePioche(unique_ptr<CPaquet>& upPaquet, vector<unique_ptr<CJoueur>>& vuJoueurs) {};
 void CRegleDameDePique::REG_AfficherAfficherPli(unique_ptr<CPaquet>& upPli, vector<unsigned int> vuIdJoueurPli) {};
