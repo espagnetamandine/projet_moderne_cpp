@@ -95,8 +95,6 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 		cout << "Choix troisieme carte : ";
 		uiIndiceCarteAJouer = vuJoueurs[i]->JOU_ChoixCarteAJouer();
 		vTroisCartes.push_back(vuJoueurs[i]->JOU_GetMain()->PAQ_RetirerCarte(uiIndiceCarteAJouer));
-
-		if (vTroisCartes[1] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[0] || vTroisCartes[2] == vTroisCartes[1]) {} // erreur 
 	}
 
 	// on vide le vecteur de stockage temporaire des cartes : 
@@ -145,13 +143,51 @@ bool CRegleDameDePique::REG_ConditionFinManche(const vector<unique_ptr<CJoueur>>
 	return true; 
 }
 
+
 bool CRegleDameDePique::REG_CarteValide(CCarte& carte, unique_ptr<CPaquet>& pPaquetJoueur, const unique_ptr<CPaquet>& pPli, const vector<unsigned int>& vuIdJoueurPli) {
+	// ce jeu impose que la première carte à jouer soit le 2 de trèfle
 	if (bPremiereCarte == true) {
 		bPremiereCarte = false;
 		REG_PremiereCarte(carte);
 	}
-	return true; // a faire 
+
+	else {
+		// le premier joueur est libre de choisir la couleur qu'il imposera à la suite du pli, donc pas de contrainte
+		if (pPli->PAQ_GetCartes().empty()) {
+			return true;
+		}
+
+		// on récupère la couleur de la première carte du pli
+		string sCouleurDemandee = pPli->PAQ_GetCartes()[0]->CAR_GetCouleur();
+		string sCouleurCarteChoisie = carte.CAR_GetCouleur();
+
+		// si la carte est de la couleur de la première carte du pli, elle est valide
+		if (sCouleurCarteChoisie == sCouleurDemandee) {
+			return true;
+		}
+
+		// sinon on doit vérifier si le joueur possède dans sa main une autre carte de cette couleur
+		// (par exemple s'il veut jouer du carreau alors que la première carte est du pique, 
+		// ce n'est pas possible si le joueur possède une autre carte pique)
+		vector<unique_ptr<CCarte>>& cartesMain = pPaquetJoueur->PAQ_GetCartes();
+		bool bPossedeLaCouleur = false;
+
+		// on regarde dans la main du joueur s'il a une autre carte de la couleur de la première carte
+		for (size_t i = 0; i < cartesMain.size(); ++i) {
+			if (cartesMain[i]->CAR_GetCouleur() == sCouleurDemandee) {
+				bPossedeLaCouleur = true;
+			}
+		}
+		if (bPossedeLaCouleur) {
+			cout << "Veuillez choisir une carte de la couleur demandee : " << sCouleurDemandee << endl;
+			return false;
+		}
+
+		// le joueur n'a visiblement plus de carte de cette couleur, il est donc libre de choisir n'importe quelle autre carte
+		return true;
+	}
 }
+
 
 /********************************************************/
 /*                     ENTRE - JEU                      */
@@ -262,8 +298,6 @@ void CRegleDameDePique::REG_DistribuerCartes(vector<unique_ptr<CJoueur>>& vuJoue
 			(vuJoueurs[j]->JOU_GetMain())->PAQ_AjouterCarte(upPaquetPrincipal->PAQ_RetirerCarte());
 		}
 	}
-	if (upPaquetPrincipal->PAQ_GetCartes().size() != 0) {} // erreur
-
 	cout << "Distribution terminee. Tous les joueurs ont 13 cartes." << endl;
 }
 
