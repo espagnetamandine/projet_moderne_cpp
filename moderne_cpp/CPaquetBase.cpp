@@ -58,7 +58,7 @@ unique_ptr<CCarte> CPaquetBase::PAQ_RetirerCarte(int iIndiceCarte)
 {
 	if (iIndiceCarte == -1)
 	{
-		iIndiceCarte = vcPAQ_paquet.size() - 1;
+		iIndiceCarte = (int)vcPAQ_paquet.size() - 1;
 	}
 	if (iIndiceCarte >= (int)vcPAQ_paquet.size())
 	{

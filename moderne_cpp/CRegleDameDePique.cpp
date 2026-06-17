@@ -55,7 +55,7 @@ unsigned int CRegleDameDePique::REG_DebutManche(unique_ptr<CPaquet>& upPaquetPri
 	// chaque joueur doit choisir 3 cartes
 	size_t uiIndiceJoueurDeDroite = 0;
 	unsigned int uiIndiceCarteAJouer;
-	for (size_t i = 0; i < vuJoueurs.size(); i++)
+	for (unsigned int i = 0; i < (unsigned int)vuJoueurs.size(); i++)
 	{
 		// on récupère le score par équipe (ie par joueur) pour l'appel à la méthode de CConsole
 		int iScoreEquipe = 0;

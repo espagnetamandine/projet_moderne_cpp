@@ -282,7 +282,7 @@ void CRegleTarot::REG_ChoixCarteChien(vector<unique_ptr<CJoueur>>& vuJoueurs, un
 		}
 
 		if (vuJoueurs[uiIndicePreneur]->JOU_EstIa()) {
-			for (int i = mainJoueur.size() - 1; i >= 0 && vuIndicesChoisis.size() < uiNbCartesChien; i--) {
+			for (int i = (int)mainJoueur.size() - 1; i >= 0 && vuIndicesChoisis.size() < uiNbCartesChien; i--) {
 				bool bEstUnBout = (mainJoueur[i]->CAR_GetCouleur() == "Atout" && (mainJoueur[i]->CAR_GetValeur() == 1 || mainJoueur[i]->CAR_GetValeur() == 21 || mainJoueur[i]->CAR_GetNom() == "L'excuse"));
 
 				if (mainJoueur[i]->CAR_GetNom() != "Roi" && !bEstUnBout) {
@@ -523,7 +523,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 			if (bJoueurEstDansCampPreneur)
 			{
 				if (uiJoueur == uiREG_IndicePreneur) {
-					equipeIndividuelle.second += iEcart * (vuJoueurs.size() - 1);
+					equipeIndividuelle.second += iEcart * ((int)vuJoueurs.size() - 1);
 				}
 				else {
 					equipeIndividuelle.second += iEcart;
@@ -539,7 +539,7 @@ void CRegleTarot::REG_CalculerPointsManche(unique_ptr<CPaquet>& upPli, unsigned 
 			if (bJoueurEstDansCampPreneur)
 			{
 				if (uiJoueur == uiREG_IndicePreneur) {
-					equipeIndividuelle.second -= iEcart * (vuJoueurs.size() - 1);
+					equipeIndividuelle.second -= iEcart * ((int)vuJoueurs.size() - 1);
 				}
 				else {
 					equipeIndividuelle.second -= iEcart;
