@@ -10,28 +10,23 @@ if (myButton) {
 }
 
 function addElement() {
-  let myNewToDo = document.getElementById("newtodo").value;
+  let myNewToDo = document.getElementById("newtodo");
 
-  if (myNewToDo != "") {
-    console.log(myNewToDo);
-    console.log(numberToDo);
+  if (myNewToDo.value != "") {
     numberToDo++;
 
-    const newToDo = document.createElement("div");
+    const newToDo = document.createElement("li");
     newToDo.classList.add("element");
     newToDo.innerHTML =
       `
-    <input type="checkbox" id=="todo` +
-      numberToDo +
-      `" name=="todo` +
+    <input type="checkbox" name="todo` +
       numberToDo +
       `" />
     <label for="todo` +
       numberToDo +
       `">` +
-      myNewToDo +
-      `</label>
-      
+      myNewToDo.value +
+      `</label>  
     `;
 
     deleteButton = document.createElement("button");
@@ -41,15 +36,15 @@ function addElement() {
     newToDo.appendChild(deleteButton);
     myList.appendChild(newToDo);
 
-    deleteButton.addEventListener("click", function (e) {
-      const divToDelete = this.parentNode;
-      divToDelete.remove();
-    });
+    deleteButton.addEventListener("click", deleteElement);
+
+    myNewToDo.value = "";
   } else {
+    alert("Il n'y a pas de texte");
   }
 }
 
-function deleteElement(element) {
-  const divToDelete = element.parentNode;
+function deleteElement() {
+  const divToDelete = this.parentNode;
   divToDelete.remove();
 }
