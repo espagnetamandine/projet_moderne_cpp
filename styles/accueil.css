@@ -1,0 +1,180 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+:root {
+  --blanc: #ffffff;
+  --noir: #000000;
+  --bleu: #00a3e8;
+  --vert: #0f9084;
+  --background: #f1f1f1;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  font-size: 1em;
+  overflow-x: hidden;
+}
+
+/******************/
+/* HEADER SECTION */
+/******************/
+
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 160px;
+  background-color: var(--blanc);
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+header img {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+}
+
+nav {
+  position: relative;
+  width: 100%;
+}
+
+nav ul {
+  list-style: none;
+  width: 100%;
+}
+
+nav li {
+  margin: 20px 2px;
+}
+
+li#selected {
+  color: var(--vert);
+}
+
+nav a {
+  text-decoration: none;
+  color: unset;
+  letter-spacing: 5px;
+  transition: all 0.2s ease-out;
+}
+
+nav a:hover {
+  color: var(--vert);
+}
+
+/****************/
+/* MAIN SECTION */
+/****************/
+
+main {
+  left: 200px;
+  position: relative;
+  padding: 20px 50px 40px;
+  background-color: var(--background);
+  width: calc(100% - 300px);
+}
+
+hr {
+  height: 5px;
+  border: unset;
+  background-color: #cdcdcd;
+  margin: 10px 0;
+}
+
+/****************/
+/*    project   */
+/****************/
+
+#project_list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin: 40px 0px;
+}
+
+#project_list img {
+  height: 150px;
+  width: 100%;
+  background-color: var(--bleu);
+}
+
+#project_list article {
+  position: relative;
+  width: 32%;
+  background-color: var(--blanc);
+}
+
+#project_list div {
+  padding: 5px 10px;
+}
+
+#section_portfolio > div:last-child {
+  display: flex;
+  justify-content: space-between;
+}
+
+#section_portfolio > div:last-child img {
+  width: 49%;
+  height: 250px;
+  background-color: var(--bleu);
+}
+
+/****************/
+/*    about me   */
+/****************/
+
+.progress_bar {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.progress_bar div {
+  height: 30px;
+  background-color: darkgray;
+  position: relative;
+  text-align: center;
+  align-content: center;
+  margin-top: 10px;
+  color: white;
+}
+
+.progress_bar p {
+  z-index: 99;
+  position: relative;
+}
+
+.progress_bar div::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: rgb(70, 70, 70);
+}
+
+.progress_bar:nth-of-type(1) div::before {
+  width: 95%;
+}
+
+.progress_bar:nth-of-type(2) div::before {
+  width: 85%;
+}
+
+.progress_bar:nth-of-type(3) div::before {
+  width: 80%;
+}
